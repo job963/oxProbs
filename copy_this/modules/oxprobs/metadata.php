@@ -13,17 +13,18 @@ $aModule = array(
     'title'        => 'OxProbs - OXID Data Problem Analysis',
     'description'  => array(
                         'de'=>'Analyse-Modul zum Auffinden problematischer Shop-Daten.',
-                        'en'=>'Analysis module for finding problematical shp data.'
+                        'en'=>'Analysis module for finding problematical shop data.'
                         ),
     'thumbnail'    => 'oxprobs.png',
-    'version'      => '0.4.1',
+    'version'      => '0.5',
     'author'       => 'Joachim Barthel',
-    'url'          => 'http://code.google.com/p/oxprobs/',
+    'url'          => 'https://github.com/job963/oxProbs',
     'email'        => 'jbarthel@qualifire.de',
     'extend'       => array(
         'oxadmindetails' => array('oxprobs/application/controllers/admin/oxprobs_articles',
                                   'oxprobs/application/controllers/admin/oxprobs_delivery',
                                   'oxprobs/application/controllers/admin/oxprobs_groups',
+                                  'oxprobs/application/controllers/admin/oxprobs_users',
                                   'oxprobs/application/controllers/admin/oxprobs_pictures'
                                   )
                         ),
@@ -31,6 +32,7 @@ $aModule = array(
                         'oxprobs_articles.tpl' => 'oxprobs/views/admin/tpl/oxprobs_articles.tpl',
                         'oxprobs_delivery.tpl' => 'oxprobs/views/admin/tpl/oxprobs_delivery.tpl',
                         'oxprobs_groups.tpl' => 'oxprobs/views/admin/tpl/oxprobs_groups.tpl',
+                        'oxprobs_groups.tpl' => 'oxprobs/views/admin/tpl/oxprobs_users.tpl',
                         'oxprobs_groups.tpl' => 'oxprobs/views/admin/tpl/oxprobs_pictures.tpl'
                         ),
     'settings' => array(

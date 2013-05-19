@@ -5,7 +5,7 @@
   {
     top.sShopTitle   = "[{$actshopobj->oxshops__oxname->getRawValue()|oxaddslashes}]";
     top.sMenuItem    = "[{ oxmultilang ident="oxprobs_module" }]";
-    top.sMenuSubItem = "[{ oxmultilang ident="oxprobs_displaygroups" }]";
+    top.sMenuSubItem = "[{ oxmultilang ident="oxprobs_pictures" }]";
     top.sWorkArea    = "[{$_act}]";
     top.setTitle();
   }
@@ -53,7 +53,7 @@ function editThis( sID )
 </script>
 
 <div class="center">
-    <h1>[{ oxmultilang ident="oxprobs_displaygroups" }]</h1>
+    <h1>[{ oxmultilang ident="oxprobs_pictures" }]</h1>
     <p>
         <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
             [{ $shop->hiddensid }]
@@ -77,8 +77,8 @@ function editThis( sID )
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>
     <p style="background-color:#f0f0f0;"><div id="liste">
-        [{if $ReportType == "invactions"}]
-            [{ oxmultilang ident="OXPROBS_INVACTIONS_INFO" }]
+        [{if $ReportType == "manu"}]
+            [{ oxmultilang ident="OXPROBS_MANU_NOPICS" }]
         [{elseif $ReportType == "invcats"}]
             [{ oxmultilang ident="OXPROBS_INVCATS_INFO" }]
         [{elseif $ReportType == "invman"}]
@@ -96,24 +96,13 @@ function editThis( sID )
             <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
                 [{ oxmultilang ident="USER_ARTICLE_QUANTITY" }]
                 </div></div></td>
-            <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
-                [{ oxmultilang ident="OXPROBS_STATE" }]
-                </div></div></td>
         </tr>
 
-        [{foreach name=outer item=Group from=$aGroups}]
+        [{foreach name=outer item=Item from=$aItems}]
             [{ cycle values="listitem,listitem2" assign="listclass" }]
             <tr>
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Group.oxid}]');">[{$Group.oxtitle}]</a></td>
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Group.oxid}]');">[{$Group.count}]</a></td>
-                [{ assign var="errCodes" value="|"|explode:$Group.status }]
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Group.oxid}]');">
-                    [{foreach name=inner item=errCode from=$errCodes}]
-                        [{ if $errCode != "" }]
-                        [{ oxmultilang ident=$errCode }]&nbsp;&nbsp;&nbsp;
-                        [{/if}]
-                    [{/foreach}]
-                </a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]');">[{$Item.oxtitle}]</a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]');">[{$Item.oxicon}]</a></td>
             </tr>
         [{/foreach}]
 

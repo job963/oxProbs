@@ -46,14 +46,14 @@ class oxprobs_pictures extends oxAdminDetails
         $this->ean = $myConfig->getConfigParam("sOxProbsEANField");
         $this->minDescLen = (int) $myConfig->getConfigParam("sOxProbsMinDescLen");
         $this->bpriceMin = (float) $myConfig->getConfigParam("sOxProbsBPriceMin");
-        $this->pictureDir = $myConfig->getPictureDir();
+        $this->pictureDir = $myConfig->getPictureDir(FALSE);
         //echo $myConfig->getPictureDir()."<br>";
         //echo $myConfig->getMasterPictureDir()."<br>";
         //echo $myConfig->getImageDir()."<br>";
         
         switch ($cReportType) {
             case 'manu':
-                $sSql1 = "SELECT oxtitle, oxicon, filename FROM oxmanufacturers LEFT JOIN tmpimages ON oxicon = filename WHERE filename IS NULL ";
+                $sSql1 = "SELECT oxid, oxtitle, oxicon, filename FROM oxmanufacturers LEFT JOIN tmpimages ON oxicon = filename WHERE filename IS NULL ";
                 $sSql2 = "";
                 $cClass = 'actions';
                 break;
@@ -85,7 +85,7 @@ class oxprobs_pictures extends oxAdminDetails
         }
 
         $i = 0;
-        $aGroups = array();
+        $aItems = array();
         
         $sSql = "CREATE TEMPORARY TABLE tmpimages ( filename VARCHAR(128) )";
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
@@ -93,13 +93,12 @@ class oxprobs_pictures extends oxAdminDetails
         
         $dir    = $this->pictureDir .'generated/manufacturer/icon/100_100_75';
         $files = scandir($dir);
-            echo '<pre>';
+            /*echo '<pre>';
             print_r($files);
-            echo '</pre>';
+            echo '</pre>';*/
         foreach ($files as $key => $value) { 
-           if (!in_array($value,array(".",".."))) 
-           { 
-                $sSql = "INSERT INTO tmpimages (filename) VALUES ('$value')";
+           if ( !in_array($value,array(".","..")) ) { 
+                $sSql = "INSERT INTO tmpimages (filename) VALUES ('$value') ";
                 $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
                 $rs = $oDb->Execute($sSql);
            } 
@@ -117,33 +116,16 @@ class oxprobs_pictures extends oxAdminDetails
             print_r($rs);
             echo '</pre>';/* */
             while (!$rs->EOF) {
-                array_push($aGroups, $rs->fields);
+                array_push($aItems, $rs->fields);
                 $rs->MoveNext();
             }
-            echo '<pre>';
-            print_r($aGroups);
-            echo '</pre>';
-        }
-        
-        if (!empty($sSql2)) {
-            $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-            $rs = $oDb->Execute($sSql2);
-            //---old---$rs = oxDb::getDb(true)->Execute( $sSql2);
-            //echo "<hr><pre>$sSql2</pre>";
-            if (oxDb::getDb(true)->errorNo() != 0) {
-                $oSmarty->assign ( "sqlErrNo", oxDb::getDb(true)->errorNo() );
-                $oSmarty->assign ( "sqlErrMsg",  oxDb::getDb(true)->errorMsg().' in $sSql2' ) ;
-            }
-            else {
-                while (!$rs->EOF) {
-                    array_push($aArticles, $rs->fields);
-                    $rs->MoveNext();
-                }
-            }
+            /*echo '<pre>';
+            print_r($aItems);
+            echo '</pre>';*/
         }
         
         $oSmarty->assign("editClassName", $cClass);
-        $oSmarty->assign("aGroups", $aGroups);
+        $oSmarty->assign("aItems", $aItems);
 
          return $this->_sThisTemplate;
     }
