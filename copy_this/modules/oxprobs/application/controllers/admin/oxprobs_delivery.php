@@ -1,9 +1,9 @@
 <?php
 
 /*
- *    This file is part of the module OxProbs for OXID eShop Community Edition.
+ *    This file is part of the module xProbs for OXID eShop Community Edition.
  *
- *    The module OxProbs for OXID eShop Community Edition is free software: you can redistribute it and/or modify
+ *    The module oxProbs for OXID eShop Community Edition is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
  *    (at your option) any later version.
@@ -16,7 +16,7 @@
  *    You should have received a copy of the GNU General Public License
  *    along with OXID eShop Community Edition.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @link   https://code.google.com/p/oxprobs/
+ * @link    https://github.com/job963/oxProbs
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * 
  * $Id: oxprobs_delivery.php 62 2011-12-03 08:59:41Z jobarthel@gmail.com $
