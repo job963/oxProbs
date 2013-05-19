@@ -23,13 +23,15 @@ $aModule = array(
     'extend'       => array(
         'oxadmindetails' => array('oxprobs/application/controllers/admin/oxprobs_articles',
                                   'oxprobs/application/controllers/admin/oxprobs_delivery',
-                                  'oxprobs/application/controllers/admin/oxprobs_groups'
+                                  'oxprobs/application/controllers/admin/oxprobs_groups',
+                                  'oxprobs/application/controllers/admin/oxprobs_pictures'
                                   )
                         ),
     'templates' => array(
                         'oxprobs_articles.tpl' => 'oxprobs/views/admin/tpl/oxprobs_articles.tpl',
                         'oxprobs_delivery.tpl' => 'oxprobs/views/admin/tpl/oxprobs_delivery.tpl',
-                        'oxprobs_groups.tpl' => 'oxprobs/views/admin/tpl/oxprobs_groups.tpl'
+                        'oxprobs_groups.tpl' => 'oxprobs/views/admin/tpl/oxprobs_groups.tpl',
+                        'oxprobs_groups.tpl' => 'oxprobs/views/admin/tpl/oxprobs_pictures.tpl'
                         ),
     'settings' => array(
                         array(

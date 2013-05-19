@@ -64,7 +64,7 @@ function editThis( sID )
     
         <form name="showprobs" id="showprobs" action="[{ $oViewConf->selflink }]" method="post">
         [{ $oViewConf->hiddensid }]
-        <input type="hidden" name="cl" value="oxprobs_users">
+        <input type="hidden" name="cl" value="oxprobs_pictures">
         <input type="hidden" name="oxid" value="[{ $oxid }]">
         <input type="hidden" name="fnc" value="">
         <input type="hidden" name="sortcol" value="">
@@ -72,10 +72,7 @@ function editThis( sID )
         <input type="hidden" name="editlanguage" value="[{ $actlang }]">
         
         <select name="oxprobs_reporttype" onchange="Javascript:document.showprobs.submit();">
-            <option value="invactions" [{if $ReportType == "invactions"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVACTIONS" }]</option>
-            <option value="invcats" [{if $ReportType == "invcats"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVCATS" }]</option>
-            <option value="invman" [{if $ReportType == "invman"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVMAN" }]</option>
-            <option value="invven" [{if $ReportType == "invven"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVVEN" }]</option>
+            <option value="manu" [{if $ReportType == "manu"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MANU_NOPICS" }]</option>
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>

@@ -5,6 +5,8 @@ $aLang = array(
     'oxprobs_module'             => 'Problemf&auml;lle',
     'oxprobs_displayarticles'    => 'Artikel',
     'oxprobs_displaygroups'      => 'Gruppierungen',
+    'oxprobs_users'      => 'Benutzer',
+    'oxprobs_pictures'      => 'Bilder',
     'OXPROBS_INVACTIONS'         => 'Ung&uuml;ltige Aktionen',
     'OXPROBS_INVCATS'            => 'Ung&uuml;ltige Kategorien',
     'OXPROBS_INVMAN'             => 'Ung&uuml;ltige Hersteller',
@@ -27,6 +29,7 @@ $aLang = array(
     'OXPROBS_NOICON_MAN'         => 'Kein Icon zugewiesen',
     'OXPROBS_DEACT_VEN'          => 'Inaktiver Lieferant',
     'OXPROBS_NOICON_VEN'         => 'Kein Icon zugewiesen',
+    'OXPROBS_MANU_NOPICS'         => 'Hersteller ohne Bilder',
     'charset'                    => 'ISO-8859-15',
 );
 
