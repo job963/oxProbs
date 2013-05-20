@@ -1,6 +1,8 @@
 # oxProbs
 
-oxProbs analyze the data of an OXID eShop for finding problems like
+oxProbs analyze the data of an OXID eShop for finding problems
+![no stock report](/docs/img/nostock.jpg)
+
 * Articles 
    * without a stock
    * without a price (buy and sales)
@@ -16,7 +18,5 @@ oxProbs analyze the data of an OXID eShop for finding problems like
    * countries and payments
 
 and many other unwanted data.
-
-![no stock report](/docs/img/nostock.jpg)
 
 For detailed information, please read the [Wiki](https://github.com/job963/oxProbs/wiki) (English / Deutsch).
