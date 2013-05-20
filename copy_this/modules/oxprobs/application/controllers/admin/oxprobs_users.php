@@ -38,7 +38,7 @@ class oxprobs_users extends oxAdminDetails
 
         $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
         if (empty($cReportType))
-            $cReportType = "dbladdr";
+            $cReportType = "dblname";
         $oSmarty->assign( "ReportType", $cReportType );
         
         //include "config.inc.php";
@@ -48,9 +48,15 @@ class oxprobs_users extends oxAdminDetails
         $this->bpriceMin = (float) $myConfig->getConfigParam("sOxProbsBPriceMin");
         
         switch ($cReportType) {
+            case 'dblname':
+                $sSql1 = "SELECT CONCAT(oxfname, ' ', oxlname, ', ', oxcity) AS name, COUNT(*) AS amount FROM oxuser GROUP BY name HAVING COUNT(*) > 1";
+                $sSql2 = "SELECT * FROM oxuser WHERE CONCAT(oxfname, ' ', oxlname, ', ', oxcity) = 'Vorname Nachname, Ort'";
+                $cClass = 'actions';
+                break;
+
             case 'dbladdr':
-                $sSql1 = "SELECT CONCAT(oxfname, ' ', oxlname, ', ', oxcity) AS name, COUNT(*) FROM oxuser GROUP BY name HAVING COUNT(*) > 1";
-                $sSql2 = "SELECT * FROM oxuser WHERE CONCAT(oxfname, ' ', oxlname, ', ', oxcity) = 'Reinhold Schmidt, Velen'";
+                $sSql1 = "SELECT CONCAT(oxstreet, ' ', oxstreetnr, ', ', oxcity) AS name, COUNT(*) AS amount FROM oxuser GROUP BY name HAVING COUNT(*) > 1";
+                $sSql2 = "SELECT * FROM oxuser WHERE CONCAT(oxfname, ' ', oxlname, ', ', oxcity) = 'Vorname Nachname, Ort'";
                 $cClass = 'actions';
                 break;
 
@@ -81,7 +87,7 @@ class oxprobs_users extends oxAdminDetails
         }
 
         $i = 0;
-        $aGroups = array();
+        $aUsers = array();
 
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
@@ -95,9 +101,12 @@ class oxprobs_users extends oxAdminDetails
             echo $sSql2;
             echo '</pre>';*/
             while (!$rs->EOF) {
-                array_push($aGroups, $rs->fields);
+                array_push($aUsers, $rs->fields);
                 $rs->MoveNext();
             }
+            /*echo '<pre>';
+            print_r($aUsers);
+            echo '</pre>';*/
         }
         
         if (!empty($sSql2)) {
@@ -118,7 +127,7 @@ class oxprobs_users extends oxAdminDetails
         }
         
         $oSmarty->assign("editClassName", $cClass);
-        $oSmarty->assign("aGroups", $aGroups);
+        $oSmarty->assign("aUsers", $aUsers);
 
          return $this->_sThisTemplate;
     }

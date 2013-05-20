@@ -32,8 +32,8 @@ $aModule = array(
                         'oxprobs_articles.tpl' => 'oxprobs/views/admin/tpl/oxprobs_articles.tpl',
                         'oxprobs_delivery.tpl' => 'oxprobs/views/admin/tpl/oxprobs_delivery.tpl',
                         'oxprobs_groups.tpl' => 'oxprobs/views/admin/tpl/oxprobs_groups.tpl',
-                        'oxprobs_groups.tpl' => 'oxprobs/views/admin/tpl/oxprobs_users.tpl',
-                        'oxprobs_groups.tpl' => 'oxprobs/views/admin/tpl/oxprobs_pictures.tpl'
+                        'oxprobs_users.tpl' => 'oxprobs/views/admin/tpl/oxprobs_users.tpl',
+                        'oxprobs_pictures.tpl' => 'oxprobs/views/admin/tpl/oxprobs_pictures.tpl'
                         ),
     'settings' => array(
                         array(

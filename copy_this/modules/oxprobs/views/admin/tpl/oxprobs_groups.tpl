@@ -79,7 +79,8 @@ function editThis( sID )
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>
-    <p style="background-color:#f0f0f0;"><div id="liste">
+    <p style="background-color:#f0f0f0;">
+        <div style="padding-bottom:5px;">
         [{if $ReportType == "invactions"}]
             [{ oxmultilang ident="OXPROBS_INVACTIONS_INFO" }]
         [{elseif $ReportType == "invcats"}]
@@ -89,7 +90,9 @@ function editThis( sID )
         [{elseif $ReportType == "invven"}]
             [{ oxmultilang ident="OXPROBS_INVVEN_INFO" }]
         [{/if}]
+        </div>
         
+        <div id="liste">
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>
             [{ assign var="headStyle" value="border-bottom:1px solid #C8C8C8; font-weight:bold;" }]

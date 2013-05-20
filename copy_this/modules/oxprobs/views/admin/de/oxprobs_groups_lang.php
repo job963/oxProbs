@@ -2,11 +2,9 @@
 $sLangName  = "Deutsch";
 $iLangNr    = 0;
 $aLang = array(
-    'oxprobs_module'             => 'Problemf&auml;lle',
+    /*'oxprobs_module'             => 'Problemf&auml;lle',
     'oxprobs_displayarticles'    => 'Artikel',
     'oxprobs_displaygroups'      => 'Gruppierungen',
-    'oxprobs_users'      => 'Benutzer',
-    'oxprobs_pictures'      => 'Bilder',
     'OXPROBS_INVACTIONS'         => 'Ung&uuml;ltige Aktionen',
     'OXPROBS_INVCATS'            => 'Ung&uuml;ltige Kategorien',
     'OXPROBS_INVMAN'             => 'Ung&uuml;ltige Hersteller',
@@ -18,7 +16,7 @@ $aLang = array(
     'OXPROBS_INVMAN_INFO'        => 'Nachfolgende Hersteller sind deaktiviert oder ohne ein Icon. <br />'
                                   . 'Sie enthalten aber aktive Artikel, die trotzdem bestellt werden k&ouml;nnen.',
     'OXPROBS_INVVEN_INFO'        => 'Nachfolgende Lieferanten sind deaktiviert oder ohne ein Icon. <br />'
-                                  . 'Sie enthalten aber aktive Artikel, die trotzdem bestellt werden k&ouml;nnen.',
+                                  . 'Sie enthalten aber aktive Artikel, die trotzdem bestellt werden k&ouml;nnen.',*/
     'OXPROBS_DEACT_ACT'          => 'Inaktive Aktion',
     'OXPROBS_EXP_ACT'            => 'Abgelaufene Aktion',
     'OXPROBS_PROSPEC_ACT'        => 'Zuk&uuml;nftige Aktion',
@@ -29,7 +27,6 @@ $aLang = array(
     'OXPROBS_NOICON_MAN'         => 'Kein Icon zugewiesen',
     'OXPROBS_DEACT_VEN'          => 'Inaktiver Lieferant',
     'OXPROBS_NOICON_VEN'         => 'Kein Icon zugewiesen',
-    'OXPROBS_MANU_NOPICS'         => 'Hersteller ohne Bilder',
     'charset'                    => 'ISO-8859-15',
 );
 

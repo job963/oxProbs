@@ -98,7 +98,8 @@ function editThis( sID )
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>
-    <p style="background-color:#f0f0f0;"><div id="liste">
+    <p style="background-color:#f0f0f0;">
+        <div style="padding-bottom:5px;">
         [{if $ReportType == "nostock"}]
             [{ oxmultilang ident="OXPROBS_NOSTOCK_INFO" }]
         [{elseif $ReportType == "noartnum"}]
@@ -134,7 +135,9 @@ function editThis( sID )
         [{elseif $ReportType == "novend"}]
             [{ oxmultilang ident="OXPROBS_NOVEND_INFO" }]
         [{/if}]
+        </div>
         
+        <div id="liste">
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>
             <td class="listfilter first"><div class="r1"><div class="b1">

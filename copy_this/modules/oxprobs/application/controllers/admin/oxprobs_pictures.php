@@ -91,7 +91,7 @@ class oxprobs_pictures extends oxAdminDetails
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         $rs = $oDb->Execute($sSql);
         
-        $dir    = $this->pictureDir .'generated/manufacturer/icon/100_100_75';
+        $dir = $this->pictureDir .'generated/manufacturer/icon/100_100_75';
         $files = scandir($dir);
             /*echo '<pre>';
             print_r($files);

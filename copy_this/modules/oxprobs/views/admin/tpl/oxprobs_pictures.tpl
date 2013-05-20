@@ -10,7 +10,7 @@
     top.setTitle();
   }
 
-function editThis( sID )
+function editThis( sID, sClass )
 {
     [{assign var="shMen" value=1}]
 
@@ -46,7 +46,8 @@ function editThis( sID )
 
     var oTransfer = document.getElementById("transfer");
     oTransfer.oxid.value=sID;
-    oTransfer.cl.value='[{$editClassName}]';
+    [{* oTransfer.cl.value='[{$editClassName}]'; *}]
+    oTransfer.cl.value=sClass;
     oTransfer.submit();
 }
 
@@ -76,9 +77,11 @@ function editThis( sID )
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>
-    <p style="background-color:#f0f0f0;"><div id="liste">
+    <p style="background-color:#f0f0f0;">
+        <div style="padding-bottom:5px;">
         [{if $ReportType == "manu"}]
-            [{ oxmultilang ident="OXPROBS_MANU_NOPICS" }]
+            [{ oxmultilang ident="OXPROBS_MANU_NOPICS_INFO" }]
+            [{ assign var="editClass" value="manufacturer" }]
         [{elseif $ReportType == "invcats"}]
             [{ oxmultilang ident="OXPROBS_INVCATS_INFO" }]
         [{elseif $ReportType == "invman"}]
@@ -86,7 +89,9 @@ function editThis( sID )
         [{elseif $ReportType == "invven"}]
             [{ oxmultilang ident="OXPROBS_INVVEN_INFO" }]
         [{/if}]
+        </div>
         
+        <div id="liste">
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>
             [{ assign var="headStyle" value="border-bottom:1px solid #C8C8C8; font-weight:bold;" }]
@@ -96,13 +101,17 @@ function editThis( sID )
             <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
                 [{ oxmultilang ident="USER_ARTICLE_QUANTITY" }]
                 </div></div></td>
+            <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
+                [{ oxmultilang ident="OXPROBS_STATE" }]
+                </div></div></td>
         </tr>
 
         [{foreach name=outer item=Item from=$aItems}]
             [{ cycle values="listitem,listitem2" assign="listclass" }]
             <tr>
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]');">[{$Item.oxtitle}]</a></td>
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]');">[{$Item.oxicon}]</a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{$Item.oxtitle}]</a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{$Item.oxicon}]</a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{$Item.oxicon}]</a></td>
             </tr>
         [{/foreach}]
 
