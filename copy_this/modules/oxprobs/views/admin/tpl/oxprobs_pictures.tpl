@@ -107,7 +107,7 @@ function editThis( sID, sClass )
             <tr>
                 <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{$Item.oxtitle}]</a></td>
                 <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{$Item.oxicon}]</a></td>
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{$Item.oxicon}]</a></td>
+                <td class="[{ $listclass }]">[{ oxmultilang ident=$Item.status }]</td>
             </tr>
         [{/foreach}]
 

@@ -53,7 +53,12 @@ class oxprobs_pictures extends oxAdminDetails
         
         switch ($cReportType) {
             case 'manu':
-                $sSql1 = "SELECT oxid, oxtitle, oxicon, filename FROM oxmanufacturers LEFT JOIN tmpimages ON oxicon = filename WHERE filename IS NULL ";
+                $sSql1 = "SELECT oxid, oxtitle, oxicon, filename, "
+                        . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
+                    . "FROM oxmanufacturers "
+                    . "LEFT JOIN tmpimages "
+                        . "ON oxicon = filename "
+                        . "WHERE filename IS NULL ";
                 $sSql2 = "";
                 $cClass = 'actions';
                 break;
