@@ -78,23 +78,23 @@ function editThis( sID )
         <input type="hidden" name="lastsortopt" value="[{ $sortopt }]">
         
         <select name="oxprobs_reporttype" onchange="this.form.submit()">
-            <option value="nostock" [{if $ReportType == "nostock"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSTOCK" }]</option>
-            <option value="noartnum" [{if $ReportType == "noartnum"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOARTNUM" }]</option>
-            <option value="noshortdesc" [{if $ReportType == "noshortdesc"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSHORTDESC" }]</option>
-            <option value="nopic" [{if $ReportType == "nopic"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOPIC" }]</option>
-            <option value="dblactive" [{if $ReportType == "dblactive"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DBLACTIVE" }]</option>
-            <option value="longperiod" [{if $ReportType == "longperiod"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_LONGPERIOD" }]</option>
-            <option value="invperiod" [{if $ReportType == "invperiod"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVPERIOD" }]</option>
-            <option value="noprice" [{if $ReportType == "noprice"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOPRICE" }]</option>
-            <option value="nobuyprice" [{if $ReportType == "nobuyprice"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOBUYPRICE" }]</option>
-            <option value="noean" [{if $ReportType == "noean"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOEAN" }]</option>
-            <option value="eanchk" [{if $ReportType == "eanchk"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_EANCHK" }]</option>
-            <option value="nompn" [{if $ReportType == "nompn"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOMPN" }]</option>
-            <option value="nocat" [{if $ReportType == "nocat"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOCAT" }]</option>
-            <option value="orphan" [{if $ReportType == "orphan"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ORPHAN" }]</option>
-            <option value="nodesc" [{if $ReportType == "nodesc"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NODESC" }]</option>
-            <option value="nomanu" [{if $ReportType == "nomanu"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOMANU" }]</option>
-            <option value="novend" [{if $ReportType == "novend"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOVEND" }]</option>
+            <option value="nostock" [{if $ReportType == "nostock"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSTOCK" }]&nbsp;</option>
+            <option value="noartnum" [{if $ReportType == "noartnum"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOARTNUM" }]&nbsp;</option>
+            <option value="noshortdesc" [{if $ReportType == "noshortdesc"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSHORTDESC" }]&nbsp;</option>
+            <option value="nopic" [{if $ReportType == "nopic"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOPIC" }]&nbsp;</option>
+            <option value="dblactive" [{if $ReportType == "dblactive"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DBLACTIVE" }]&nbsp;</option>
+            <option value="longperiod" [{if $ReportType == "longperiod"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_LONGPERIOD" }]&nbsp;</option>
+            <option value="invperiod" [{if $ReportType == "invperiod"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVPERIOD" }]&nbsp;</option>
+            <option value="noprice" [{if $ReportType == "noprice"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOPRICE" }]&nbsp;</option>
+            <option value="nobuyprice" [{if $ReportType == "nobuyprice"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOBUYPRICE" }]&nbsp;</option>
+            <option value="noean" [{if $ReportType == "noean"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOEAN" }]&nbsp;</option>
+            <option value="eanchk" [{if $ReportType == "eanchk"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_EANCHK" }]&nbsp;</option>
+            <option value="nompn" [{if $ReportType == "nompn"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOMPN" }]&nbsp;</option>
+            <option value="nocat" [{if $ReportType == "nocat"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOCAT" }]&nbsp;</option>
+            <option value="orphan" [{if $ReportType == "orphan"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ORPHAN" }]&nbsp;</option>
+            <option value="nodesc" [{if $ReportType == "nodesc"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NODESC" }]&nbsp;</option>
+            <option value="nomanu" [{if $ReportType == "nomanu"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOMANU" }]&nbsp;</option>
+            <option value="novend" [{if $ReportType == "novend"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOVEND" }]&nbsp;</option>
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>

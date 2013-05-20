@@ -73,7 +73,7 @@ function editThis( sID, sClass )
         <input type="hidden" name="editlanguage" value="[{ $actlang }]">
         
         <select name="oxprobs_reporttype" onchange="Javascript:document.showprobs.submit();">
-            <option value="manu" [{if $ReportType == "manu"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MANU_NOPICS" }]</option>
+            <option value="manu" [{if $ReportType == "manu"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MANU_NOPICS" }]&nbsp;</option>
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>
@@ -84,10 +84,6 @@ function editThis( sID, sClass )
             [{ assign var="editClass" value="manufacturer" }]
         [{elseif $ReportType == "invcats"}]
             [{ oxmultilang ident="OXPROBS_INVCATS_INFO" }]
-        [{elseif $ReportType == "invman"}]
-            [{ oxmultilang ident="OXPROBS_INVMAN_INFO" }]
-        [{elseif $ReportType == "invven"}]
-            [{ oxmultilang ident="OXPROBS_INVVEN_INFO" }]
         [{/if}]
         </div>
         

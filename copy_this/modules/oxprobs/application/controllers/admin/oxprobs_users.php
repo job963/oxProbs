@@ -50,14 +50,14 @@ class oxprobs_users extends oxAdminDetails
         switch ($cReportType) {
             case 'dblname':
                 $sSql1 = "SELECT CONCAT(oxfname, ' ', oxlname, ', ', oxcity) AS name, COUNT(*) AS amount FROM oxuser GROUP BY name HAVING COUNT(*) > 1";
-                $sSql2 = "SELECT * FROM oxuser WHERE CONCAT(oxfname, ' ', oxlname, ', ', oxcity) = 'Vorname Nachname, Ort'";
-                $cClass = 'actions';
+                $sSql2 = "SELECT oxid, oxusername FROM oxuser WHERE CONCAT(oxfname, ' ', oxlname, ', ', oxcity) = '@NAME@'";
+                $cClass = 'admin_user';
                 break;
 
             case 'dbladdr':
                 $sSql1 = "SELECT CONCAT(oxstreet, ' ', oxstreetnr, ', ', oxcity) AS name, COUNT(*) AS amount FROM oxuser GROUP BY name HAVING COUNT(*) > 1";
-                $sSql2 = "SELECT * FROM oxuser WHERE CONCAT(oxfname, ' ', oxlname, ', ', oxcity) = 'Vorname Nachname, Ort'";
-                $cClass = 'actions';
+                $sSql2 = "SELECT oxid, oxusername FROM oxuser WHERE CONCAT(oxstreet, ' ', oxstreetnr, ', ', oxcity) = '@NAME@'";
+                $cClass = 'admin_user';
                 break;
 
             case 'invcats':
@@ -111,10 +111,29 @@ class oxprobs_users extends oxAdminDetails
         
         if (!empty($sSql2)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-            $rs = $oDb->Execute($sSql2);
+            foreach ($aUsers as $key => $row) {
+                $aLogins = array();
+                $sSql = str_replace('@NAME@', $row['name'], $sSql2);
+                /*echo '<pre>';
+                echo $sSql;
+                echo '</pre>';*/
+                $rs = $oDb->Execute($sSql);
+                while (!$rs->EOF) {
+                    array_push($aLogins, $rs->fields);
+                    $rs->MoveNext();
+                }
+                $aUsers[$key]['logins'] = $aLogins;
+                /*echo '<pre>';
+                print_r($aLogins);
+                echo '</pre>';*/
+            }
+                /*echo '<pre>';
+                print_r($aUsers);
+                echo '</pre>';*/
+            //$rs = $oDb->Execute($sSql2);
             //---old---$rs = oxDb::getDb(true)->Execute( $sSql2);
             //echo "<hr><pre>$sSql2</pre>";
-            if (oxDb::getDb(true)->errorNo() != 0) {
+            /*if (oxDb::getDb(true)->errorNo() != 0) {
                 $oSmarty->assign ( "sqlErrNo", oxDb::getDb(true)->errorNo() );
                 $oSmarty->assign ( "sqlErrMsg",  oxDb::getDb(true)->errorMsg().' in $sSql2' ) ;
             }
@@ -123,7 +142,7 @@ class oxprobs_users extends oxAdminDetails
                     array_push($aArticles, $rs->fields);
                     $rs->MoveNext();
                 }
-            }
+            }*/
         }
         
         $oSmarty->assign("editClassName", $cClass);
