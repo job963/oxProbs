@@ -16,7 +16,7 @@ $aLang = array(
     'OXPROBS_INVMAN_INFO'        => 'Nachfolgende Hersteller sind deaktiviert oder ohne ein Icon. <br />'
                                   . 'Sie enthalten aber aktive Artikel, die trotzdem bestellt werden k&ouml;nnen.',
     'OXPROBS_INVVEN_INFO'        => 'Nachfolgende Lieferanten sind deaktiviert oder ohne ein Icon. <br />'
-                                  . 'Sie enthalten aber aktive Artikel, die trotzdem bestellt werden k&ouml;nnen.',*/
+                                  . 'Sie enthalten aber aktive Artikel, die trotzdem bestellt werden k&ouml;nnen.',
     'OXPROBS_DEACT_ACT'          => 'Inaktive Aktion',
     'OXPROBS_EXP_ACT'            => 'Abgelaufene Aktion',
     'OXPROBS_PROSPEC_ACT'        => 'Zuk&uuml;nftige Aktion',
@@ -26,7 +26,7 @@ $aLang = array(
     'OXPROBS_DEACT_MAN'          => 'Inaktiver Hersteller',
     'OXPROBS_NOICON_MAN'         => 'Kein Icon zugewiesen',
     'OXPROBS_DEACT_VEN'          => 'Inaktiver Lieferant',
-    'OXPROBS_NOICON_VEN'         => 'Kein Icon zugewiesen',
+    'OXPROBS_NOICON_VEN'         => 'Kein Icon zugewiesen',*/
     'charset'                    => 'ISO-8859-15',
 );
 

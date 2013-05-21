@@ -50,9 +50,34 @@ class oxprobs_pictures extends oxAdminDetails
         //echo $myConfig->getPictureDir()."<br>";
         //echo $myConfig->getMasterPictureDir()."<br>";
         //echo $myConfig->getImageDir()."<br>";
+
+        $sWhere = "";
+        if ( is_string($this->_aViewData["oViewConf"]->getActiveShopId()) ) { 
+            // This is a CE or PE Shop
+            $sShopId = $this->_aViewData["oViewConf"]->getActiveShopId();
+            $sWhere = $sWhere . " AND oxshopid = '$sShopId' ";
+        }
+        else {
+            // This is a EE Shop
+            $iShopId = $this->_aViewData["oViewConf"]->getActiveShopId();
+            $sWhere = $sWhere . " AND oxshopid = $iShopId ";
+            
+        }
         
         switch ($cReportType) {
             case 'manu':
+                $sSql1 = "SELECT oxid, oxtitle, oxicon, filename, "
+                        . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
+                    . "FROM oxmanufacturers "
+                    . "LEFT JOIN tmpimages "
+                        . "ON oxicon = filename "
+                        . "WHERE filename IS NULL "
+                        . $sWhere;
+                $sSql2 = "";
+                $cClass = 'actions';
+                break;
+
+            case 'orphmanu':
                 $sSql1 = "SELECT oxid, oxtitle, oxicon, filename, "
                         . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
                     . "FROM oxmanufacturers "
