@@ -55,6 +55,12 @@ class oxprobs_pictures extends oxAdminDetails
         //echo "getIconUrl".oxManufacturer::getIconUrl();
         //$oManufacturer = oxNew( 'oxmanufacturer' );
         //echo "getIconUrl" . $oManufacturer->getIconUrl();
+        /*echo 'ico=';
+        echo $myConfig->getConfigParam( 'sIconsize' ).' thumb=';
+        echo $myConfig->getConfigParam( 'sThumbnailsize' ).' detail=';
+        print_r ($myConfig->getConfigParam( 'aDetailImageSizes' ));
+        echo ' zoom=';
+        echo $myConfig->getConfigParam( 'sZoomImageSize' ).' ';*/
 
         $sWhere = "";
         if ( is_string($this->_aViewData["oViewConf"]->getActiveShopId()) ) { 
@@ -79,8 +85,9 @@ class oxprobs_pictures extends oxAdminDetails
                         . "WHERE filename IS NULL "
                         . "AND " . $sWhere;
                 $sSql2 = "";
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/icon/100_100_75';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/icon/100_100_75';
+                $sSubDir = str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/icon/' . $sSubDir;
+                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/icon/' . $sSubDir;
                 $cClass = 'actions';
                 break;
 
@@ -92,8 +99,9 @@ class oxprobs_pictures extends oxAdminDetails
                             . "WHERE oxicon IS NULL "
                             . "AND (" . $sWhere . " OR oxshopid IS NULL) ";
                 $sSql2 = "";
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/icon/100_100_75';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/icon/100_100_75';
+                $sSubDir = str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/icon/' . $sSubDir;
+                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/icon/' . $sSubDir;
                 $cClass = 'actions';
                 break;
             
@@ -106,8 +114,9 @@ class oxprobs_pictures extends oxAdminDetails
                         . "WHERE filename IS NULL "
                         . "AND " . $sWhere;
                 $sSql2 = "";
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/icon/100_100_75';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/icon/100_100_75';
+                $sSubDir = str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/icon/' . $sSubDir;
+                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/icon/' . $sSubDir;
                 $cClass = 'actions';
                 break;
 
@@ -119,8 +128,9 @@ class oxprobs_pictures extends oxAdminDetails
                             . "WHERE oxicon IS NULL "
                             . "AND (" . $sWhere . " OR oxshopid IS NULL) ";
                 $sSql2 = "";
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/icon/100_100_75';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/icon/100_100_75';
+                $sSubDir = str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/icon/' . $sSubDir;
+                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/icon/' . $sSubDir;
                 $cClass = 'actions';
                 break;
 
