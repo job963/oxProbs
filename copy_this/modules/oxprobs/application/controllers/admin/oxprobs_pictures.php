@@ -77,7 +77,10 @@ class oxprobs_pictures extends oxAdminDetails
         
         switch ($cReportType) {
             case 'manumisspics':
-                $sSql1 = "SELECT oxid, oxtitle, oxicon AS picname, filename, "
+                $sSubDir = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/';
+                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/';
+                $sSql1 = "SELECT oxid, oxtitle, oxicon AS picname, filename, '$sSubDir' AS subdir, "
                         . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
                     . "FROM oxmanufacturers "
                     . "LEFT JOIN tmpimages "
@@ -85,28 +88,28 @@ class oxprobs_pictures extends oxAdminDetails
                         . "WHERE filename IS NULL "
                         . "AND " . $sWhere;
                 $sSql2 = "";
-                $sSubDir = str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/icon/' . $sSubDir;
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/icon/' . $sSubDir;
                 $cClass = 'actions';
                 break;
 
             case 'manuorphpics':
-                $sSql1 = "SELECT oxicon, filename AS picname, 'OXPROBS_ORPHPIC_FOUND' AS status "
+                $sSubDir = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/';
+                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/';
+                $sSql1 = "SELECT oxicon, filename AS picname, '$sSubDir' AS subdir, 'OXPROBS_ORPHPIC_FOUND' AS status "
                         . "FROM tmpimages "
                         . "LEFT JOIN oxmanufacturers "
                             . "ON oxicon = filename "
                             . "WHERE oxicon IS NULL "
                             . "AND (" . $sWhere . " OR oxshopid IS NULL) ";
                 $sSql2 = "";
-                $sSubDir = str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/icon/' . $sSubDir;
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/icon/' . $sSubDir;
                 $cClass = 'actions';
                 break;
             
             case 'vendmisspics':
-                $sSql1 = "SELECT oxid, oxtitle, oxicon AS picname, filename, "
+                $sSubDir = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/';
+                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/';
+                $sSql1 = "SELECT oxid, oxtitle, oxicon AS picname, filename, '$sSubDir' AS subdir, "
                         . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
                     . "FROM oxvendor "
                     . "LEFT JOIN tmpimages "
@@ -114,23 +117,20 @@ class oxprobs_pictures extends oxAdminDetails
                         . "WHERE filename IS NULL "
                         . "AND " . $sWhere;
                 $sSql2 = "";
-                $sSubDir = str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/icon/' . $sSubDir;
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/icon/' . $sSubDir;
                 $cClass = 'actions';
                 break;
 
             case 'vendorphpics':
-                $sSql1 = "SELECT oxicon, filename AS picname, 'OXPROBS_ORPHPIC_FOUND' AS status "
+                $sSubDir = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/';
+                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/';
+                $sSql1 = "SELECT oxicon, filename AS picname, '$sSubDir' AS subdir, 'OXPROBS_ORPHPIC_FOUND' AS status "
                         . "FROM tmpimages "
                         . "LEFT JOIN oxvendor "
                             . "ON oxicon = filename "
                             . "WHERE oxicon IS NULL "
                             . "AND (" . $sWhere . " OR oxshopid IS NULL) ";
                 $sSql2 = "";
-                $sSubDir = str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/icon/' . $sSubDir;
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/icon/' . $sSubDir;
                 $cClass = 'actions';
                 break;
 
@@ -148,13 +148,14 @@ class oxprobs_pictures extends oxAdminDetails
         $rs = $oDb->Execute($sSql);
         
         //$dir = $this->pictureDir .'generated/manufacturer/icon/100_100_75';
-        $files = scandir($sPictureDir);
+        $files = scandir($sPictureDir.$sSubDir);
             /*echo '<pre>';
             print_r($files);
             echo '</pre>';/**/
         foreach ($files as $key => $value) { 
            if ( !in_array($value,array(".","..")) ) { 
                 $sSql = "INSERT INTO tmpimages (filename) VALUES ('$value') ";
+                //echo $sSql.'<br>';
                 $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
                 $rs = $oDb->Execute($sSql);
            } 

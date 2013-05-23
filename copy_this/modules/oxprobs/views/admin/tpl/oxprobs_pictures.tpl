@@ -155,11 +155,11 @@ function editThis( sID, sClass )
                     <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{$Item.oxtitle}]</a></td>
                 [{/if}]
                 [{if $ReportType == "manumisspics" || $ReportType == "vendmisspics" }]
-                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{$Item.picname}]</a></td>
+                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{if $Item.picname!=""}][{$Item.subdir}]/[{/if}][{$Item.picname}]</a></td>
                 [{elseif $ReportType == "manuorphpics" || $ReportType == "vendorphpics" }]
                     <td class="[{ $listclass }]">
                          <a class="thumbnail" href="#thumb">
-                         [{$Item.picname}]<span><img src="[{$pictureUrl}]/[{$Item.picname}]" /></span>
+                         [{$Item.subdir}]/[{$Item.picname}]<span><img src="[{$pictureUrl}]/[{$Item.subdir}]/[{$Item.picname}]" /></span>
                         </a>
                     </td>
                 [{/if}]
