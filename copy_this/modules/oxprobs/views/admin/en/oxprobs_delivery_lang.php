@@ -2,7 +2,7 @@
 $sLangName  = "English";
 $iLangNr    = 1;
 $aLang = array(
-    'oxprobs_module'             => 'Problematic Data',
+    /*'oxprobs_module'             => 'Problematic Data',
     'oxprobs_displayarticles'    => 'Articles',
     'oxprobs_displaygroups'      => 'Arrangements',
     'oxprobs_delivery'           => 'Delivery/Payment',
@@ -11,7 +11,7 @@ $aLang = array(
     'OXPROBS_STATE'              => 'State',
     'OXPROBS_DELSETCOST_INFO'    => '',
     'OXPROBS_DELSETPAY_INFO'     => '',
-    'charset'                    => 'ISO-8859-15',
+    'charset'                    => 'ISO-8859-15',*/
 );
 
 ?>
