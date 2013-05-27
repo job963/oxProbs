@@ -62,6 +62,14 @@ $aModule = array(
                             'type'  => 'str', 
                             'value' => '14'
                             ),
+                        array(
+                            'group' => 'OXPROBS_PICTURESETTINGS', 
+                            'name'  => 'sOxProbsPictureDirs',  
+                            'type'  => 'select', 
+                            'value' => 'master',
+                            'constrains' => 'master|generated', 
+                            'position' => 0 
+                            ),
                         /*array(
                             'group' => 'OXPROBS_USERSETTINGS', 
                             'name'  => 'sOxProbsNameLength', 

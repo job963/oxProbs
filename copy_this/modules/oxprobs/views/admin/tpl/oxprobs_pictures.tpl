@@ -114,6 +114,7 @@ function editThis( sID, sClass )
             <option value="catmisspics" [{if $ReportType == "catmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_CAT_MISSPICS" }]&nbsp;</option>
             <option value="catorphpics" [{if $ReportType == "catorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_CAT_ORPHPICS" }]&nbsp;</option>
             <option value="artmisspics" [{if $ReportType == "artmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ART_MISSPICS" }]&nbsp;</option>
+            <option value="artorphpics" [{if $ReportType == "artorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ART_ORPHPICS" }]&nbsp;</option>
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>
@@ -139,6 +140,9 @@ function editThis( sID, sClass )
             [{ assign var="editClass" value="category" }]
         [{elseif $ReportType == "artmisspics"}]
             [{ oxmultilang ident="OXPROBS_ART_MISSPICS_INFO" }] [{ $pictureDir }]
+            [{ assign var="editClass" value="article" }]
+        [{elseif $ReportType == "artorphpics"}]
+            [{ oxmultilang ident="OXPROBS_ART_ORPHPICS_INFO" }] [{ $pictureDir }]
             [{ assign var="editClass" value="article" }]
         [{/if}]
         </div>
@@ -183,7 +187,7 @@ function editThis( sID, sClass )
                         [{$Item.subdir}]/[{if $Item.picname!=""}][{/if}][{$Item.picname}]
                         </a>
                     </td>
-                [{elseif $ReportType == "manuorphpics" || $ReportType == "vendorphpics" || $ReportType == "catorphpics" }]
+                [{elseif $ReportType == "manuorphpics" || $ReportType == "vendorphpics" || $ReportType == "catorphpics" || $ReportType == "artorphpics" }]
                     <td class="[{ $listclass }]">
                          <a class="thumbnail" href="#thumb">
                          [{$Item.subdir}]/[{$Item.picname}]<span><img src="[{$pictureUrl}]/[{$Item.subdir}]/[{$Item.picname}]" /></span>
@@ -196,6 +200,9 @@ function editThis( sID, sClass )
 
         </table>
         </form>
+        </div>
+        <div style="height:50px;">
+            &nbsp;
         </div>
     </p>
 

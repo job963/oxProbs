@@ -41,7 +41,6 @@ class oxprobs_users extends oxAdminDetails
             $cReportType = "dblname";
         $oSmarty->assign( "ReportType", $cReportType );
         
-        //include "config.inc.php";
         $myConfig = oxRegistry::get("oxConfig");
         $this->ean = $myConfig->getConfigParam("sOxProbsEANField");
         $this->minDescLen = (int) $myConfig->getConfigParam("sOxProbsMinDescLen");
@@ -123,7 +122,6 @@ class oxprobs_users extends oxAdminDetails
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql1);
-            //---old---$rs = oxDb::getDb(true)->Execute($sSql1);
             /*echo '<pre>';
             echo $sSql1;
             echo '</pre>';
@@ -158,22 +156,9 @@ class oxprobs_users extends oxAdminDetails
                 print_r($aLogins);
                 echo '</pre>';*/
             }
-                /*echo '<pre>';
-                print_r($aUsers);
-                echo '</pre>';*/
-            //$rs = $oDb->Execute($sSql2);
-            //---old---$rs = oxDb::getDb(true)->Execute( $sSql2);
-            //echo "<hr><pre>$sSql2</pre>";
-            /*if (oxDb::getDb(true)->errorNo() != 0) {
-                $oSmarty->assign ( "sqlErrNo", oxDb::getDb(true)->errorNo() );
-                $oSmarty->assign ( "sqlErrMsg",  oxDb::getDb(true)->errorMsg().' in $sSql2' ) ;
-            }
-            else {
-                while (!$rs->EOF) {
-                    array_push($aArticles, $rs->fields);
-                    $rs->MoveNext();
-                }
-            }*/
+            /*echo '<pre>';
+            print_r($aUsers);
+            echo '</pre>';*/
         }
         
         $oSmarty->assign("editClassName", $cClass);

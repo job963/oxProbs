@@ -41,26 +41,11 @@ class oxprobs_pictures extends oxAdminDetails
             $cReportType = "manumisspics";
         $oSmarty->assign( "ReportType", $cReportType );
         
-        //include "config.inc.php";
         $myConfig = oxRegistry::get("oxConfig");
         $this->ean = $myConfig->getConfigParam("sOxProbsEANField");
         $this->minDescLen = (int) $myConfig->getConfigParam("sOxProbsMinDescLen");
         $this->bpriceMin = (float) $myConfig->getConfigParam("sOxProbsBPriceMin");
-        //--echo $myConfig->getConfigParam("sManufacturerIconsize");
-        //$this->pictureDir = $myConfig->getPictureDir(FALSE);
-        //echo $myConfig->getPictureDir()."<br>";
-        //echo $myConfig->getMasterPictureDir()."<br>";
-        //echo $myConfig->getImageDir()."<br>";
-        //echo $myConfig->getPictureUrl(FALSE)."<br>";
-        //echo "getIconUrl".oxManufacturer::getIconUrl();
-        //$oManufacturer = oxNew( 'oxmanufacturer' );
-        //echo "getIconUrl" . $oManufacturer->getIconUrl();
-        /*echo 'ico=';
-        echo $myConfig->getConfigParam( 'sIconsize' ).' thumb=';
-        echo $myConfig->getConfigParam( 'sThumbnailsize' ).' detail=';
-        print_r ($myConfig->getConfigParam( 'aDetailImageSizes' ));
-        echo ' zoom=';
-        echo $myConfig->getConfigParam( 'sZoomImageSize' ).' ';*/
+        $this->picDirs = $myConfig->getConfigParam("sOxProbsPictureDirs");
 
         $sWhere = "";
         if ( is_string($this->_aViewData["oViewConf"]->getActiveShopId()) ) { 
@@ -79,9 +64,16 @@ class oxprobs_pictures extends oxAdminDetails
         
         switch ($cReportType) {
             case 'manumisspics':
-                $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/';
+                if ($this->picDirs == 'generated') {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/';
+                    $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                }
+                else {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'master/manufacturer/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'master/manufacturer/';
+                    $aSubDir[0] = 'icon';
+                }
                 $aSql[0] = "SELECT oxid, oxactive, oxtitle, oxicon AS picname, filename, '@SUBDIR@' AS subdir, "
                         . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
                     . "FROM oxmanufacturers "
@@ -95,9 +87,16 @@ class oxprobs_pictures extends oxAdminDetails
                 break;
 
             case 'manuorphpics':
-                $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/';
+                if ($this->picDirs == 'generated') {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/manufacturer/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/manufacturer/';
+                    $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                }
+                else {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'master/manufacturer/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'master/manufacturer/';
+                    $aSubDir[0] = 'icon';
+                }
                 $aSql[0] = "SELECT oxicon, filename AS picname, '@SUBDIR@' AS subdir, 'OXPROBS_ORPHPIC_FOUND' AS status "
                         . "FROM tmpimages "
                         . "LEFT JOIN oxmanufacturers "
@@ -110,9 +109,16 @@ class oxprobs_pictures extends oxAdminDetails
                 break;
             
             case 'vendmisspics':
-                $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/';
+                if ($this->picDirs == 'generated') {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/';
+                    $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                } 
+                else {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'master/vendor/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'master/vendor/';
+                    $aSubDir[0] = 'icon';
+                }
                 $aSql[0] = "SELECT oxid, oxactive, oxtitle, oxicon AS picname, filename, '@SUBDIR@' AS subdir, "
                         . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
                     . "FROM oxvendor "
@@ -126,9 +132,16 @@ class oxprobs_pictures extends oxAdminDetails
                 break;
 
             case 'vendorphpics':
-                $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/';
+                if ($this->picDirs == 'generated') {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/vendor/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/vendor/';
+                    $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sManufacturerIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                }
+                else {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'master/vendor/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'master/vendor/';
+                    $aSubDir[0] = 'icon';
+                }
                 $aSql[0] = "SELECT oxicon, filename AS picname, '@SUBDIR@' AS subdir, 'OXPROBS_ORPHPIC_FOUND' AS status "
                         . "FROM tmpimages "
                         . "LEFT JOIN oxvendor "
@@ -141,11 +154,20 @@ class oxprobs_pictures extends oxAdminDetails
                 break;
             
             case 'catmisspics':
-                $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $aSubDir[1] = 'thumb/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatThumbnailsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $aSubDir[2] = 'promo_icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatPromotionsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/category/';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/category/';
+                if ($this->picDirs == 'generated') {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/category/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/category/';
+                    $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aSubDir[1] = 'thumb/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatThumbnailsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aSubDir[2] = 'promo_icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatPromotionsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                }
+                else {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'master/category/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'master/category/';
+                    $aSubDir[0] = 'icon';
+                    $aSubDir[1] = 'thumb';
+                    $aSubDir[2] = 'promo_icon';
+                }
                 $aSql[0] = "SELECT oxid, oxactive, oxtitle, oxicon AS picname, filename, '@SUBDIR@' AS subdir, "
                         . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
                     . "FROM oxcategories "
@@ -173,11 +195,20 @@ class oxprobs_pictures extends oxAdminDetails
                 break;
 
             case 'catorphpics':
-                $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $aSubDir[1] = 'thumb/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatThumbnailsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $aSubDir[2] = 'promo_icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatPromotionsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/category/';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/category/';
+                if ($this->picDirs == 'generated') {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/category/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/category/';
+                    $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aSubDir[1] = 'thumb/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatThumbnailsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aSubDir[2] = 'promo_icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sCatPromotionsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                }
+                else {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'master/category/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'master/category/';
+                    $aSubDir[0] = 'icon';
+                    $aSubDir[1] = 'thumb';
+                    $aSubDir[2] = 'promo_icon';
+                }
                 $aSql[0] = "SELECT oxicon, filename AS picname, '@SUBDIR@' AS subdir, 'OXPROBS_ORPHPIC_FOUND' AS status "
                         . "FROM tmpimages "
                         . "LEFT JOIN oxcategories "
@@ -202,28 +233,25 @@ class oxprobs_pictures extends oxAdminDetails
                 break;
             
             case 'artmisspics':
-                $aSubDir[0] = '1/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $aSubDir[1] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $aSubDir[2] = '1/' . str_replace('*','_',$myConfig->getConfigParam( 'sThumbnailsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $aSubDir[3] = 'thumb/' . str_replace('*','_',$myConfig->getConfigParam( 'sThumbnailsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $aDetailSize = $myConfig->getConfigParam( 'aDetailImageSizes' );
-                //echo '<pre>'.print_r($aDetailSize).'</pre>';
-                //echo '<pre>sThumbnailsize = '.$myConfig->getConfigParam( 'sThumbnailsize' ).'</pre>';
-                //echo '<pre>oxpic1 = '.$aDetailSize['oxpic1'].'</pre>';
-                $aSubDir[4] = '1/' . str_replace('*','_',$aDetailSize['oxpic1']) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $aSubDir[5] = '1/' . str_replace('*','_',$myConfig->getConfigParam( 'sZoomImageSize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
-                $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/product/';
-                $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/product/';
-                $aSql[0] = "SELECT oxid, oxactive, oxtitle, oxpic1 AS picname, filename, '@SUBDIR@' AS subdir, "
-                        . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
-                    . "FROM oxarticles "
-                    . "LEFT JOIN tmpimages "
-                        . "ON oxpic1 = filename "
-                        . "WHERE filename IS NULL "
-                        . "AND oxparentid = '' "
-                        . "AND oxicon = '' "
-                        . "AND " . $sWhere;
-                $aSql[1] = "SELECT oxid, oxactive, oxtitle, oxicon AS picname, filename, '@SUBDIR@' AS subdir, "
+                if ($this->picDirs == 'generated') {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/product/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/product/';
+                    $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aSubDir[1] = 'thumb/' . str_replace('*','_',$myConfig->getConfigParam( 'sThumbnailsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aDetailSize = $myConfig->getConfigParam( 'aDetailImageSizes' );
+                    $aSubDir[2] = '1/' . str_replace('*','_',$aDetailSize['oxpic1']) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aSubDir[3] = '1/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aSubDir[4] = '1/' . str_replace('*','_',$myConfig->getConfigParam( 'sThumbnailsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aSubDir[5] = '1/' . str_replace('*','_',$myConfig->getConfigParam( 'sZoomImageSize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                }
+                else {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'master/product/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'master/product/';
+                    $aSubDir[0] = 'icon';
+                    $aSubDir[1] = 'thumb';
+                    $aSubDir[2] = '1';
+                }
+                $aSql[0] = "SELECT oxid, oxactive, oxtitle, oxicon AS picname, filename, '@SUBDIR@' AS subdir, "
                         . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
                     . "FROM oxarticles "
                     . "LEFT JOIN tmpimages "
@@ -232,16 +260,7 @@ class oxprobs_pictures extends oxAdminDetails
                         . "AND oxparentid = '' "
                         . "AND oxicon != '' "
                         . "AND " . $sWhere;
-                $aSql[2] = "SELECT oxid, oxactive, oxtitle, oxpic1 AS picname, filename, '@SUBDIR@' AS subdir, "
-                        . "IF(oxthumb='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
-                    . "FROM oxarticles "
-                    . "LEFT JOIN tmpimages "
-                        . "ON oxpic1 = filename "
-                        . "WHERE filename IS NULL "
-                        . "AND oxparentid = '' "
-                        . "AND oxthumb = '' "
-                        . "AND " . $sWhere;
-                $aSql[3] = "SELECT oxid, oxactive, oxtitle, oxthumb AS picname, filename, '@SUBDIR@' AS subdir, "
+                $aSql[1] = "SELECT oxid, oxactive, oxtitle, oxthumb AS picname, filename, '@SUBDIR@' AS subdir, "
                         . "IF(oxthumb='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
                     . "FROM oxarticles "
                     . "LEFT JOIN tmpimages "
@@ -250,7 +269,7 @@ class oxprobs_pictures extends oxAdminDetails
                         . "AND oxparentid = '' "
                         . "AND oxthumb != '' "
                         . "AND " . $sWhere;
-                $aSql[4] = "SELECT oxid, oxactive, oxtitle, oxpic1 AS picname, filename, '@SUBDIR@' AS subdir, "
+                $aSql[2] = "SELECT oxid, oxactive, oxtitle, oxpic1 AS picname, filename, '@SUBDIR@' AS subdir, "
                         . "IF(oxpic1='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
                     . "FROM oxarticles "
                     . "LEFT JOIN tmpimages "
@@ -258,9 +277,88 @@ class oxprobs_pictures extends oxAdminDetails
                         . "WHERE filename IS NULL "
                         . "AND oxparentid = '' "
                         . "AND " . $sWhere;
-                $aSql[5] = $aSql[4];
+                $aSql[3] = "SELECT oxid, oxactive, oxtitle, oxpic1 AS picname, filename, '@SUBDIR@' AS subdir, "
+                        . "IF(oxicon='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
+                    . "FROM oxarticles "
+                    . "LEFT JOIN tmpimages "
+                        . "ON oxpic1 = filename "
+                        . "WHERE filename IS NULL "
+                        . "AND oxparentid = '' "
+                        . "AND oxicon = '' "
+                        . "AND " . $sWhere;
+                $aSql[4] = "SELECT oxid, oxactive, oxtitle, oxpic1 AS picname, filename, '@SUBDIR@' AS subdir, "
+                        . "IF(oxthumb='', 'OXPROBS_NOPIC_DEF',IF(filename IS NULL, 'OXPROBS_NOPIC_FOUND','')) AS status "
+                    . "FROM oxarticles "
+                    . "LEFT JOIN tmpimages "
+                        . "ON oxpic1 = filename "
+                        . "WHERE filename IS NULL "
+                        . "AND oxparentid = '' "
+                        . "AND oxthumb = '' "
+                        . "AND " . $sWhere;
+                $aSql[5] = $aSql[2];
                 $sSql2 = "";
                 $sortCol = 'oxtitle';
+                $cClass = 'actions';
+                break;
+            
+            case 'artorphpics':
+                if ($this->picDirs == 'generated') {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'generated/product/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'generated/product/';
+                    $aSubDir[0] = 'icon/' . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aSubDir[1] = 'thumb/' . str_replace('*','_',$myConfig->getConfigParam( 'sThumbnailsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    $aDetailSize = $myConfig->getConfigParam( 'aDetailImageSizes' );
+                    $j = 2;
+                    for ($i=1; $i<=12; $i++) {
+                        $aSubDir[$j++] = "$i/" . str_replace('*','_',$aDetailSize["oxpic$i"]) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                        $aSubDir[$j++] = "$i/" . str_replace('*','_',$myConfig->getConfigParam( 'sIconsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                        $aSubDir[$j++] = "$i/" . str_replace('*','_',$myConfig->getConfigParam( 'sThumbnailsize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                        $aSubDir[$j++] = "$i/" . str_replace('*','_',$myConfig->getConfigParam( 'sZoomImageSize' )) . '_' . $myConfig->getConfigParam( 'sDefaultImageQuality' );
+                    }
+                }
+                else {
+                    $sPictureDir = $myConfig->getPictureDir(FALSE) . 'master/product/';
+                    $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'master/product/';
+                    $aSubDir[0] = 'icon';
+                    $aSubDir[1] = 'thumb';
+                    $j = 2;
+                    for ($i=1; $i<=12; $i++) {
+                        $aSubDir[$j++] = "$i";
+                    }
+                }
+                /*echo '<pre>';
+                print_r ($aSubDir);
+                echo '</pre>';*/
+                $aSql[0] = "SELECT oxicon, filename AS picname, '@SUBDIR@' AS subdir, 'OXPROBS_ORPHPIC_FOUND' AS status "
+                        . "FROM tmpimages "
+                        . "LEFT JOIN oxarticles "
+                            . "ON oxicon = filename "
+                            . "WHERE oxicon IS NULL "
+                            . "AND (" . $sWhere . " OR oxshopid IS NULL) ";
+                $aSql[1] = "SELECT oxthumb, filename AS picname, '@SUBDIR@' AS subdir, 'OXPROBS_ORPHPIC_FOUND' AS status "
+                        . "FROM tmpimages "
+                        . "LEFT JOIN oxarticles "
+                            . "ON oxthumb = filename "
+                            . "WHERE oxthumb IS NULL "
+                            . "AND (" . $sWhere . " OR oxshopid IS NULL) ";
+                $j = 2;
+                for ($i=1; $i<=12; $i++) {
+                    $aSql[$j++] = "SELECT oxpic$i, filename AS picname, '@SUBDIR@' AS subdir, 'OXPROBS_ORPHPIC_FOUND' AS status "
+                            . "FROM tmpimages "
+                            . "LEFT JOIN oxarticles "
+                                . "ON oxpic$i = filename "
+                                . "WHERE oxpic$i IS NULL "
+                                . "AND (" . $sWhere . " OR oxshopid IS NULL) ";
+                    if ($this->picDirs == 'generated') {
+                        $k = $j-1;
+                        $aSql[$j++] = $aSql[$k];
+                        //echo '<pre>jjj '.$j.'-'.$k.'-'.$aSql[$j].'</pre>';
+                        $aSql[$j++] = $aSql[$k];
+                        $aSql[$j++] = $aSql[$k];
+                    }
+                }
+                $sSql2 = "";
+                $sortCol = 'filename';
                 $cClass = 'actions';
                 break;
 
@@ -281,42 +379,31 @@ class oxprobs_pictures extends oxAdminDetails
             $sSql = "CREATE TEMPORARY TABLE tmpimages ( filename VARCHAR(128) )";
             $rs = $oDb->Execute($sSql);
 
-            //$dir = $this->pictureDir .'generated/manufacturer/icon/100_100_75';
-            //echo '<pre>'.$sPictureDir.$aSubDir[$key].'</pre>';
-            $files = scandir($sPictureDir.$aSubDir[$key]);
-                /*echo '<pre>';
-                print_r($files);
-                echo '</pre>';/**/
-            foreach ($files as $value) { 
-               if ( !in_array($value,array(".","..")) ) { 
-                    $sSql = "INSERT INTO tmpimages (filename) VALUES ('$value') ";
-                    //echo $aSubDir[$key] .' --> '. $sSql.'<br>';
-                    $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-                    $rs = $oDb->Execute($sSql);
-               } 
-            } 
+            if (is_dir($sPictureDir.$aSubDir[$key])) {
+                $files = scandir($sPictureDir.$aSubDir[$key]);
+                //echo '<pre>'.$key.': '.$sPictureDir.$aSubDir[$key].' = '.count($files).'</pre>';
 
-            if (!empty($aSql[$key])) {
-                //$oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-                $sSql = str_replace('@SUBDIR@', $aSubDir[$key], $aSql[$key]);
-                $rs = $oDb->Execute($sSql);
-                //---old---$rs = oxDb::getDb(true)->Execute($sSql1);
-                /*echo '<pre>';
-                echo $sSql;
-                echo '</pre>';/**/
-                 
-                /*echo '<pre>';
-                print_r($rs);
-                echo '</pre>';/* */
-                if (!empty($rs)){
-                    while (!$rs->EOF) {
-                        array_push($aItems, $rs->fields);
-                        $rs->MoveNext();
+                foreach ($files as $value) { 
+                   if ( !in_array($value,array(".","..")) ) { 
+                        $sSql = "INSERT INTO tmpimages (filename) VALUES ('$value') ";
+                        //echo '<pre>'.$aSubDir[$key].'/'.$value.'</pre>';
+                        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
+                        $rs = $oDb->Execute($sSql);
+                   } 
+                } 
+
+                if (!empty($aSql[$key])) {
+                    $sSql = str_replace('@SUBDIR@', $aSubDir[$key], $aSql[$key]);
+                    //echo '<pre>'.$key.': '.$sSql.'</pre>';
+                    $rs = $oDb->Execute($sSql);
+
+                    if (!empty($rs)){
+                        while (!$rs->EOF) {
+                            array_push($aItems, $rs->fields);
+                            $rs->MoveNext();
+                        }
                     }
                 }
-                /*echo '<pre>';
-                print_r($aItems);
-                echo '</pre>';/**/
             }
         }
 
