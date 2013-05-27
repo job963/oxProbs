@@ -111,6 +111,9 @@ function editThis( sID, sClass )
             <option value="manuorphpics" [{if $ReportType == "manuorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MANU_ORPHPICS" }]&nbsp;</option>
             <option value="vendmisspics" [{if $ReportType == "vendmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_VEND_MISSPICS" }]&nbsp;</option>
             <option value="vendorphpics" [{if $ReportType == "vendorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_VEND_ORPHPICS" }]&nbsp;</option>
+            <option value="catmisspics" [{if $ReportType == "catmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_CAT_MISSPICS" }]&nbsp;</option>
+            <option value="catorphpics" [{if $ReportType == "catorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_CAT_ORPHPICS" }]&nbsp;</option>
+            <option value="artmisspics" [{if $ReportType == "artmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ART_MISSPICS" }]&nbsp;</option>
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>
@@ -128,6 +131,15 @@ function editThis( sID, sClass )
         [{elseif $ReportType == "vendorphpics"}]
             [{ oxmultilang ident="OXPROBS_VEND_ORPHPICS_INFO" }] [{ $pictureDir }]
             [{ assign var="editClass" value="vendor" }]
+        [{elseif $ReportType == "catmisspics"}]
+            [{ oxmultilang ident="OXPROBS_CAT_MISSPICS_INFO" }] [{ $pictureDir }]
+            [{ assign var="editClass" value="category" }]
+        [{elseif $ReportType == "catorphpics"}]
+            [{ oxmultilang ident="OXPROBS_CAT_ORPHPICS_INFO" }] [{ $pictureDir }]
+            [{ assign var="editClass" value="category" }]
+        [{elseif $ReportType == "artmisspics"}]
+            [{ oxmultilang ident="OXPROBS_ART_MISSPICS_INFO" }] [{ $pictureDir }]
+            [{ assign var="editClass" value="article" }]
         [{/if}]
         </div>
         
@@ -135,28 +147,43 @@ function editThis( sID, sClass )
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>
             [{ assign var="headStyle" value="border-bottom:1px solid #C8C8C8; font-weight:bold;" }]
-            [{if $ReportType == "manumisspics" || $ReportType == "vendmisspics" }]
-            <td class="listfilter first" style="[{ $headStyle }]"><div class="r1"><div class="b1">
-                [{ oxmultilang ident="ARTICLE_MAIN_TITLE" }]
-                </div></div></td>
+            [{if $ReportType == "manumisspics" || $ReportType == "vendmisspics" || $ReportType == "catmisspics" || $ReportType == "artmisspics" }]
+                <td valign="top" class="listfilter first" height="15" width="30" align="center">
+                    <div class="r1"><div class="b1">[{ oxmultilang ident="GENERAL_ACTIVTITLE" }]</div></div>
+                </td>
+                <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
+                    [{ oxmultilang ident="ARTICLE_MAIN_TITLE" }]
+                    </div></div>
+                </td>
             [{/if}]
-            <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
-                [{ oxmultilang ident="USER_ARTICLE_QUANTITY" }]
-                </div></div></td>
+                <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
+                    [{ oxmultilang ident="OXPROBS_SUBDIR_FILE" }]
+                    </div></div>
+                </td>
             <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
                 [{ oxmultilang ident="OXPROBS_STATE" }]
-                </div></div></td>
+                </div></div>
+            </td>
         </tr>
 
         [{foreach name=outer item=Item from=$aItems}]
             [{ cycle values="listitem,listitem2" assign="listclass" }]
             <tr>
-                [{if $ReportType == "manumisspics" || $ReportType == "vendmisspics" }]
-                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{$Item.oxtitle}]</a></td>
+                [{if $ReportType == "manumisspics" || $ReportType == "vendmisspics" || $ReportType == "catmisspics" || $ReportType == "artmisspics" }]
+                    <td valign="top" class="[{ $listclass}][{ if $Item.oxactive == 1}] active[{/if}]" height="15">
+                        <div class="listitemfloating">&nbsp</a></div>
+                    </td>
+                    <td class="[{ $listclass }]">
+                        <a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{$Item.oxtitle}]</a>
+                    </td>
                 [{/if}]
-                [{if $ReportType == "manumisspics" || $ReportType == "vendmisspics" }]
-                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">[{if $Item.picname!=""}][{$Item.subdir}]/[{/if}][{$Item.picname}]</a></td>
-                [{elseif $ReportType == "manuorphpics" || $ReportType == "vendorphpics" }]
+                [{if $ReportType == "manumisspics" || $ReportType == "vendmisspics" || $ReportType == "catmisspics" || $ReportType == "artmisspics" }]
+                    <td class="[{ $listclass }]">
+                        <a href="Javascript:editThis('[{$Item.oxid}]','[{$editClass}]');">
+                        [{$Item.subdir}]/[{if $Item.picname!=""}][{/if}][{$Item.picname}]
+                        </a>
+                    </td>
+                [{elseif $ReportType == "manuorphpics" || $ReportType == "vendorphpics" || $ReportType == "catorphpics" }]
                     <td class="[{ $listclass }]">
                          <a class="thumbnail" href="#thumb">
                          [{$Item.subdir}]/[{$Item.picname}]<span><img src="[{$pictureUrl}]/[{$Item.subdir}]/[{$Item.picname}]" /></span>
