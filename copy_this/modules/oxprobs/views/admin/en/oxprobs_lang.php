@@ -91,13 +91,17 @@ $aLang = array(
     'OXPROBS_ART_MISSPICS'         => 'Products without Pictures',
     'OXPROBS_ART_ORPHPICS'         => 'Orphaned product pictures',
     'OXPROBS_MANU_MISSPICS_INFO'   => 'The following manufacturers don\'t have an assigned picture or the picture wasn\'t found.<br>Path:',
-    'OXPROBS_MANU_ORPHPICS_INFO'   => 'The following image files aren\'t assigned to any manufacturer.<br>Path:',
+    'OXPROBS_MANU_ORPHPICS_INFO'   => 'The following image files aren\'t assigned to any manufacturer.'
+                                    . '<br>Path:',
     'OXPROBS_VEND_MISSPICS_INFO'   => 'The following distributors don\'t have an assigned picture or the picture wasn\'t found.<br>Path:',
-    'OXPROBS_VEND_ORPHPICS_INFO'   => 'The following image files aren\'t assigned to any distributor.<br>Path:',
+    'OXPROBS_VEND_ORPHPICS_INFO'   => 'The following image files aren\'t assigned to any distributor.'
+                                    . '<br>Path:',
     'OXPROBS_CAT_MISSPICS_INFO'    => 'The following categories don\'t have an assigned picture or the picture wasn\'t found.<br>Path:',
-    'OXPROBS_CAT_ORPHPICS_INFO'    => 'The following image files aren\'t assigned to any category.<br>Path:',
+    'OXPROBS_CAT_ORPHPICS_INFO'    => 'The following image files aren\'t assigned to any category.'
+                                    . '<br>Path:',
     'OXPROBS_ART_MISSPICS_INFO'    => 'The following products don\'t have an assigned picture or the picture wasn\'t found.<br>Path:',
-    'OXPROBS_ART_ORPHPICS_INFO'    => 'The following image files aren\'t assigned to any product.<br>Path:',
+    'OXPROBS_ART_ORPHPICS_INFO'    => 'The following image files aren\'t assigned to any product.'
+                                    . '<br>Path:',
     'OXPROBS_SUBDIR_FILE'          => 'Folder/File',
     'OXPROBS_NOPIC_DEF'            => 'No picture assigned',
     'OXPROBS_NOPIC_FOUND'          => 'File not found',

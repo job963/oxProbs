@@ -91,13 +91,17 @@ $aLang = array(
     'OXPROBS_ART_MISSPICS'         => 'Artikel ohne Bilder',
     'OXPROBS_ART_ORPHPICS'         => 'Verwaiste Produkt-Bilder',
     'OXPROBS_MANU_MISSPICS_INFO'   => 'Nachfolgende Hersteller sind keine Bilder zugeordnet oder das zugeordnete Bild wurde nicht gefunden.<br>Pfad:',
-    'OXPROBS_MANU_ORPHPICS_INFO'   => 'Nachfolgende Bild-Dateien sind keinem Hersteller zugeordnet.<br>Pfad:',
+    'OXPROBS_MANU_ORPHPICS_INFO'   => 'Nachfolgende Bild-Dateien sind keinem Hersteller zugeordnet.'
+                                    . '<br>Pfad:',
     'OXPROBS_VEND_MISSPICS_INFO'   => 'Nachfolgende Lieferanten sind keine Bilder zugeordnet oder das zugeordnete Bild wurde nicht gefunden.<br>Pfad:',
-    'OXPROBS_VEND_ORPHPICS_INFO'   => 'Nachfolgende Bild-Dateien sind keinem Lieferanten zugeordnet.<br>Pfad:',
+    'OXPROBS_VEND_ORPHPICS_INFO'   => 'Nachfolgende Bild-Dateien sind keinem Lieferanten zugeordnet.'
+                                    . '<br>Pfad:',
     'OXPROBS_CAT_MISSPICS_INFO'    => 'Nachfolgende Kategorien sind keine Bilder zugeordnet oder das zugeordnete Bild wurde nicht gefunden.<br>Pfad:',
-    'OXPROBS_CAT_ORPHPICS_INFO'    => 'Nachfolgende Bild-Dateien sind keiner Kategorie zugeordnet.<br>Pfad:',
+    'OXPROBS_CAT_ORPHPICS_INFO'    => 'Nachfolgende Bild-Dateien sind keiner Kategorie zugeordnet.'
+                                    . '<br>Pfad:',
     'OXPROBS_ART_MISSPICS_INFO'    => 'Nachfolgende Artikel sind keine Bilder zugeordnet oder das zugeordnete Bild wurde nicht gefunden.<br>Pfad:',
-    'OXPROBS_ART_ORPHPICS_INFO'    => 'Nachfolgende Bild-Dateien sind keiner Artikel zugeordnet.<br>Pfad:',
+    'OXPROBS_ART_ORPHPICS_INFO'    => 'Nachfolgende Bild-Dateien sind keiner Artikel zugeordnet.'
+                                    . '<br>Pfad:',
     'OXPROBS_SUBDIR_FILE'          => 'Ordner/Datei',
     'OXPROBS_NOPIC_DEF'            => 'Kein Bild definiert',
     'OXPROBS_NOPIC_FOUND'          => 'Datei nicht gefunden',
