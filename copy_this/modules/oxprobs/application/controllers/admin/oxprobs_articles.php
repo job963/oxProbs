@@ -16,14 +16,13 @@
  *    You should have received a copy of the GNU General Public License
  *    along with OXID eShop Community Edition.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @link    https://github.com/job963/oxProbs
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
- * $Id: oxprobs_articles.php 124 2012-05-28 16:24:17Z jobarthel@gmail.com $
+ * @link      https://github.com/job963/oxProbs
+ * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @copyright (C) Joachim Barthel 2012-2013
  *
  */
  
-class oxprobs_articles extends oxAdminDetails
+class oxprobs_articles extends oxAdminView
 {
     protected $_sThisTemplate = "oxprobs_articles.tpl";
     public function render()

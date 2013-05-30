@@ -23,7 +23,7 @@
  *
  */
  
-class oxprobs_users extends oxAdminDetails
+class oxprobs_users extends oxAdminView
 {
     protected $_sThisTemplate = "oxprobs_users.tpl";
     
