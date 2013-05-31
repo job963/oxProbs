@@ -20,13 +20,7 @@ $aModule = array(
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/oxProbs',
     'email'        => 'jbarthel@qualifire.de',
-    'extend'       => array(/*
-        'oxadminview' => array('oxprobs/application/controllers/admin/oxprobs_articles',
-                                  'oxprobs/application/controllers/admin/oxprobs_delivery',
-                                  'oxprobs/application/controllers/admin/oxprobs_groups',
-                                  'oxprobs/application/controllers/admin/oxprobs_users',
-                                  'oxprobs/application/controllers/admin/oxprobs_pictures'
-                               )*/
+    'extend'       => array(
                         ),
     'files'        => array(
         'oxprobs_articles' => 'oxprobs/application/controllers/admin/oxprobs_articles.php',
@@ -77,12 +71,6 @@ $aModule = array(
                             'constrains' => 'master|generated', 
                             'position' => 0 
                             ),
-                        /*array(
-                            'group' => 'OXPROBS_USERSETTINGS', 
-                            'name'  => 'sOxProbsNameLength', 
-                            'type'  => 'str', 
-                            'value' => '4',
-                            ),*/
                         )
     );
 

@@ -384,7 +384,7 @@ class oxprobs_pictures extends oxAdminView
                 //echo '<pre>'.$key.': '.$sPictureDir.$aSubDir[$key].' = '.count($files).'</pre>';
 
                 foreach ($files as $value) { 
-                   if ( !in_array($value,array(".","..")) ) { 
+                   if ( !in_array($value,array(".","..","dir.txt")) ) { 
                         $sSql = "INSERT INTO tmpimages (filename) VALUES ('$value') ";
                         //echo '<pre>'.$aSubDir[$key].'/'.$value.'</pre>';
                         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
