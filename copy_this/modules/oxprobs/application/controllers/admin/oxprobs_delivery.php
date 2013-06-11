@@ -23,7 +23,7 @@
  *
  */
  
-class oxprobs_delivery extends oxAdminDetails
+class oxprobs_delivery extends oxAdminView
 {
     protected $_sThisTemplate = "oxprobs_delivery.tpl";
     

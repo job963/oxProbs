@@ -23,7 +23,7 @@
  *
  */
  
-class oxprobs_users extends oxAdminDetails
+class oxprobs_users extends oxAdminView
 {
     protected $_sThisTemplate = "oxprobs_users.tpl";
     
@@ -38,20 +38,56 @@ class oxprobs_users extends oxAdminDetails
 
         $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
         if (empty($cReportType))
-            $cReportType = "dbladdr";
+            $cReportType = "dblname";
         $oSmarty->assign( "ReportType", $cReportType );
         
-        //include "config.inc.php";
         $myConfig = oxRegistry::get("oxConfig");
         $this->ean = $myConfig->getConfigParam("sOxProbsEANField");
         $this->minDescLen = (int) $myConfig->getConfigParam("sOxProbsMinDescLen");
         $this->bpriceMin = (float) $myConfig->getConfigParam("sOxProbsBPriceMin");
+
+        $sWhere = "";
+        if ( is_string($this->_aViewData["oViewConf"]->getActiveShopId()) ) { 
+            // This is a CE or PE Shop
+            $sShopId = $this->_aViewData["oViewConf"]->getActiveShopId();
+            $sWhere = $sWhere . " u.oxshopid = '$sShopId' ";
+        }
+        else {
+            // This is a EE Shop
+            $iShopId = $this->_aViewData["oViewConf"]->getActiveShopId();
+            $sWhere = $sWhere . " u.oxshopid = $iShopId ";
+            
+        }
         
         switch ($cReportType) {
+            case 'dblname':
+                $sName = "CONCAT(TRIM(u.oxfname), ' ', TRIM(u.oxlname), ', ', TRIM(u.oxcity))";
+                $sSql1 = "SELECT $sName AS name, COUNT(*) AS amount "
+                       . "FROM oxuser u "
+                       . "WHERE $sWhere "
+                       . "GROUP BY name "
+                       . "HAVING COUNT(*) > 1 ";
+                $sSql2 = "SELECT u.oxid, u.oxactive, u.oxusername, n.oxdboptin "
+                       . "FROM oxuser u, oxnewssubscribed n "
+                       . "WHERE $sName = '@NAME@' "
+                            . "AND u.oxid = n.oxuserid "
+                            . "AND $sWhere ";
+                $cClass = 'admin_user';
+                break;
+
             case 'dbladdr':
-                $sSql1 = "SELECT CONCAT(oxfname, ' ', oxlname, ', ', oxcity) AS name, COUNT(*) FROM oxuser GROUP BY name HAVING COUNT(*) > 1";
-                $sSql2 = "SELECT * FROM oxuser WHERE CONCAT(oxfname, ' ', oxlname, ', ', oxcity) = 'Reinhold Schmidt, Velen'";
-                $cClass = 'actions';
+                $sName = "CONCAT( REPLACE(REPLACE(REPLACE(u.oxstreet,'.',''),' ',''),'-','') , ', ', TRIM(u.oxcity))";
+                $sSql1 = "SELECT $sName AS name, COUNT(*) AS amount "
+                       . "FROM oxuser u "
+                       . "WHERE $sWhere "
+                       . "GROUP BY name "
+                       . "HAVING COUNT(*) >  1";
+                $sSql2 = "SELECT u.oxid, u.oxactive, u.oxusername, n.oxdboptin "
+                       . "FROM oxuser u, oxnewssubscribed n "
+                       . "WHERE $sName = '@NAME@' "
+                            . "AND u.oxid = n.oxuserid "
+                            . "AND $sWhere ";
+                $cClass = 'admin_user';
                 break;
 
             case 'invcats':
@@ -81,12 +117,11 @@ class oxprobs_users extends oxAdminDetails
         }
 
         $i = 0;
-        $aGroups = array();
+        $aUsers = array();
 
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql1);
-            //---old---$rs = oxDb::getDb(true)->Execute($sSql1);
             /*echo '<pre>';
             echo $sSql1;
             echo '</pre>';
@@ -95,30 +130,39 @@ class oxprobs_users extends oxAdminDetails
             echo $sSql2;
             echo '</pre>';*/
             while (!$rs->EOF) {
-                array_push($aGroups, $rs->fields);
+                array_push($aUsers, $rs->fields);
                 $rs->MoveNext();
             }
+            /*echo '<pre>';
+            print_r($aUsers);
+            echo '</pre>';*/
         }
         
         if (!empty($sSql2)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-            $rs = $oDb->Execute($sSql2);
-            //---old---$rs = oxDb::getDb(true)->Execute( $sSql2);
-            //echo "<hr><pre>$sSql2</pre>";
-            if (oxDb::getDb(true)->errorNo() != 0) {
-                $oSmarty->assign ( "sqlErrNo", oxDb::getDb(true)->errorNo() );
-                $oSmarty->assign ( "sqlErrMsg",  oxDb::getDb(true)->errorMsg().' in $sSql2' ) ;
-            }
-            else {
+            foreach ($aUsers as $key => $row) {
+                $aLogins = array();
+                $sSql = str_replace('@NAME@', $row['name'], $sSql2);
+                /*echo '<pre>';
+                echo $sSql;
+                echo '</pre>'; /* */
+                $rs = $oDb->Execute($sSql);
                 while (!$rs->EOF) {
-                    array_push($aArticles, $rs->fields);
+                    array_push($aLogins, $rs->fields);
                     $rs->MoveNext();
                 }
+                $aUsers[$key]['logins'] = $aLogins;
+                /*echo '<pre>';
+                print_r($aLogins);
+                echo '</pre>';*/
             }
+            /*echo '<pre>';
+            print_r($aUsers);
+            echo '</pre>';*/
         }
         
         $oSmarty->assign("editClassName", $cClass);
-        $oSmarty->assign("aGroups", $aGroups);
+        $oSmarty->assign("aUsers", $aUsers);
 
          return $this->_sThisTemplate;
     }
