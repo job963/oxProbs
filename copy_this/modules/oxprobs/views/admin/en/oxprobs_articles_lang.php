@@ -2,7 +2,7 @@
 $sLangName  = "English";
 $iLangNr    = 1;
 $aLang = array(
-    'oxprobs_module'             => 'Problematic Data',
+    /*'oxprobs_module'             => 'Problematic Data',
     'oxprobs_displayarticles'    => 'Articles',
     'oxprobs_displaygroups'      => 'Arrangements',
     'OXPROBS_NOSTOCK'            => 'No stock',
@@ -42,7 +42,7 @@ $aLang = array(
     'OXPROBS_NODESC_INFO'        => 'The following articles and variants are without a description.',
     'OXPROBS_NOMANU_INFO'        => 'The following articles are without a manufacturer.',
     'OXPROBS_NOVEND_INFO'        => 'The following articles are without a vendor.',
-    'charset'                    => 'ISO-8859-15',
+    'charset'                    => 'ISO-8859-15',*/
 );
 
 ?>

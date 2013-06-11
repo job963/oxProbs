@@ -2,7 +2,7 @@
 $sLangName  = "Deutsch";
 $iLangNr    = 0;
 $aLang = array(
-    'oxprobs_module'             => 'Problemf&auml;lle',
+    /*'oxprobs_module'             => 'Problemf&auml;lle',
     'oxprobs_displayarticles'    => 'Artikel',
     'oxprobs_displaygroups'      => 'Gruppierungen',
     'OXPROBS_INVACTIONS'         => 'Ung&uuml;ltige Aktionen',
@@ -26,7 +26,7 @@ $aLang = array(
     'OXPROBS_DEACT_MAN'          => 'Inaktiver Hersteller',
     'OXPROBS_NOICON_MAN'         => 'Kein Icon zugewiesen',
     'OXPROBS_DEACT_VEN'          => 'Inaktiver Lieferant',
-    'OXPROBS_NOICON_VEN'         => 'Kein Icon zugewiesen',
+    'OXPROBS_NOICON_VEN'         => 'Kein Icon zugewiesen',*/
     'charset'                    => 'ISO-8859-15',
 );
 

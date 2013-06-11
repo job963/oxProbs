@@ -8,6 +8,10 @@
 		</SUBMENU>
 		<SUBMENU id="oxprobs_delivery" cl="oxprobs_delivery">
 		</SUBMENU>
+		<SUBMENU id="oxprobs_users" cl="oxprobs_users">
+		</SUBMENU>
+		<SUBMENU id="oxprobs_pictures" cl="oxprobs_pictures">
+		</SUBMENU>
 	</MAINMENU>
     </OXMENU>
 </OX>

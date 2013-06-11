@@ -53,7 +53,7 @@ function editThis( sID )
 </script>
 
 <div class="center">
-    <h1>[{ oxmultilang ident="oxprobs_displaygroups" }]</h1>
+    <h1>[{ oxmultilang ident="oxprobs_users" }]</h1>
     <p>
         <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
             [{ $shop->hiddensid }]
@@ -64,7 +64,7 @@ function editThis( sID )
     
         <form name="showprobs" id="showprobs" action="[{ $oViewConf->selflink }]" method="post">
         [{ $oViewConf->hiddensid }]
-        <input type="hidden" name="cl" value="oxprobs_groups">
+        <input type="hidden" name="cl" value="oxprobs_users">
         <input type="hidden" name="oxid" value="[{ $oxid }]">
         <input type="hidden" name="fnc" value="">
         <input type="hidden" name="sortcol" value="">
@@ -72,24 +72,21 @@ function editThis( sID )
         <input type="hidden" name="editlanguage" value="[{ $actlang }]">
         
         <select name="oxprobs_reporttype" onchange="Javascript:document.showprobs.submit();">
-            <option value="invactions" [{if $ReportType == "invactions"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVACTIONS" }]</option>
-            <option value="invcats" [{if $ReportType == "invcats"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVCATS" }]</option>
-            <option value="invman" [{if $ReportType == "invman"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVMAN" }]</option>
-            <option value="invven" [{if $ReportType == "invven"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVVEN" }]</option>
+            <option value="dblname" [{if $ReportType == "dblname"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_USRDBL_NAME" }]&nbsp;</option>
+            <option value="dbladdr" [{if $ReportType == "dbladdr"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_USRDBL_ADDR" }]&nbsp;</option>
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>
-    <p style="background-color:#f0f0f0;"><div id="liste">
-        [{if $ReportType == "invactions"}]
-            [{ oxmultilang ident="OXPROBS_INVACTIONS_INFO" }]
-        [{elseif $ReportType == "invcats"}]
-            [{ oxmultilang ident="OXPROBS_INVCATS_INFO" }]
-        [{elseif $ReportType == "invman"}]
-            [{ oxmultilang ident="OXPROBS_INVMAN_INFO" }]
-        [{elseif $ReportType == "invven"}]
-            [{ oxmultilang ident="OXPROBS_INVVEN_INFO" }]
+    <p style="background-color:#f0f0f0;">
+        <div style="padding-bottom:5px;">
+        [{if $ReportType == "dblname"}]
+            [{ oxmultilang ident="OXPROBS_USRDBL_NAME_INFO" }]
+        [{elseif $ReportType == "dbladdr"}]
+            [{ oxmultilang ident="OXPROBS_USRDBL_ADDR_INFO" }]
         [{/if}]
+        </div>
         
+        <div id="liste">
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>
             [{ assign var="headStyle" value="border-bottom:1px solid #C8C8C8; font-weight:bold;" }]
@@ -100,23 +97,35 @@ function editThis( sID )
                 [{ oxmultilang ident="USER_ARTICLE_QUANTITY" }]
                 </div></div></td>
             <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
-                [{ oxmultilang ident="OXPROBS_STATE" }]
+                [{ oxmultilang ident="OXPROBS_LOGINS" }]
                 </div></div></td>
         </tr>
 
-        [{foreach name=outer item=Group from=$aGroups}]
+        [{foreach name=outer item=User from=$aUsers}]
             [{ cycle values="listitem,listitem2" assign="listclass" }]
             <tr>
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Group.oxid}]');">[{$Group.oxtitle}]</a></td>
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Group.oxid}]');">[{$Group.count}]</a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$User.oxid}]');">[{$User.name}]</a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$User.oxid}]');">[{$User.amount}]</a></td>
                 [{ assign var="errCodes" value="|"|explode:$Group.status }]
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Group.oxid}]');">
-                    [{foreach name=inner item=errCode from=$errCodes}]
-                        [{ if $errCode != "" }]
-                        [{ oxmultilang ident=$errCode }]&nbsp;&nbsp;&nbsp;
+                <td class="[{ $listclass }]">
+                    [{foreach name=inner item=Login from=$User.logins}]
+                        <span style="background-color:#e0e0e0;color:#f00000;border-radius:4px;border:1px solid #c8c8c8;"><nobr>
+                        [{if $Login.oxactive==0 }]
+                            [{*<div style="font-size:1.5;font-weight:bold;color:#ffffff;background-color:#f00000;border-radius:6px;height:12px;width:12px;text-align:center;vertical-align:bottom;display:inline-block;">*}]
+                                <span style="font-size:1.2em;font-weight:bold;color:#f00000;" title="[{ oxmultilang ident="OXPROBS_DEACT_USER" }]">&nbsp;x</span>
+                            [{*</div>*}]
+                        [{else}]
+                                <span style="font-size:1.2em;font-weight:bold;color:#f00000;">&nbsp;</span>
                         [{/if}]
+                        [{if $Login.oxdboptin==1 }]
+                            <span style="font-size:1.2em;font-weight:bold;color:#00d000;" title="[{ oxmultilang ident="OXPROBS_CONF_NEWS" }]">N</span>
+                        [{elseif $Login.oxdboptin==2 }]
+                            <span style="font-size:1.2em;font-weight:bold;color:#c0c000;" title="[{ oxmultilang ident="OXPROBS_UNCONF_NEWS" }]">N</span>
+                        [{/if}]
+                        <a href="Javascript:editThis('[{$Login.oxid}]');">[{$Login.oxusername}]</a>&nbsp;
+                        </nobr></span> &nbsp;
                     [{/foreach}]
-                </a></td>
+                </td>
             </tr>
         [{/foreach}]
 

@@ -61,8 +61,8 @@ function editThis( sID )
         <input type="hidden" name="oxid" value="[{ $oxid }]">
         
         <select name="oxprobs_reporttype" onchange="Javascript:document.oxprobs_groups.submit();">
-            <option value="delsetcost" [{if $ReportType == "delsectcost"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DELSETCOST" }]</option>
-            <option value="delsetpay" [{if $ReportType == "delsetpay"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DELSETPAY" }]</option>
+            <option value="delsetcost" [{if $ReportType == "delsectcost"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DELSETCOST" }]&nbsp;</option>
+            <option value="delsetpay" [{if $ReportType == "delsetpay"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DELSETPAY" }]&nbsp;</option>
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
         </form>
