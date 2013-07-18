@@ -3,7 +3,7 @@
 /**
  * Metadata version
  */
-$sMetadataVersion = '1.0';
+$sMetadataVersion = '1.1';
  
 /**
  * Module information
@@ -19,7 +19,7 @@ $aModule = array(
     'version'      => '0.5',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/oxProbs',
-    'email'        => 'jbarthel@qualifire.de',
+    'email'        => 'jobarthel@gmail.com',
     'extend'       => array(
                         ),
     'files'        => array(
