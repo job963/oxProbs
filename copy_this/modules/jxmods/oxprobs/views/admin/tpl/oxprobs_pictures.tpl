@@ -152,7 +152,7 @@ function editThis( sID, sClass )
         <tr>
             [{ assign var="headStyle" value="border-bottom:1px solid #C8C8C8; font-weight:bold;" }]
             [{if $ReportType == "manumisspics" || $ReportType == "vendmisspics" || $ReportType == "catmisspics" || $ReportType == "artmisspics" }]
-                <td valign="top" class="listfilter first" height="15" width="30" align="center">
+                <td valign="top" class="listfilter first" style="[{ $headStyle }]" height="15" width="30" align="center">
                     <div class="r1"><div class="b1">[{ oxmultilang ident="GENERAL_ACTIVTITLE" }]</div></div>
                 </td>
                 <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
