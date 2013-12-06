@@ -95,6 +95,8 @@ function editThis( sID )
             <option value="nodesc" [{if $ReportType == "nodesc"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NODESC" }]&nbsp;</option>
             <option value="nomanu" [{if $ReportType == "nomanu"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOMANU" }]&nbsp;</option>
             <option value="novend" [{if $ReportType == "novend"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOVEND" }]&nbsp;</option>
+            <option value="active" [{if $ReportType == "active"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ACTIVE" }]&nbsp;</option>
+            <option value="inactive" [{if $ReportType == "inactive"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INACTIVE" }]&nbsp;</option>
         </select>
         <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
     </p>
@@ -134,6 +136,10 @@ function editThis( sID )
             [{ oxmultilang ident="OXPROBS_NOMANU_INFO" }]
         [{elseif $ReportType == "novend"}]
             [{ oxmultilang ident="OXPROBS_NOVEND_INFO" }]
+        [{elseif $ReportType == "active"}]
+            [{ oxmultilang ident="OXPROBS_ACTIVE_INFO" }]
+        [{elseif $ReportType == "inactive"}]
+            [{ oxmultilang ident="OXPROBS_INACTIVE_INFO" }]
         [{/if}]
         </div>
         
