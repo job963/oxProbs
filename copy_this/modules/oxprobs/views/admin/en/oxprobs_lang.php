@@ -26,6 +26,8 @@ $aLang = array(
     'OXPROBS_NODESC'               => 'Do description',
     'OXPROBS_NOMANU'               => 'No manufacturer',
     'OXPROBS_NOVEND'               => 'No vendor',
+    'OXPROBS_ACTIVE'               => 'Status active',
+    'OXPROBS_INACTIVE'               => 'Status inactive',
     'OXPROBS_NOSTOCK_INFO'         => 'The following articles and variants are having no or a negative stock. <br />'
                                     . '(only articles with status = standard will be listed)',
     'OXPROBS_NOARTNUM_INFO'        => 'The following articles and variants are having no article number.',
@@ -46,6 +48,8 @@ $aLang = array(
     'OXPROBS_NODESC_INFO'          => 'The following articles and variants are without a description.',
     'OXPROBS_NOMANU_INFO'          => 'The following articles are without a manufacturer.',
     'OXPROBS_NOVEND_INFO'          => 'The following articles are without a vendor.',
+    'OXPROBS_ACTIVE_INFO'          => 'The following articles are active.',
+    'OXPROBS_INACTIVE_INFO'        => 'The following articles are inactive.',
 
     'OXPROBS_INVACTIONS'           => 'Invalid actions',
     'OXPROBS_INVCATS'              => 'Invalid categories',

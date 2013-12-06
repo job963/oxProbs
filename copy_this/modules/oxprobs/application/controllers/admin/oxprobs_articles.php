@@ -659,7 +659,27 @@ class oxprobs_articles extends oxAdminView
                         //. "ORDER BY $sSort ";
                 $sSql2 = '';
                 break;
-            
+
+            case 'active':
+                $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
+                    . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid "
+                    . "FROM oxarticles a "
+                    . "WHERE a.oxactive = 1 "
+                    . $sWhere;
+                //. "ORDER BY $sSort ";
+                $sSql2 = '';
+                break;
+
+            case 'inactive':
+                $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
+                    . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid "
+                    . "FROM oxarticles a "
+                    . "WHERE a.oxactive = 0 "
+                    . $sWhere;
+                //. "ORDER BY $sSort ";
+                $sSql2 = '';
+                break;
+
             default:
                 $sSql1 = '';
                 $sSql2 = '';
