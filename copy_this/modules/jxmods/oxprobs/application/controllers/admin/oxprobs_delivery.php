@@ -41,7 +41,47 @@ class oxprobs_delivery extends oxAdminView
             $cReportType = "delsetcost";
         $oSmarty->assign( "ReportType", $cReportType );
         
-        //include "config.inc.php";
+
+        $aList = array();
+        $aList = $this->_retrieveData();
+
+        $oSmarty->assign("editClassName", $cClass);
+        $oSmarty->assign("aList", $aList);
+
+         return $this->_sThisTemplate;
+    }
+     
+    
+    public function downloadResult()
+    {
+        $aItems = array();
+        $aItems = $this->_retrieveData();
+
+        $aSelOxid = oxConfig::getParameter( "oxprobs_oxid" ); 
+        
+        $sContent = '';
+        foreach ($aItems as $aItem) {
+            if ( in_array($aItem['oxid'], $aSelOxid) ) {
+                $sContent .= '"' . implode('","', $aItem) . '"' . chr(13);
+            }
+        }
+
+        header("Content-Type: text/plain");
+        header("content-length: ".strlen($sContent));
+        header("Content-Disposition: attachment; filename=\"problem-report.csv\"");
+        echo $sContent;
+
+        return;
+    }
+
+    
+    private function _retrieveData()
+    {
+        
+        $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
+        if (empty($cReportType))
+            $cReportType = "delsetcost";
+        
         $myConfig = oxRegistry::get("oxConfig");
         $this->ean = $myConfig->getConfigParam("sOxProbsEANField");
         $this->minDescLen = (int) $myConfig->getConfigParam("sOxProbsMinDescLen");
@@ -91,7 +131,6 @@ class oxprobs_delivery extends oxAdminView
                         . 'AND c.oxactive=1 AND ds.oxactive=1 AND p.oxactive=1 '
                         . $sWhere
                         . 'ORDER BY c.oxtitle, ds.oxtitle, p.oxdesc ';
-                //$sSql1 = '';
                 $sSql2 = '';
                 $sSql3 = '';
                 $cClass = '---';
@@ -111,14 +150,6 @@ class oxprobs_delivery extends oxAdminView
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql1);
-            //---old---$rs = oxDb::getDb(true)->Execute($sSql1);
-            /*echo '<pre>';
-            echo $sSql1;
-            echo '</pre>';
-            /* 
-            echo '<pre>';
-            echo $sSql2;
-            echo '</pre>';*/
             while (!$rs->EOF) {
                 array_push($aList, $rs->fields);
                 $rs->MoveNext();
@@ -128,7 +159,6 @@ class oxprobs_delivery extends oxAdminView
         if (!empty($sSql2)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql2);
-            //---old---$rs = oxDb::getDb(true)->Execute( $sSql2);
             while (!$rs->EOF) {
                 array_push($aDelSets, $rs->fields);
                 $rs->MoveNext();
@@ -138,17 +168,13 @@ class oxprobs_delivery extends oxAdminView
         if (!empty($sSql3)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql3);
-            //---old---$rs = oxDb::getDb(true)->Execute( $sSql3);
             while (!$rs->EOF) {
                 array_push($aDelCosts, $rs->fields);
                 $rs->MoveNext();
             }
         }
-
-        $oSmarty->assign("editClassName", $cClass);
-        $oSmarty->assign("aList", $aList);
-
-         return $this->_sThisTemplate;
+        
+        return $aList;
     }
     
 }

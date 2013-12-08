@@ -50,6 +50,23 @@ function editThis( sID, sClass )
     oTransfer.cl.value=sClass;
     oTransfer.submit();
 }
+
+function change_all( name, elem )
+{
+    if(!elem || !elem.form) 
+        return alert("Check Parameters");
+
+    var chkbox = elem.form.elements[name];
+    if (!chkbox) 
+        return alert(name + " doesn't exist!");
+
+    if (!chkbox.length) 
+        chkbox.checked = elem.checked; 
+    else 
+        for(var i = 0; i < chkbox.length; i++)
+            chkbox[i].checked = elem.checked;
+}
+
 </script>
 
 <style type="text/css">
@@ -78,6 +95,8 @@ function editThis( sID, sClass )
     .thumbnail span img { /*CSS for enlarged image*/
         border-width: 0;
         padding: 2px;
+        max-height: 280px;
+        width: auto;
     }
 
     .thumbnail:hover span { /*CSS for enlarged image on hover*/
@@ -106,7 +125,7 @@ function editThis( sID, sClass )
         <input type="hidden" name="language" value="[{ $actlang }]">
         <input type="hidden" name="editlanguage" value="[{ $actlang }]">
         
-        <select name="oxprobs_reporttype" onchange="Javascript:document.showprobs.submit();">
+        <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';document.showprobs.submit();">
             <option value="manumisspics" [{if $ReportType == "manumisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MANU_MISSPICS" }]&nbsp;</option>
             <option value="manuorphpics" [{if $ReportType == "manuorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MANU_ORPHPICS" }]&nbsp;</option>
             <option value="vendmisspics" [{if $ReportType == "vendmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_VEND_MISSPICS" }]&nbsp;</option>
@@ -116,7 +135,13 @@ function editThis( sID, sClass )
             <option value="artmisspics" [{if $ReportType == "artmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ART_MISSPICS" }]&nbsp;</option>
             <option value="artorphpics" [{if $ReportType == "artorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ART_ORPHPICS" }]&nbsp;</option>
         </select>
-        <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
+        <input type="submit" 
+               onClick="document.forms['showprobs'].elements['fnc'].value = '';" 
+               value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input class="edittext" type="submit" 
+                onClick="document.forms['showprobs'].elements['fnc'].value = 'downloadResult';" 
+                value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
     </p>
     <p style="background-color:#f0f0f0;">
         <div style="padding-bottom:5px;">
@@ -168,6 +193,10 @@ function editThis( sID, sClass )
                 [{ oxmultilang ident="OXPROBS_STATE" }]
                 </div></div>
             </td>
+            <td class="listfilter" style="[{$headStyle}]" align="center"><div class="r1"><div class="b1">
+                <input type="checkbox" onclick="change_all('oxprobs_oxid[]', this)">
+                </div></div>
+            </td>
         </tr>
 
         [{foreach name=outer item=Item from=$aItems}]
@@ -190,11 +219,13 @@ function editThis( sID, sClass )
                 [{elseif $ReportType == "manuorphpics" || $ReportType == "vendorphpics" || $ReportType == "catorphpics" || $ReportType == "artorphpics" }]
                     <td class="[{ $listclass }]">
                          <a class="thumbnail" href="#thumb">
-                         [{$Item.subdir}]/[{$Item.picname}]<span><img src="[{$pictureUrl}]/[{$Item.subdir}]/[{$Item.picname}]" /></span>
+                            <img src="[{$pictureUrl}]/[{$Item.subdir}]/[{$Item.picname}]" style="max-height:28px;width:auto;"/>
+                            [{$Item.subdir}]/[{$Item.picname}]<span><img src="[{$pictureUrl}]/[{$Item.subdir}]/[{$Item.picname}]" /></span>
                         </a>
                     </td>
                 [{/if}]
                 <td class="[{ $listclass }]">[{ oxmultilang ident=$Item.status }]</td>
+                <td class="[{$listclass}]" align="center"><input type="checkbox" name="oxprobs_oxid[]" value="[{$Item.oxid}]"></td>
             </tr>
         [{/foreach}]
 

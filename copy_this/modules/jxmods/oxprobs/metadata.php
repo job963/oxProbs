@@ -16,7 +16,7 @@ $aModule = array(
                         'en'=>'Analysis module for finding problematical shop data.'
                         ),
     'thumbnail'    => 'oxprobs.png',
-    'version'      => '0.5.1',
+    'version'      => '0.6',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/oxProbs',
     'email'        => 'jobarthel@gmail.com',
@@ -25,15 +25,15 @@ $aModule = array(
     'files'        => array(
         'oxprobs_articles' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_articles.php',
         'oxprobs_delivery' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_delivery.php',
-        'oxprobs_groups' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_groups.php',
-        'oxprobs_users' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_users.php',
+        'oxprobs_groups'   => 'jxmods/oxprobs/application/controllers/admin/oxprobs_groups.php',
+        'oxprobs_users'    => 'jxmods/oxprobs/application/controllers/admin/oxprobs_users.php',
         'oxprobs_pictures' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_pictures.php'
                         ),
     'templates'    => array(
         'oxprobs_articles.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_articles.tpl',
         'oxprobs_delivery.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_delivery.tpl',
-        'oxprobs_groups.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_groups.tpl',
-        'oxprobs_users.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_users.tpl',
+        'oxprobs_groups.tpl'   => 'jxmods/oxprobs/views/admin/tpl/oxprobs_groups.tpl',
+        'oxprobs_users.tpl'    => 'jxmods/oxprobs/views/admin/tpl/oxprobs_users.tpl',
         'oxprobs_pictures.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_pictures.tpl'
                         ),
     'settings' => array(

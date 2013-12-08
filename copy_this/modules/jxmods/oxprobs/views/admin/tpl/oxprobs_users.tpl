@@ -50,6 +50,22 @@ function editThis( sID )
     oTransfer.submit();
 }
 
+function change_all( name, elem )
+{
+    if(!elem || !elem.form) 
+        return alert("Check Parameters");
+
+    var chkbox = elem.form.elements[name];
+    if (!chkbox) 
+        return alert(name + " doesn't exist!");
+
+    if (!chkbox.length) 
+        chkbox.checked = elem.checked; 
+    else 
+        for(var i = 0; i < chkbox.length; i++)
+            chkbox[i].checked = elem.checked;
+}
+
 </script>
 
 <div class="center">
@@ -71,11 +87,17 @@ function editThis( sID )
         <input type="hidden" name="language" value="[{ $actlang }]">
         <input type="hidden" name="editlanguage" value="[{ $actlang }]">
         
-        <select name="oxprobs_reporttype" onchange="Javascript:document.showprobs.submit();">
+        <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';document.showprobs.submit();">
             <option value="dblname" [{if $ReportType == "dblname"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_USRDBL_NAME" }]&nbsp;</option>
             <option value="dbladdr" [{if $ReportType == "dbladdr"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_USRDBL_ADDR" }]&nbsp;</option>
         </select>
-        <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
+        <input type="submit" 
+               onClick="document.forms['showprobs'].elements['fnc'].value = '';" 
+               value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input class="edittext" type="submit" 
+                onClick="document.forms['showprobs'].elements['fnc'].value = 'downloadResult';" 
+                value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
     </p>
     <p style="background-color:#f0f0f0;">
         <div style="padding-bottom:5px;">
@@ -99,6 +121,10 @@ function editThis( sID )
             <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
                 [{ oxmultilang ident="OXPROBS_LOGINS" }]
                 </div></div></td>
+            <td class="listfilter" style="[{$headStyle}]" align="center"><div class="r1"><div class="b1">
+                <input type="checkbox" onclick="change_all('oxprobs_oxid[]', this)">
+                </div></div>
+            </td>
         </tr>
 
         [{foreach name=outer item=User from=$aUsers}]
@@ -126,6 +152,7 @@ function editThis( sID )
                         </nobr></span> &nbsp;
                     [{/foreach}]
                 </td>
+                <td class="[{$listclass}]" align="center"><input type="checkbox" name="oxprobs_oxid[]" value="[{$User.oxid}]"></td>
             </tr>
         [{/foreach}]
 
