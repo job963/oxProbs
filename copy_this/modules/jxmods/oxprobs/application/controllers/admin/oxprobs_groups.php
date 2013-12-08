@@ -41,7 +41,47 @@ class oxprobs_groups extends oxAdminView
             $cReportType = "invactions";
         $oSmarty->assign( "ReportType", $cReportType );
         
-        //include "config.inc.php";
+
+        $aGroups = array();
+        $aGroups = $this->_retrieveData();
+        
+        $oSmarty->assign("editClassName", $cClass);
+        $oSmarty->assign("aGroups", $aGroups);
+
+         return $this->_sThisTemplate;
+    }
+     
+    
+    public function downloadResult()
+    {
+        $aGroups = array();
+        $aGroups = $this->_retrieveData();
+
+        $aSelOxid = oxConfig::getParameter( "oxprobs_oxid" ); 
+        
+        $sContent = '';
+        foreach ($aGroups as $aGroup) {
+            if ( in_array($aGroup['oxid'], $aSelOxid) ) {
+                $sContent .= '"' . implode('","', $aGroup) . '"' . chr(13);
+            }
+        }
+
+        header("Content-Type: text/plain");
+        header("content-length: ".strlen($sContent));
+        header("Content-Disposition: attachment; filename=\"problem-report.csv\"");
+        echo $sContent;
+
+        return;
+    }
+
+    
+    private function _retrieveData()
+    {
+        
+        $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
+        if (empty($cReportType))
+            $cReportType = "invactions";
+
         $myConfig = oxRegistry::get("oxConfig");
         $this->ean = $myConfig->getConfigParam("sOxProbsEANField");
         $this->minDescLen = (int) $myConfig->getConfigParam("sOxProbsMinDescLen");
@@ -142,30 +182,18 @@ class oxprobs_groups extends oxAdminView
 
         }
 
-        $i = 0;
         $aGroups = array();
 
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql1);
-            //---old---$rs = oxDb::getDb(true)->Execute($sSql1);
-            /*echo '<pre>';
-            echo $sSql1;
-            echo '</pre>';
-            /* 
-            echo '<pre>';
-            echo $sSql2;
-            echo '</pre>';*/
             while (!$rs->EOF) {
                 array_push($aGroups, $rs->fields);
                 $rs->MoveNext();
             }
         }
         
-        $oSmarty->assign("editClassName", $cClass);
-        $oSmarty->assign("aGroups", $aGroups);
-
-         return $this->_sThisTemplate;
+        return $aGroups;
     }
     
 }

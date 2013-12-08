@@ -41,6 +41,52 @@ class oxprobs_users extends oxAdminView
             $cReportType = "dblname";
         $oSmarty->assign( "ReportType", $cReportType );
         
+
+        $aUsers = array();
+        $aUsers = $this->_retrieveData();
+        
+        $oSmarty->assign("editClassName", $cClass);
+        $oSmarty->assign("aUsers", $aUsers);
+
+         return $this->_sThisTemplate;
+    }
+     
+    
+    public function downloadResult()
+    {
+        $aUsers = array();
+        $aUsers = $this->_retrieveData();
+
+        $aSelOxid = oxConfig::getParameter( "oxprobs_oxid" ); 
+        
+        $sContent = '';
+        foreach ($aUsers as $aUser) {
+            if ( in_array($aUser['oxid'], $aSelOxid) ) {
+                $aLogins = $aUser['logins'];
+                $sContent .= '"' . $aUser['name'] . '","' . $aUser['amount'] . '"';
+                foreach ($aLogins as $aLogin) {
+                    $sContent .= ',"' . $aLogin['oxusername'] . '"';
+                }
+                $sContent .= chr(13);
+            }
+        }
+
+        header("Content-Type: text/plain");
+        header("content-length: ".strlen($sContent));
+        header("Content-Disposition: attachment; filename=\"problem-report.csv\"");
+        echo $sContent;
+
+        return;
+    }
+
+    
+    private function _retrieveData()
+    {
+        
+        $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
+        if (empty($cReportType))
+            $cReportType = "dblname";
+
         $myConfig = oxRegistry::get("oxConfig");
         $this->ean = $myConfig->getConfigParam("sOxProbsEANField");
         $this->minDescLen = (int) $myConfig->getConfigParam("sOxProbsMinDescLen");
@@ -122,20 +168,10 @@ class oxprobs_users extends oxAdminView
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql1);
-            /*echo '<pre>';
-            echo $sSql1;
-            echo '</pre>';
-            /* 
-            echo '<pre>';
-            echo $sSql2;
-            echo '</pre>';*/
             while (!$rs->EOF) {
                 array_push($aUsers, $rs->fields);
                 $rs->MoveNext();
             }
-            /*echo '<pre>';
-            print_r($aUsers);
-            echo '</pre>';*/
         }
         
         if (!empty($sSql2)) {
@@ -143,28 +179,17 @@ class oxprobs_users extends oxAdminView
             foreach ($aUsers as $key => $row) {
                 $aLogins = array();
                 $sSql = str_replace('@NAME@', $row['name'], $sSql2);
-                /*echo '<pre>';
-                echo $sSql;
-                echo '</pre>'; /* */
                 $rs = $oDb->Execute($sSql);
                 while (!$rs->EOF) {
                     array_push($aLogins, $rs->fields);
                     $rs->MoveNext();
                 }
                 $aUsers[$key]['logins'] = $aLogins;
-                /*echo '<pre>';
-                print_r($aLogins);
-                echo '</pre>';*/
             }
-            /*echo '<pre>';
-            print_r($aUsers);
-            echo '</pre>';*/
         }
         
-        $oSmarty->assign("editClassName", $cClass);
-        $oSmarty->assign("aUsers", $aUsers);
-
-         return $this->_sThisTemplate;
+        
+        return $aUsers;
     }
     
 }

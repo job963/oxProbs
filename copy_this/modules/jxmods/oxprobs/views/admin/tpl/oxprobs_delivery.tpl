@@ -50,22 +50,51 @@ function editThis( sID )
     oTransfer.submit();
 }
 
+function change_all( name, elem )
+{
+    if(!elem || !elem.form) 
+        return alert("Check Parameters");
+
+    var chkbox = elem.form.elements[name];
+    if (!chkbox) 
+        return alert(name + " doesn't exist!");
+
+    if (!chkbox.length) 
+        chkbox.checked = elem.checked; 
+    else 
+        for(var i = 0; i < chkbox.length; i++)
+            chkbox[i].checked = elem.checked;
+}
+
 </script>
 
 <div class="center">
     <h1>[{ oxmultilang ident="oxprobs_delivery" }]</h1>
     <p>
-        <form name="oxprobs_groups" id="oxprobs_delivery" action="[{ $oViewConf->selflink }]" method="post">
+        <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
+            [{ $shop->hiddensid }]
+            <input type="hidden" name="oxid" value="[{ $oxid }]">
+            <input type="hidden" name="cl" value="[{$editClassName}]">
+            <input type="hidden" name="updatelist" value="1">
+        </form>
+        
+        <form name="oxprobs_groups" id="oxprobs_groups" action="[{ $oViewConf->selflink }]" method="post">
         [{ $oViewConf->hiddensid }]
         <input type="hidden" name="cl" value="oxprobs_delivery">
         <input type="hidden" name="oxid" value="[{ $oxid }]">
+        <input type="hidden" name="fnc" value="">
         
-        <select name="oxprobs_reporttype" onchange="Javascript:document.oxprobs_groups.submit();">
+        <select name="oxprobs_reporttype" onchange="document.forms['oxprobs_groups'].elements['fnc'].value='';document.oxprobs_groups.submit();">
             <option value="delsetcost" [{if $ReportType == "delsectcost"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DELSETCOST" }]&nbsp;</option>
             <option value="delsetpay" [{if $ReportType == "delsetpay"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DELSETPAY" }]&nbsp;</option>
         </select>
-        <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
-        </form>
+        <input type="submit" 
+               onClick="document.forms['oxprobs_groups'].elements['fnc'].value = '';" 
+               value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input class="edittext" type="submit" 
+                onClick="document.forms['oxprobs_groups'].elements['fnc'].value = 'downloadResult';" 
+                value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
     </p>
     <p style="background-color:#f0f0f0;">
         [{if $ReportType == "delsetcost"}]
@@ -75,13 +104,6 @@ function editThis( sID )
         [{/if}]
     </p>
     <p><div id="liste">
-        <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
-            [{ $shop->hiddensid }]
-            <input type="hidden" name="oxid" value="[{ $oxid }]">
-            <input type="hidden" name="cl" value="[{$editClassName}]">
-            <input type="hidden" name="updatelist" value="1">
-        </form>
-        
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>
             [{ assign var="headStyle" value="border-bottom:1px solid #C8C8C8; font-weight:bold;" }]
@@ -98,6 +120,10 @@ function editThis( sID )
             [{if $ReportType == "delsetcost"}]
                 <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">[{ oxmultilang ident="PAYMENT_MAIN_FROM" }] - [{ oxmultilang ident="PAYMENT_MAIN_TILL" }]</div></div></td>
             [{/if}]
+            <td class="listfilter" style="[{$headStyle}]" align="center"><div class="r1"><div class="b1">
+                <input type="checkbox" onclick="change_all('oxprobs_oxid[]', this)">
+                </div></div>
+            </td>
         </tr>
 
         [{ assign var="oldCountry" value="-" }]
@@ -127,11 +153,13 @@ function editThis( sID )
                 [{if $ReportType == "delsetcost"}]
                     <td class="[{ $listclass }]">[{$Line.startval|string_format:"%.2f"}] - [{$Line.endval|string_format:"%.2f"}]</td>
                 [{/if}]
+                <td class="[{$listclass}]" align="center"><input type="checkbox" name="oxprobs_oxid[]" value="[{$Article.oxid}]"></td>
             </tr>
         [{/foreach}]
 
         </table>
         </div>
+        </form>
     </p>
 
 </div>
