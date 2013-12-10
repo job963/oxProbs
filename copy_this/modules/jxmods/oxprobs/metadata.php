@@ -3,7 +3,7 @@
 /**
  * Metadata version
  */
-$sMetadataVersion = '1.0';
+$sMetadataVersion = '1.1';
  
 /**
  * Module information
@@ -16,25 +16,25 @@ $aModule = array(
                         'en'=>'Analysis module for finding problematical shop data.'
                         ),
     'thumbnail'    => 'oxprobs.png',
-    'version'      => '0.5',
+    'version'      => '0.6 (v4.6 by proudcommerce.com)',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/oxProbs',
-    'email'        => 'jbarthel@qualifire.de',
+    'email'        => 'jobarthel@gmail.com',
     'extend'       => array(
                         ),
     'files'        => array(
-        'oxprobs_articles' => 'oxprobs/application/controllers/admin/oxprobs_articles.php',
-        'oxprobs_delivery' => 'oxprobs/application/controllers/admin/oxprobs_delivery.php',
-        'oxprobs_groups' => 'oxprobs/application/controllers/admin/oxprobs_groups.php',
-        'oxprobs_users' => 'oxprobs/application/controllers/admin/oxprobs_users.php',
-        'oxprobs_pictures' => 'oxprobs/application/controllers/admin/oxprobs_pictures.php'
+        'oxprobs_articles' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_articles.php',
+        'oxprobs_delivery' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_delivery.php',
+        'oxprobs_groups'   => 'jxmods/oxprobs/application/controllers/admin/oxprobs_groups.php',
+        'oxprobs_users'    => 'jxmods/oxprobs/application/controllers/admin/oxprobs_users.php',
+        'oxprobs_pictures' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_pictures.php'
                         ),
     'templates'    => array(
-        'oxprobs_articles.tpl' => 'oxprobs/views/admin/tpl/oxprobs_articles.tpl',
-        'oxprobs_delivery.tpl' => 'oxprobs/views/admin/tpl/oxprobs_delivery.tpl',
-        'oxprobs_groups.tpl' => 'oxprobs/views/admin/tpl/oxprobs_groups.tpl',
-        'oxprobs_users.tpl' => 'oxprobs/views/admin/tpl/oxprobs_users.tpl',
-        'oxprobs_pictures.tpl' => 'oxprobs/views/admin/tpl/oxprobs_pictures.tpl'
+        'oxprobs_articles.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_articles.tpl',
+        'oxprobs_delivery.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_delivery.tpl',
+        'oxprobs_groups.tpl'   => 'jxmods/oxprobs/views/admin/tpl/oxprobs_groups.tpl',
+        'oxprobs_users.tpl'    => 'jxmods/oxprobs/views/admin/tpl/oxprobs_users.tpl',
+        'oxprobs_pictures.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_pictures.tpl'
                         ),
     'settings' => array(
                         array(

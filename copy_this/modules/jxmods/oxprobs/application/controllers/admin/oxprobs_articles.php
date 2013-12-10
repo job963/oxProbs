@@ -32,8 +32,51 @@ class oxprobs_articles extends oxAdminView
         $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
         $oSmarty->assign( "shop", $this->_aViewData["shop"]);
         
-        //include "config.inc.php";
-        $myConfig = oxRegistry::get("oxConfig");
+
+        $aArticles = array();
+        $aArticles = $this->_retrieveData();
+        
+        $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
+        if (empty($cReportType))
+            $cReportType = "nostock";
+        $oSmarty->assign( "ReportType", $cReportType );
+
+        $oSmarty->assign("aArticles",$aArticles);
+        $oSmarty->assign("aWhere", $aWhere);
+        $oSmarty->assign("sortcol", $sortCol);
+        $oSmarty->assign("sortopt", $sortOpt);
+
+        return $this->_sThisTemplate;
+   }
+     
+    
+    public function downloadResult()
+    {
+        $aArticles = array();
+        $aArticles = $this->_retrieveData();
+
+        $aSelOxid = oxConfig::getParameter( "oxprobs_oxid" ); 
+        
+        $sContent = '';
+        foreach ($aArticles as $aArticle) {
+            if ( in_array($aArticle['oxid'], $aSelOxid) ) {
+                $sContent .= '"' . implode('","', $aArticle) . '"' . chr(13);
+            }
+        }
+
+        header("Content-Type: text/plain");
+        header("content-length: ".strlen($sContent));
+        header("Content-Disposition: attachment; filename=\"problem-report.csv\"");
+        echo $sContent;
+
+        exit;
+    }
+
+    
+    private function _retrieveData()
+    {
+        
+        $myConfig = $this->getConfig();
         $this->ean           = $myConfig->getConfigParam("sOxProbsEANField");
         $this->minDescLen    = (int) $myConfig->getConfigParam("sOxProbsMinDescLen");
         $this->bpriceMin     = (float) $myConfig->getConfigParam("sOxProbsBPriceMin");
@@ -99,21 +142,74 @@ class oxprobs_articles extends oxAdminView
         $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
         if (empty($cReportType))
             $cReportType = "nostock";
-        $oSmarty->assign( "ReportType", $cReportType );
         
         switch ($cReportType) {
             case 'nostock':
+            case 'stockalert':
+                if ($cReportType == 'nostock') {
+                    $sStockCond = "a.oxstock <= 0";
+                    $sStock = "a.oxstock";
+                }
+                else {
+                    $sStockCond = "a.oxremindactive = 1 AND a.oxstock < a.oxremindamount";
+                    $sStock = "CONCAT( a.oxstock,' (',a.oxremindamount,')' )";
+                }
+                
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, $sStock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
-                        . "WHERE a.oxstock <= 0 "
+                        . "WHERE $sStockCond "
                             . "AND a.oxactive = 1 "
                             . "AND a.oxstockflag = 1 "
                             . "AND a.oxvarcount = 0 "
                             . "AND a.oxparentid = '' "
                             . $sWhere;
-                        //. "ORDER BY $sSort ";
+                        
+                $sSql2 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmnp, "
+                        . "( "
+                            . "SELECT b.oxtitle "
+                            . "FROM oxarticles b "
+                            . "WHERE a.oxparentid = b.oxid "
+                        . ") AS oxtitle, "
+                        . "( "
+                            . "SELECT m.oxtitle "
+                            . "FROM oxarticles c "
+                            . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
+                            . "WHERE a.oxparentid = c.oxid "
+                        . ") AS oxmantitle, "
+                        . "a.oxvarselect AS oxvarselect, $sStock AS oxstock, a.oxprice AS oxprice "
+                        . "FROM oxarticles a "
+                        . "WHERE $sStockCond "
+                            . "AND a.oxactive = 1 "
+                            . "AND a.oxstockflag = 1 "
+                            . "AND a.oxparentid != '' "
+                            . $sWhere;
+                break;
+
+            case 'noreminder':
+                $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "FROM oxarticles a "
+                        . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
+                        . "WHERE a.oxremindactive = 0 "
+                            . "AND a.oxactive = 1 "
+                            . "AND a.oxvarcount = 0 "
+                            . "AND a.oxparentid = '' "
+                            . $sWhere;
+                $sSql2 = "";
+                break;
+
+            case 'noremindvalue':
+                $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "FROM oxarticles a "
+                        . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
+                        . "WHERE a.oxremindactive = 1 AND a.oxremindamount = 0 "
+                            . "AND a.oxactive = 1 "
+                            . "AND a.oxvarcount = 0 "
+                            . "AND a.oxparentid = '' "
+                            . $sWhere;
                 $sSql2 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmnp, "
                         . "( "
                             . "SELECT b.oxtitle "
@@ -128,12 +224,10 @@ class oxprobs_articles extends oxAdminView
                         . ") AS oxmantitle, "
                         . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice "
                         . "FROM oxarticles a "
-                        . "WHERE a.oxstock <= 0 "
+                        . "WHERE a.oxremindactive = 1 AND a.oxremindamount = 0 "
                             . "AND a.oxactive = 1 "
-                            . "AND a.oxstockflag = 1 "
                             . "AND a.oxparentid != '' "
                             . $sWhere;
-                        //. "ORDER BY $sSort ";
                 break;
 
             case 'noartnum':
@@ -656,10 +750,42 @@ class oxprobs_articles extends oxAdminView
                             . "AND a.oxactive = 1 "
                             . "AND a.oxparentid = '' "
                             . $sWhere;
-                        //. "ORDER BY $sSort ";
                 $sSql2 = '';
                 break;
-            
+
+            case 'active':
+            case 'inactive':
+                if ($cReportType == 'active')
+                    $iActValue = 1;
+                else
+                    $iActValue = 0;
+
+                $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid, m.oxtitle AS oxmantitle "
+                        . "FROM oxarticles a "
+                        . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
+                        . "WHERE a.oxactive = $iActValue "
+                        . "AND a.oxparentid = '' "
+                        . $sWhere;
+                $sSql2 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid, "
+                        . "( "
+                            . "SELECT b.oxtitle "
+                            . "FROM oxarticles b "
+                            . "WHERE a.oxparentid = b.oxid "
+                        . ") AS oxtitle, "
+                        . "( "
+                            . "SELECT m.oxtitle "
+                            . "FROM oxarticles c "
+                            . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
+                            . "WHERE a.oxparentid = c.oxid "
+                        . ") AS oxmantitle "
+                        . "FROM oxarticles a "
+                        . "WHERE a.oxactive = $iActValue "
+                        . "AND a.oxparentid != '' "
+                        . $sWhere;
+                break;
+
             default:
                 $sSql1 = '';
                 $sSql2 = '';
@@ -711,13 +837,10 @@ class oxprobs_articles extends oxAdminView
             $sortDir = ($sortOpt == 'ASC') ? SORT_ASC : SORT_DESC;
             array_multisort($column1, $sortDir, $column2, SORT_ASC, SORT_STRING, $aArticles);
         }
+        
+        return $aArticles;
+    }
+   
+}
 
-        $oSmarty->assign("aArticles",$aArticles);
-        $oSmarty->assign("aWhere", $aWhere);
-        $oSmarty->assign("sortcol", $sortCol);
-        $oSmarty->assign("sortopt", $sortOpt);
-
-        return $this->_sThisTemplate;
-   }
- }
 ?>

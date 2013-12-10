@@ -48,6 +48,23 @@ function editThis( sID )
     oTransfer.cl.value='article';
     oTransfer.submit();
 }
+
+function change_all( name, elem )
+{
+    if(!elem || !elem.form) 
+        return alert("Check Parameters");
+
+    var chkbox = elem.form.elements[name];
+    if (!chkbox) 
+        return alert(name + " doesn't exist!");
+
+    if (!chkbox.length) 
+        chkbox.checked = elem.checked; 
+    else 
+        for(var i = 0; i < chkbox.length; i++)
+            chkbox[i].checked = elem.checked;
+}
+
 </script>
 
 <div class="center">
@@ -77,8 +94,11 @@ function editThis( sID )
         <input type="hidden" name="lastsortcol" value="[{ $sortcol }]">
         <input type="hidden" name="lastsortopt" value="[{ $sortopt }]">
         
-        <select name="oxprobs_reporttype" onchange="this.form.submit()">
+        <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';this.form.submit()">
             <option value="nostock" [{if $ReportType == "nostock"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSTOCK" }]&nbsp;</option>
+            <option value="stockalert" [{if $ReportType == "stockalert"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_STOCKALERT" }]&nbsp;</option>
+            <option value="noreminder" [{if $ReportType == "noreminder"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOREMINDER" }]&nbsp;</option>
+            <option value="noremindvalue" [{if $ReportType == "noremindvalue"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOREMINDVALUE" }]&nbsp;</option>
             <option value="noartnum" [{if $ReportType == "noartnum"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOARTNUM" }]&nbsp;</option>
             <option value="noshortdesc" [{if $ReportType == "noshortdesc"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSHORTDESC" }]&nbsp;</option>
             <option value="nopic" [{if $ReportType == "nopic"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOPIC" }]&nbsp;</option>
@@ -95,13 +115,27 @@ function editThis( sID )
             <option value="nodesc" [{if $ReportType == "nodesc"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NODESC" }]&nbsp;</option>
             <option value="nomanu" [{if $ReportType == "nomanu"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOMANU" }]&nbsp;</option>
             <option value="novend" [{if $ReportType == "novend"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOVEND" }]&nbsp;</option>
+            <option value="active" [{if $ReportType == "active"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ACTIVE" }]&nbsp;</option>
+            <option value="inactive" [{if $ReportType == "inactive"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INACTIVE" }]&nbsp;</option>
         </select>
-        <input type="submit" value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
+        <input type="submit" 
+               onClick="document.forms['showprobs'].elements['fnc'].value = '';" 
+               value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input class="edittext" type="submit" 
+                onClick="document.forms['showprobs'].elements['fnc'].value = 'downloadResult';" 
+                value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
     </p>
     <p style="background-color:#f0f0f0;">
         <div style="padding-bottom:5px;">
         [{if $ReportType == "nostock"}]
             [{ oxmultilang ident="OXPROBS_NOSTOCK_INFO" }]
+        [{elseif $ReportType == "stockalert"}]
+            [{ oxmultilang ident="OXPROBS_STOCKALERT_INFO" }]
+        [{elseif $ReportType == "noreminder"}]
+            [{ oxmultilang ident="OXPROBS_NOREMINDER_INFO" }]
+        [{elseif $ReportType == "noremindvalue"}]
+            [{ oxmultilang ident="OXPROBS_NOREMINDVALUE_INFO" }]
         [{elseif $ReportType == "noartnum"}]
             [{ oxmultilang ident="OXPROBS_NOARTNUM_INFO" }]
         [{elseif $ReportType == "noshortdesc"}]
@@ -134,6 +168,10 @@ function editThis( sID )
             [{ oxmultilang ident="OXPROBS_NOMANU_INFO" }]
         [{elseif $ReportType == "novend"}]
             [{ oxmultilang ident="OXPROBS_NOVEND_INFO" }]
+        [{elseif $ReportType == "active"}]
+            [{ oxmultilang ident="OXPROBS_ACTIVE_INFO" }]
+        [{elseif $ReportType == "inactive"}]
+            [{ oxmultilang ident="OXPROBS_INACTIVE_INFO" }]
         [{/if}]
         </div>
         
@@ -185,7 +223,12 @@ function editThis( sID )
                 </div></div></td>
             <td class="listfilter"><div class="r1"><div class="b1"><div class="find">
                 <input class="listedit" type="submit" name="submitit" value="[{ oxmultilang ident="GENERAL_SEARCH" }]">
-                </div></div></div></td>
+                </div></div></div>
+            </td>
+            <td class="listfilter" style="[{$headStyle}]" align="center"><div class="r1"><div class="b1">
+                <input type="checkbox" onclick="change_all('oxprobs_oxid[]', this)">
+                </div></div>
+            </td>
         </tr>
         <tr>
             [{if $sortopt=='ASC'}]
@@ -253,10 +296,11 @@ function editThis( sID )
                     [{ oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" }]
                 [{/if}]
             
-                </td>
+            </td>
             <td class="listheader">
                 [{ oxmultilang ident="GENERAL_ARTICLE_OXPRICE" }]
-                </td>
+            </td>
+            <td class="listheader"></td>
         </tr>
 
         [{foreach name=outer item=Article from=$aArticles}]
@@ -289,6 +333,7 @@ function editThis( sID )
                     [{/if}]</a>
                 </td>
                 <td class="[{ $listclass }]" align="right"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxprice|string_format:"%.2f"}]</a></td>
+                <td class="[{$listclass}]" align="center"><input type="checkbox" name="oxprobs_oxid[]" value="[{$Article.oxid}]"></td>
             </tr>
         [{/foreach}]
 
