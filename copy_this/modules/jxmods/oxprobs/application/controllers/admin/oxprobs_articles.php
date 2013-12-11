@@ -68,6 +68,8 @@ class oxprobs_articles extends oxAdminView
         header("content-length: ".strlen($sContent));
         header("Content-Disposition: attachment; filename=\"problem-report.csv\"");
         echo $sContent;
+        
+        exit();
 
         return;
     }
