@@ -18,8 +18,9 @@
  *
  * @link    https://github.com/job963/oxProbs
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @copyright (C) Joachim Barthel 2012-2013
  * 
- * $Id: oxprobs_groups.php 62 2011-12-03 08:59:41Z jobarthel@gmail.com $
+ * $Id: oxprobs_groups.php jobarthel@gmail.com $
  *
  */
  
@@ -70,6 +71,8 @@ class oxprobs_groups extends oxAdminView
         header("content-length: ".strlen($sContent));
         header("Content-Disposition: attachment; filename=\"problem-report.csv\"");
         echo $sContent;
+        
+        exit();
 
         return;
     }
