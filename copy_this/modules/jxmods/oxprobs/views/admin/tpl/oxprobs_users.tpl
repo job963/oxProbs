@@ -137,11 +137,9 @@ function change_all( name, elem )
                     [{foreach name=inner item=Login from=$User.logins}]
                         <span style="background-color:#e0e0e0;color:#f00000;border-radius:4px;border:1px solid #c8c8c8;"><nobr>
                         [{if $Login.oxactive==0 }]
-                            [{*<div style="font-size:1.5;font-weight:bold;color:#ffffff;background-color:#f00000;border-radius:6px;height:12px;width:12px;text-align:center;vertical-align:bottom;display:inline-block;">*}]
-                                <span style="font-size:1.2em;font-weight:bold;color:#f00000;" title="[{ oxmultilang ident="OXPROBS_DEACT_USER" }]">&nbsp;x</span>
-                            [{*</div>*}]
+                            <span style="font-size:1.2em;font-weight:bold;color:#f00000;" title="[{ oxmultilang ident="OXPROBS_DEACT_USER" }]">&nbsp;x</span>
                         [{else}]
-                                <span style="font-size:1.2em;font-weight:bold;color:#f00000;">&nbsp;</span>
+                            <span style="font-size:1.2em;font-weight:bold;color:#f00000;">&nbsp;</span>
                         [{/if}]
                         [{if $Login.oxdboptin==1 }]
                             <span style="font-size:1.2em;font-weight:bold;color:#00d000;" title="[{ oxmultilang ident="OXPROBS_CONF_NEWS" }]">N</span>

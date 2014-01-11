@@ -94,6 +94,11 @@ function change_all( name, elem )
         <input type="hidden" name="lastsortcol" value="[{ $sortcol }]">
         <input type="hidden" name="lastsortopt" value="[{ $sortopt }]">
         
+        [{php}] 
+            $sIsoLang = oxLang::getInstance()->getLanguageAbbr(); 
+            $this->assign('IsoLang', $sIsoLang);
+        [{/php}]
+
         <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';this.form.submit()">
             <option value="nostock" [{if $ReportType == "nostock"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSTOCK" }]&nbsp;</option>
             <option value="stockalert" [{if $ReportType == "stockalert"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_STOCKALERT" }]&nbsp;</option>
@@ -102,6 +107,7 @@ function change_all( name, elem )
             <option value="noartnum" [{if $ReportType == "noartnum"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOARTNUM" }]&nbsp;</option>
             <option value="noshortdesc" [{if $ReportType == "noshortdesc"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSHORTDESC" }]&nbsp;</option>
             <option value="nopic" [{if $ReportType == "nopic"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOPIC" }]&nbsp;</option>
+            <option value="duplicate" [{if $ReportType == "duplicate"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DUPLICATE" }]&nbsp;</option>
             <option value="dblactive" [{if $ReportType == "dblactive"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DBLACTIVE" }]&nbsp;</option>
             <option value="longperiod" [{if $ReportType == "longperiod"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_LONGPERIOD" }]&nbsp;</option>
             <option value="invperiod" [{if $ReportType == "invperiod"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVPERIOD" }]&nbsp;</option>
@@ -117,6 +123,9 @@ function change_all( name, elem )
             <option value="novend" [{if $ReportType == "novend"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOVEND" }]&nbsp;</option>
             <option value="active" [{if $ReportType == "active"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ACTIVE" }]&nbsp;</option>
             <option value="inactive" [{if $ReportType == "inactive"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INACTIVE" }]&nbsp;</option>
+            [{foreach name=ReportList item=Report from=$aIncReports}]
+                <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$IsoLang] }]&nbsp;</option>
+            [{/foreach}]
         </select>
         <input type="submit" 
                onClick="document.forms['showprobs'].elements['fnc'].value = '';" 
@@ -144,6 +153,8 @@ function change_all( name, elem )
             [{ oxmultilang ident="OXPROBS_NOPIC_INFO" }]
         [{elseif $ReportType == "dblactive"}]
             [{ oxmultilang ident="OXPROBS_DBLACTIVE_INFO" }]
+        [{elseif $ReportType == "duplicate"}]
+            [{ oxmultilang ident="OXPROBS_DUPLICATE_INFO" }]
         [{elseif $ReportType == "longperiod"}]
             [{ oxmultilang ident="OXPROBS_LONGPERIOD_INFO" }]
         [{elseif $ReportType == "invperiod"}]
@@ -172,6 +183,10 @@ function change_all( name, elem )
             [{ oxmultilang ident="OXPROBS_ACTIVE_INFO" }]
         [{elseif $ReportType == "inactive"}]
             [{ oxmultilang ident="OXPROBS_INACTIVE_INFO" }]
+        [{else}]
+            [{foreach name=ReportTypes item=Report from=$aIncReports}]
+                [{if $ReportType == $Report.name}][{ $Report.desc[$IsoLang] }][{/if}]
+            [{/foreach}]
         [{/if}]
         </div>
         
@@ -306,33 +321,44 @@ function change_all( name, elem )
         [{foreach name=outer item=Article from=$aArticles}]
             [{ cycle values="listitem,listitem2" assign="listclass" }]
             [{*<tr class="[{cycle values="even,odd"}]">*}]
+            [{if  $ReportType == "nobuyprice"}]
+            
+                [{if $Article.oxbprice == 0.0 }]
+                    [{assign var="txtColor" value="#000000" }]
+                 [{else}]
+                    [{assign var="txtColor" value="#a0a0a0" }]
+                [{/if}]
+                
+             [{else}]
+                [{assign var="txtColor" value="#000000" }]
+            [{/if}]
             <tr>
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxartnum}]</a></td>
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxtitle}]</a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxartnum}]</a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxtitle}]</a></td>
                 [{if $ReportType == "noshortdesc"}]
-                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxshortdesc}]</a></td>
+                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxshortdesc}]</a></td>
                 [{/if}]
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxvarselect}]</a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxvarselect}]</a></td>
                 [{if $ReportType != "noshortdesc" and $ReportType != "longperiod" and $ReportType != "invperiod" }]
-                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxean}]</a></td>
+                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxean}]</a></td>
                 [{/if}]
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxmantitle}]</a></td>
+                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxmantitle}]</a></td>
                 [{if $ReportType == "longperiod" or $ReportType == "invperiod"  }]
-                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxactivefrom}]</a></td>
-                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxactiveto}]</a></td>
+                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxactivefrom}]</a></td>
+                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxactiveto}]</a></td>
                 [{/if}]
                 [{if $ReportType != "noshortdesc" and $ReportType != "longperiod" and $ReportType != "invperiod" }]
-                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxmpn}]</a></td>
+                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxmpn}]</a></td>
                 [{/if}]
                 <td class="[{ $listclass }]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]');">
+                    <a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">
                     [{if $ReportType == "nobuyprice"}]
                         [{$Article.oxbprice|string_format:"%.2f"}]
                     [{else}]
                         [{$Article.oxstock}]
                     [{/if}]</a>
                 </td>
-                <td class="[{ $listclass }]" align="right"><a href="Javascript:editThis('[{$Article.oxid}]');">[{$Article.oxprice|string_format:"%.2f"}]</a></td>
+                <td class="[{ $listclass }]" align="right"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxprice|string_format:"%.2f"}]</a></td>
                 <td class="[{$listclass}]" align="center"><input type="checkbox" name="oxprobs_oxid[]" value="[{$Article.oxid}]"></td>
             </tr>
         [{/foreach}]
