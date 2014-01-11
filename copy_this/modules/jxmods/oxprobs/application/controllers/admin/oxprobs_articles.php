@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/oxProbs
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2013
+ * @copyright (C) Joachim Barthel 2012-2014
  *
  */
  
@@ -31,10 +31,16 @@ class oxprobs_articles extends oxAdminView
         $oSmarty = oxUtilsView::getInstance()->getSmarty();
         $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
         $oSmarty->assign( "shop", $this->_aViewData["shop"]);
-        
 
         $aArticles = array();
         $aArticles = $this->_retrieveData();
+        
+        $aIncReports = array();
+        $sIncFilter = $this->jxGetModulePath() . "/application/controllers/admin/oxprobs_articles_*.inc.php";
+        $aFiles = glob($sIncFilter);
+        foreach ($aFiles as $sIncFile) { 
+            require $sIncFile;
+        } 
         
         $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
         if (empty($cReportType))
@@ -42,6 +48,7 @@ class oxprobs_articles extends oxAdminView
         $oSmarty->assign( "ReportType", $cReportType );
 
         $oSmarty->assign("aArticles",$aArticles);
+        $oSmarty->assign("aIncReports",$aIncReports);
         $oSmarty->assign("aWhere", $aWhere);
         $oSmarty->assign("sortcol", $sortCol);
         $oSmarty->assign("sortopt", $sortOpt);
@@ -336,6 +343,29 @@ class oxprobs_articles extends oxAdminView
                             . "AND a.oxparentid != '' "
                             . $sWhere;
                         //. "ORDER BY $sSort ";
+                break;
+
+            case 'duplicate':
+                // find duplicate oxartnum
+                $sSql1 = "SELECT a.oxid, CONCAT(COUNT(*), ' x ',a.oxartnum) AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, IF(a.oxparentid='',a.oxtitle,(SELECT a1.oxtitle FROM oxarticles a1 WHERE a1.oxid=a.oxparentid)) AS oxtitle, "
+                            . "a.oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle " //, COUNT(*) AS anzahl "
+                        . "FROM oxarticles a "
+                        . "LEFT JOIN oxmanufacturers m "
+                            . "ON a.oxmanufacturerid = m.oxid "
+                        . "WHERE a.oxactive=1 AND a.oxvarcount=0 "
+                            . $sWhere
+                        . "GROUP BY oxartnum "
+                        . "HAVING COUNT(*) > 1";
+                // find duplicate oxean
+                $sSql2 = "SELECT a.oxid, a.oxartnum, CONCAT(COUNT(*), ' x ',a.$this->ean) AS oxean, a.oxmpn AS oxmpn, IF(a.oxparentid='',a.oxtitle,(SELECT a1.oxtitle FROM oxarticles a1 WHERE a1.oxid=a.oxparentid)) AS oxtitle, "
+                            . "a.oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle " //, COUNT(*) AS anzahl "
+                        . "FROM oxarticles a "
+                        . "LEFT JOIN oxmanufacturers m "
+                            . "ON a.oxmanufacturerid = m.oxid "
+                        . "WHERE a.oxactive=1 AND a.oxvarcount=0 AND a.$this->ean != '' "
+                            . $sWhere
+                        . "GROUP BY a.$this->ean "
+                        . "HAVING COUNT(*) > 1";
                 break;
 
             case 'dblactive':
@@ -791,6 +821,14 @@ class oxprobs_articles extends oxAdminView
             default:
                 $sSql1 = '';
                 $sSql2 = '';
+                
+                $aIncReports = array();
+                $sIncFilter = $this->jxGetModulePath() . "/application/controllers/admin/oxprobs_articles_*.inc.php";
+                $aFiles = glob($sIncFilter);
+                foreach ($aFiles as $sIncFile) { 
+                    require $sIncFile;
+                } 
+                
                 break;
         }
 
@@ -800,8 +838,7 @@ class oxprobs_articles extends oxAdminView
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql1);
-            //---old---$rs = oxDb::getDb(true)->Execute($sSql1);
-            //echo "<hr><pre>$sSql1</pre>";
+            //echo "<hr>SQL1: <pre>$sSql1</pre>";
             if (oxDb::getDb(true)->errorNo() != 0) {
                 $oSmarty->assign ( "sqlErrNo", oxDb::getDb(true)->errorNo() );
                 $oSmarty->assign ( "sqlErrMsg",  oxDb::getDb(true)->errorMsg().' in $sSql1' ) ;
@@ -817,8 +854,7 @@ class oxprobs_articles extends oxAdminView
         if (!empty($sSql2)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql2);
-            //---old---$rs = oxDb::getDb(true)->Execute( $sSql2);
-            //echo "<hr><pre>$sSql2</pre>";
+            //echo "<hr>SQL2: <pre>$sSql2</pre><hr>";
             if (oxDb::getDb(true)->errorNo() != 0) {
                 $oSmarty->assign ( "sqlErrNo", oxDb::getDb(true)->errorNo() );
                 $oSmarty->assign ( "sqlErrMsg",  oxDb::getDb(true)->errorMsg().' in $sSql2' ) ;
@@ -842,7 +878,24 @@ class oxprobs_articles extends oxAdminView
         
         return $aArticles;
     }
-   
+
+    
+    public function jxGetModulePath()
+    {
+        $sModuleId = $this->getEditObjectId();
+
+        $this->_aViewData['oxid'] = $sModuleId;
+
+        $oModule = oxNew('oxModule');
+        $oModule->load($sModuleId);
+        $sModuleId = $oModule->getId();
+        
+        $myConfig = oxRegistry::get("oxConfig");
+        $sModulePath = $myConfig->getConfigParam("sShopDir") . 'modules/' . $oModule->getModulePath("oxprobs");
+        
+        return $sModulePath;
+    }
+    
 }
 
 ?>

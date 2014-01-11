@@ -87,11 +87,19 @@ function change_all( name, elem )
         <input type="hidden" name="language" value="[{ $actlang }]">
         <input type="hidden" name="editlanguage" value="[{ $actlang }]">
         
+        [{php}] 
+            $sIsoLang = oxLang::getInstance()->getLanguageAbbr(); 
+            $this->assign('IsoLang', $sIsoLang);
+        [{/php}]
+        
         <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';document.showprobs.submit();">
             <option value="invactions" [{if $ReportType == "invactions"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVACTIONS" }]&nbsp;</option>
             <option value="invcats" [{if $ReportType == "invcats"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVCATS" }]&nbsp;</option>
             <option value="invman" [{if $ReportType == "invman"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVMAN" }]&nbsp;</option>
             <option value="invven" [{if $ReportType == "invven"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVVEN" }]&nbsp;</option>
+            [{foreach name=ReportList item=Report from=$aIncReports}]
+                <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$IsoLang] }]&nbsp;</option>
+            [{/foreach}]
         </select>
         <input type="submit" 
                onClick="document.forms['showprobs'].elements['fnc'].value = '';" 
@@ -111,6 +119,10 @@ function change_all( name, elem )
             [{ oxmultilang ident="OXPROBS_INVMAN_INFO" }]
         [{elseif $ReportType == "invven"}]
             [{ oxmultilang ident="OXPROBS_INVVEN_INFO" }]
+        [{else}]
+            [{foreach name=ReportTypes item=Report from=$aIncReports}]
+                [{if $ReportType == $Report.name}][{ $Report.desc[$IsoLang] }][{/if}]
+            [{/foreach}]
         [{/if}]
         </div>
         
@@ -142,7 +154,7 @@ function change_all( name, elem )
                 <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Group.oxid}]');">
                     [{foreach name=inner item=errCode from=$errCodes}]
                         [{ if $errCode != "" }]
-                        [{ oxmultilang ident=$errCode }]&nbsp;&nbsp;&nbsp;
+                            [{ oxmultilang ident=$errCode }]&nbsp;&nbsp;&nbsp;
                         [{/if}]
                     [{/foreach}]
                 </a></td>
