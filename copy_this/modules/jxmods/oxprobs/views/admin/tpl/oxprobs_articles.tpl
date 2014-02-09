@@ -133,7 +133,7 @@ function change_all( name, elem )
                 <option value="invperiod" [{if $ReportType == "invperiod"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVPERIOD" }]&nbsp;</option>
                 <option value="eanchk" [{if $ReportType == "eanchk"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_EANCHK" }]&nbsp;</option>
             </optgroup>
-                <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_MISC" }]">
+            <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_MISC" }]">
                 <option value="active" [{if $ReportType == "active"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ACTIVE" }]&nbsp;</option>
                 <option value="inactive" [{if $ReportType == "inactive"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INACTIVE" }]&nbsp;</option>
             </optgroup>

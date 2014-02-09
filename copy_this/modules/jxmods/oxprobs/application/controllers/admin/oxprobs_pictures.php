@@ -152,6 +152,7 @@ class oxprobs_pictures extends oxAdminView
         $oSmarty->assign("pictureDir", $sPictureDir);
         $oSmarty->assign("pictureUrl", $sPictureUrl);
         $oSmarty->assign("aItems", $aItems);
+        $oSmarty->assign("aIncReports",$aIncReports);
 
          return $this->_sThisTemplate;
     }

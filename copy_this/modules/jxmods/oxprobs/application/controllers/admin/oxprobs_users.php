@@ -59,6 +59,7 @@ class oxprobs_users extends oxAdminView
         
         $oSmarty->assign("editClassName", $cClass);
         $oSmarty->assign("aUsers", $aUsers);
+        $oSmarty->assign("aIncReports",$aIncReports);
 
          return $this->_sThisTemplate;
     }

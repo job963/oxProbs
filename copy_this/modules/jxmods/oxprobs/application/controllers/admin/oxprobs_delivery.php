@@ -57,6 +57,7 @@ class oxprobs_delivery extends oxAdminView
 
         $oSmarty->assign("editClassName", $cClass);
         $oSmarty->assign("aList", $aList);
+        $oSmarty->assign("aIncReports",$aIncReports);
 
          return $this->_sThisTemplate;
     }

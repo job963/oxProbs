@@ -93,6 +93,9 @@ function change_all( name, elem )
                 <option value="dbladdr" [{if $ReportType == "dbladdr"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_USRDBL_ADDR" }]&nbsp;</option>
             </optgroup>
             <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_CUSTOM" }]">
+                [{foreach name=ReportList item=Report from=$aIncReports}]
+                    <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$IsoLang] }]&nbsp;</option>
+                [{/foreach}]
             </optgroup>
         </select>
         <input type="submit" 
