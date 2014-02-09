@@ -71,6 +71,36 @@ $aModule = array(
                             'constrains' => 'master|generated', 
                             'position' => 0 
                             ),
+                        array(
+                            'group' => 'OXPROBS_INCLUDESETTINGS', 
+                            'name'  => 'sOxProbsArticleIncludeFiles',  
+                            'type'  => 'str', 
+                            'value' => ''
+                            ),
+                        array(
+                            'group' => 'OXPROBS_INCLUDESETTINGS', 
+                            'name'  => 'sOxProbsGroupIncludeFiles',  
+                            'type'  => 'str', 
+                            'value' => ''
+                            ),
+                        array(
+                            'group' => 'OXPROBS_INCLUDESETTINGS', 
+                            'name'  => 'sOxProbsDeliveryIncludeFiles',  
+                            'type'  => 'str', 
+                            'value' => ''
+                            ),
+                        array(
+                            'group' => 'OXPROBS_INCLUDESETTINGS', 
+                            'name'  => 'sOxProbsUsersIncludeFiles',  
+                            'type'  => 'str', 
+                            'value' => ''
+                            ),
+                        array(
+                            'group' => 'OXPROBS_INCLUDESETTINGS', 
+                            'name'  => 'sOxProbsPicturesIncludeFiles',  
+                            'type'  => 'str', 
+                            'value' => ''
+                            ),
                         )
     );
 

@@ -3,12 +3,18 @@ $sLangName  = "English";
 $iLangNr    = 1;
 $aLang = array(
     'oxprobs_module'               => 'Problematic Data',
-    'oxprobs_displayarticles'      => 'Articles',
+    'oxprobs_displayarticles'      => 'Products',
     'oxprobs_displaygroups'        => 'Arrangements',
     'oxprobs_delivery'             => 'Delivery/Payment',
     'oxprobs_users'                => 'Users',
     'oxprobs_pictures'             => 'Pictures',
     
+    'OXPROBS_GROUP_STOCK'          => 'Stock',
+    'OXPROBS_GROUP_MISSING'        => 'Missing Data',
+    'OXPROBS_GROUP_WRONG'          => 'Wrong Data',
+    'OXPROBS_GROUP_MISC'           => 'Miscellaneous',
+    'OXPROBS_GROUP_CUSTOM'         => 'Custom',
+    'OXPROBS_GROUP_DOUBLE'         => 'Duplicate',
     'OXPROBS_DOWNLOAD'             => 'Download',
     'OXPROBS_NOSTOCK'              => 'No stock',
     'OXPROBS_STOCKALERT'           => 'Low stock',
@@ -135,6 +141,12 @@ $aLang = array(
     'SHOP_MODULE_sOxProbsPictureDirs'             => 'Use this for picture checking',
     'SHOP_MODULE_sOxProbsPictureDirs_master'      => 'Master Pictures',
     'SHOP_MODULE_sOxProbsPictureDirs_generated'   => 'Generated Pictures',
+    'SHOP_MODULE_GROUP_OXPROBS_INCLUDESETTINGS'   => 'Custom Analysis',
+    'SHOP_MODULE_sOxProbsArticleIncludeFiles'     => 'Product Analysis',
+    'SHOP_MODULE_sOxProbsGroupIncludeFiles'       => 'Arrangement Analysis',
+    'SHOP_MODULE_sOxProbsDeliveryIncludeFiles'    => 'Shipping/Payment Analysis',
+    'SHOP_MODULE_sOxProbsUsersIncludeFiles'       => 'User Analysis',
+    'SHOP_MODULE_sOxProbsPicturesIncludeFiles'    => 'Picture Analysis',
     
     'charset'                    => 'ISO-8859-15',
 );

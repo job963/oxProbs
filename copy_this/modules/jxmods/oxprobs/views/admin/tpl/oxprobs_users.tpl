@@ -88,8 +88,12 @@ function change_all( name, elem )
         <input type="hidden" name="editlanguage" value="[{ $actlang }]">
         
         <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';document.showprobs.submit();">
-            <option value="dblname" [{if $ReportType == "dblname"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_USRDBL_NAME" }]&nbsp;</option>
-            <option value="dbladdr" [{if $ReportType == "dbladdr"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_USRDBL_ADDR" }]&nbsp;</option>
+            <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_DOUBLE" }]">
+                <option value="dblname" [{if $ReportType == "dblname"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_USRDBL_NAME" }]&nbsp;</option>
+                <option value="dbladdr" [{if $ReportType == "dbladdr"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_USRDBL_ADDR" }]&nbsp;</option>
+            </optgroup>
+            <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_CUSTOM" }]">
+            </optgroup>
         </select>
         <input type="submit" 
                onClick="document.forms['showprobs'].elements['fnc'].value = '';" 

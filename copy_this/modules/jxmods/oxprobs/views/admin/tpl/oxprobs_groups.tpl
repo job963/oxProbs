@@ -93,13 +93,17 @@ function change_all( name, elem )
         [{/php}]
         
         <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';document.showprobs.submit();">
-            <option value="invactions" [{if $ReportType == "invactions"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVACTIONS" }]&nbsp;</option>
-            <option value="invcats" [{if $ReportType == "invcats"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVCATS" }]&nbsp;</option>
-            <option value="invman" [{if $ReportType == "invman"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVMAN" }]&nbsp;</option>
-            <option value="invven" [{if $ReportType == "invven"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVVEN" }]&nbsp;</option>
-            [{foreach name=ReportList item=Report from=$aIncReports}]
-                <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$IsoLang] }]&nbsp;</option>
-            [{/foreach}]
+            <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_WRONG" }]">
+                <option value="invactions" [{if $ReportType == "invactions"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVACTIONS" }]&nbsp;</option>
+                <option value="invcats" [{if $ReportType == "invcats"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVCATS" }]&nbsp;</option>
+                <option value="invman" [{if $ReportType == "invman"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVMAN" }]&nbsp;</option>
+                <option value="invven" [{if $ReportType == "invven"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_INVVEN" }]&nbsp;</option>
+            </optgroup>
+            <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_CUSTOM" }]">
+                [{foreach name=ReportList item=Report from=$aIncReports}]
+                    <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$IsoLang] }]&nbsp;</option>
+                [{/foreach}]
+            </optgroup>
         </select>
         <input type="submit" 
                onClick="document.forms['showprobs'].elements['fnc'].value = '';" 

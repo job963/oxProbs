@@ -18,7 +18,7 @@
  *
  * @link    https://github.com/job963/oxProbs
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2013
+ * @copyright (C) Joachim Barthel 2012-2014
  * 
  * $Id: oxprobs_delivery.php jobarthel@gmail.com $
  *
@@ -30,17 +30,27 @@ class oxprobs_delivery extends oxAdminView
     
     public function render()
     {
-
         parent::render();
         $oSmarty = oxUtilsView::getInstance()->getSmarty();
         $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
         $oSmarty->assign( "shop", $this->_aViewData["shop"]);
+        $myConfig = oxRegistry::get("oxConfig");
         
-        $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
+        $aIncFiles = array();
+        $aIncReports = array();
+        if (trim($myConfig->getConfigParam("sOxProbsDeliveryIncludeFiles")) != '') {
+            $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsDeliveryIncludeFiles") );
+            $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+            foreach ($aIncFiles as $sIncFile) { 
+                $sIncFile = $sIncPath . 'oxprobs_delivery_' . $sIncFile . '.inc.php';
+                require $sIncFile;
+            } 
+        }
+        
+        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "delsetcost";
         $oSmarty->assign( "ReportType", $cReportType );
-        
 
         $aList = array();
         $aList = $this->_retrieveData();
@@ -80,7 +90,7 @@ class oxprobs_delivery extends oxAdminView
     private function _retrieveData()
     {
         
-        $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
+        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "delsetcost";
         
@@ -140,6 +150,16 @@ class oxprobs_delivery extends oxAdminView
             
             default:
                 $sSql = '';
+                $aIncFiles = array();
+                $aIncReports = array();
+                if (trim($myConfig->getConfigParam("sOxProbsDeliveryIncludeFiles")) != '') {
+                    $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsDeliveryIncludeFiles") );
+                    $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+                    foreach ($aIncFiles as $sIncFile) { 
+                        $sIncFile = $sIncPath . 'oxprobs_delivery_' . $sIncFile . '.inc.php';
+                        require $sIncFile;
+                    } 
+                }
                 break;
 
         }

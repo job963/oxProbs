@@ -30,27 +30,30 @@ class oxprobs_groups extends oxAdminView
     
     public function render()
     {
-        ini_set('display_errors', true);
-
         parent::render();
         $oSmarty = oxUtilsView::getInstance()->getSmarty();
         $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
         $oSmarty->assign( "shop", $this->_aViewData["shop"]);
+        $myConfig = oxRegistry::get("oxConfig");
+        
+        $aIncFiles = array();
+        $aIncReports = array();
+        if (trim($myConfig->getConfigParam("sOxProbsGroupIncludeFiles")) != '') {
+            $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsGroupIncludeFiles") );
+            $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+            foreach ($aIncFiles as $sIncFile) { 
+                $sIncFile = $sIncPath . 'oxprobs_groups_' . $sIncFile . '.inc.php';
+                require $sIncFile;
+            } 
+        }
 
-        $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
+        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "invactions";
         $oSmarty->assign( "ReportType", $cReportType );
         
         $aGroups = array();
         $aGroups = $this->_retrieveData();
-        
-        $aIncReports = array();
-        $sIncFilter = $this->jxGetModulePath() . "/application/controllers/admin/oxprobs_groups_*.inc.php";
-        $aFiles = glob($sIncFilter);
-        foreach ($aFiles as $sIncFile) { 
-            require $sIncFile;
-        } 
         
         $oSmarty->assign("editClassName", $cClass);
         $oSmarty->assign("aGroups", $aGroups);
@@ -88,7 +91,7 @@ class oxprobs_groups extends oxAdminView
     private function _retrieveData()
     {
         
-        $cReportType = isset($_POST['oxprobs_reporttype']) ? $_POST['oxprobs_reporttype'] : $_GET['oxprobs_reporttype']; 
+        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "invactions";
 
@@ -189,13 +192,16 @@ class oxprobs_groups extends oxAdminView
             default:
                 $sSql1 = '';
                 $sSql2 = '';
-                
+                $aIncFiles = array();
                 $aIncReports = array();
-                $sIncFilter = $this->jxGetModulePath() . "/application/controllers/admin/oxprobs_groups_*.inc.php";
-                $aFiles = glob($sIncFilter);
-                foreach ($aFiles as $sIncFile) { 
-                    require $sIncFile;
-                } 
+                if (trim($myConfig->getConfigParam("sOxProbsGroupIncludeFiles")) != '') {
+                    $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsGroupIncludeFiles") );
+                    $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+                    foreach ($aIncFiles as $sIncFile) { 
+                        $sIncFile = $sIncPath . 'oxprobs_groups_' . $sIncFile . '.inc.php';
+                        require $sIncFile;
+                    } 
+                }
                 
                 break;
 

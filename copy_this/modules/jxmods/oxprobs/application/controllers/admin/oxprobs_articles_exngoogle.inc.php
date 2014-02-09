@@ -29,7 +29,7 @@
 array_push( $aIncReports, array("name"  => "exngoogle", 
                                 "title" => array("de"=>"Inaktiv f&uuml;r Google Feed",
                                                  "en"=>"Inactive for Google Feed"), 
-                                "desc"  => array("de"=>"Anzeige aller Artikel, die nicht aktiv sind f&uuml; den Google Product Feed.",
+                                "desc"  => array("de"=>"Anzeige aller Artikel, die nicht aktiv sind f&uuml;r den Google Product Feed.",
                                                  "en"=>"Displays all products which are not active for Google Product Feed.") 
                                 ));
 if ($cReportType == 'exngoogle') {
