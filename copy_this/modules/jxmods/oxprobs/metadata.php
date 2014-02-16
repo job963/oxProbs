@@ -38,69 +38,89 @@ $aModule = array(
                         ),
     'settings' => array(
                         array(
-                            'group' => 'OXPROBS_ARTICLESETTINGS', 
-                            'name'  => 'sOxProbsEANField', 
-                            'type'  => 'select', 
-                            'value' => 'oxean',
-                            'constrains' => 'oxean|oxdistean', 
-                            'position' => 0 
+                                'group' => 'OXPROBS_ARTICLESETTINGS', 
+                                'name'  => 'sOxProbsEANField', 
+                                'type'  => 'select', 
+                                'value' => 'oxean',
+                                'constrains' => 'oxean|oxdistean', 
+                                'position' => 0 
+                                ),
+                        array(
+                                'group' => 'OXPROBS_ARTICLESETTINGS', 
+                                'name'  => 'sOxProbsMinDescLen', 
+                                'type'  => 'str', 
+                                'value' => '15'
+                                ),
+                        array(
+                                'group' => 'OXPROBS_ARTICLESETTINGS', 
+                                'name'  => 'sOxProbsBPriceMin',  
+                                'type'  => 'str', 
+                                'value' => '0.5'
+                                ),
+                        array(
+                                'group' => 'OXPROBS_ARTICLESETTINGS', 
+                                'name'  => 'sOxProbsMaxActionTime',  
+                                'type'  => 'str', 
+                                'value' => '14'
+                                ),
+                        array(
+                                'group' => 'OXPROBS_PICTURESETTINGS', 
+                                'name'  => 'sOxProbsPictureDirs',  
+                                'type'  => 'select', 
+                                'value' => 'master',
+                                'constrains' => 'master|generated', 
+                                'position' => 0 
+                                ),
+                        array(
+                                'group' => 'OXPROBS_INCLUDESETTINGS', 
+                                'name'  => 'sOxProbsArticleIncludeFiles',  
+                                'type'  => 'str', 
+                                'value' => ''
+                                ),
+                        array(
+                                'group' => 'OXPROBS_INCLUDESETTINGS', 
+                                'name'  => 'sOxProbsGroupIncludeFiles',  
+                                'type'  => 'str', 
+                                'value' => ''
+                                ),
+                        array(
+                                'group' => 'OXPROBS_INCLUDESETTINGS', 
+                                'name'  => 'sOxProbsDeliveryIncludeFiles',  
+                                'type'  => 'str', 
+                                'value' => ''
+                                ),
+                        array(
+                                'group' => 'OXPROBS_INCLUDESETTINGS', 
+                                'name'  => 'sOxProbsUsersIncludeFiles',  
+                                'type'  => 'str', 
+                                'value' => ''
                             ),
                         array(
-                            'group' => 'OXPROBS_ARTICLESETTINGS', 
-                            'name'  => 'sOxProbsMinDescLen', 
-                            'type'  => 'str', 
-                            'value' => '15'
-                            ),
+                                'group' => 'OXPROBS_INCLUDESETTINGS', 
+                                'name'  => 'sOxProbsPicturesIncludeFiles',  
+                                'type'  => 'str', 
+                                'value' => ''
+                                ),
                         array(
-                            'group' => 'OXPROBS_ARTICLESETTINGS', 
-                            'name'  => 'sOxProbsBPriceMin',  
-                            'type'  => 'str', 
-                            'value' => '0.5'
-                            ),
+                                'group' => 'OXPROBS_DOWNLOAD', 
+                                'name'  => 'bOxProbsHeader', 
+                                'type'  => 'bool', 
+                                'value' => 'true'
+                                ),
                         array(
-                            'group' => 'OXPROBS_ARTICLESETTINGS', 
-                            'name'  => 'sOxProbsMaxActionTime',  
-                            'type'  => 'str', 
-                            'value' => '14'
-                            ),
+                                'group' => 'OXPROBS_DOWNLOAD', 
+                                'name'  => 'sOxProbsSeparator', 
+                                'type'  => 'select', 
+                                'value' => 'comma',
+                                'constrains' => 'comma|semicolon|tab|pipe|tilde', 
+                                'position' => 0 
+                                ),
                         array(
-                            'group' => 'OXPROBS_PICTURESETTINGS', 
-                            'name'  => 'sOxProbsPictureDirs',  
-                            'type'  => 'select', 
-                            'value' => 'master',
-                            'constrains' => 'master|generated', 
-                            'position' => 0 
-                            ),
-                        array(
-                            'group' => 'OXPROBS_INCLUDESETTINGS', 
-                            'name'  => 'sOxProbsArticleIncludeFiles',  
-                            'type'  => 'str', 
-                            'value' => ''
-                            ),
-                        array(
-                            'group' => 'OXPROBS_INCLUDESETTINGS', 
-                            'name'  => 'sOxProbsGroupIncludeFiles',  
-                            'type'  => 'str', 
-                            'value' => ''
-                            ),
-                        array(
-                            'group' => 'OXPROBS_INCLUDESETTINGS', 
-                            'name'  => 'sOxProbsDeliveryIncludeFiles',  
-                            'type'  => 'str', 
-                            'value' => ''
-                            ),
-                        array(
-                            'group' => 'OXPROBS_INCLUDESETTINGS', 
-                            'name'  => 'sOxProbsUsersIncludeFiles',  
-                            'type'  => 'str', 
-                            'value' => ''
-                            ),
-                        array(
-                            'group' => 'OXPROBS_INCLUDESETTINGS', 
-                            'name'  => 'sOxProbsPicturesIncludeFiles',  
-                            'type'  => 'str', 
-                            'value' => ''
-                            ),
+                                'group' => 'OXPROBS_DOWNLOAD', 
+                                'name'  => 'bOxProbsQuote', 
+                                'type'  => 'bool', 
+                                'value' => 'true'
+                                ),
                         )
     );
 

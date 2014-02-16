@@ -64,15 +64,46 @@ class oxprobs_articles extends oxAdminView
     
     public function downloadResult()
     {
+        $myConfig = oxRegistry::get("oxConfig");
+        switch ( $myConfig->getConfigParam("sOxProbsSeparator") ) {
+            case 'comma':
+                $sSep = ',';
+                break;
+            case 'semicolon':
+                $sSep = ';';
+                break;
+            case 'tab':
+                $sSep = chr(9);
+                break;
+            case 'pipe':
+                $sSep = '|';
+                break;
+            case 'tilde':
+                $sSep = '~';
+                break;
+            default:
+                $sSep = ',';
+                break;
+        }
+        if ( $myConfig->getConfigParam("bOxProbsQuote") ) {
+            $sBegin = '"';
+            $sSep   = '"' . $sSep . '"';
+            $sEnd   = '"';
+        }
+
         $aArticles = array();
         $aArticles = $this->_retrieveData();
 
         $aSelOxid = oxConfig::getParameter( "oxprobs_oxid" ); 
         
         $sContent = '';
+        if ( $myConfig->getConfigParam("bOxProbsHeader") ) {
+            $aHeader = array_keys($aArticles[0]);
+            $sContent .= $sBegin . implode($sSep, $aHeader) . $sEnd . chr(13);
+        }
         foreach ($aArticles as $aArticle) {
             if ( in_array($aArticle['oxid'], $aSelOxid) ) {
-                $sContent .= '"' . implode('","', $aArticle) . '"' . chr(13);
+                $sContent .= $sBegin . implode($sSep, $aArticle) . $sEnd . chr(13);
             }
         }
 

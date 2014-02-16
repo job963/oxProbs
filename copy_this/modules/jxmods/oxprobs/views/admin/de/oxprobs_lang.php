@@ -151,6 +151,15 @@ $aLang = array(
     'SHOP_MODULE_sOxProbsDeliveryIncludeFiles'    => 'Versand-/Bezahlungs-Analysen',
     'SHOP_MODULE_sOxProbsUsersIncludeFiles'       => 'Benutzer-Analysen',
     'SHOP_MODULE_sOxProbsPicturesIncludeFiles'    => 'Bilder-Analysen',
+    'SHOP_MODULE_GROUP_OXPROBS_DOWNLOAD'          => 'Download / Export',
+    'SHOP_MODULE_bOxProbsHeader'                  => 'Spalten&uuml;berschriften exportieren',
+    'SHOP_MODULE_sOxProbsSeparator'               => 'Trennzeichen',
+    'SHOP_MODULE_sOxProbsSeparator_comma'         => ',&nbsp;&nbsp; (Komma)',
+    'SHOP_MODULE_sOxProbsSeparator_semicolon'     => ';&nbsp;&nbsp; (Semikolon)',
+    'SHOP_MODULE_sOxProbsSeparator_tab'           => '&rarr; (Tabulator)',
+    'SHOP_MODULE_sOxProbsSeparator_pipe'          => '|&nbsp;&nbsp; (Senkrechter Strich)',
+    'SHOP_MODULE_sOxProbsSeparator_tilde'         => '&sim;&nbsp; (Tilde)',
+    'SHOP_MODULE_bOxProbsQuote'                   => 'Spalten mit Anf&uuml;hrungszeichen begrenzen',
     
     'charset'                    => 'ISO-8859-15',
 );

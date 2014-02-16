@@ -149,6 +149,15 @@ $aLang = array(
     'SHOP_MODULE_sOxProbsDeliveryIncludeFiles'    => 'Shipping/Payment Analysis',
     'SHOP_MODULE_sOxProbsUsersIncludeFiles'       => 'User Analysis',
     'SHOP_MODULE_sOxProbsPicturesIncludeFiles'    => 'Picture Analysis',
+    'SHOP_MODULE_GROUP_OXPROBS_DOWNLOAD'          => 'Download / Export',
+    'SHOP_MODULE_bOxProbsHeader'                  => 'Export column headers',
+    'SHOP_MODULE_sOxProbsSeparator'               => 'Separator',
+    'SHOP_MODULE_sOxProbsSeparator_comma'         => ',&nbsp;&nbsp; (comma)',
+    'SHOP_MODULE_sOxProbsSeparator_semicolon'     => ';&nbsp;&nbsp; (semicolon)',
+    'SHOP_MODULE_sOxProbsSeparator_tab'           => '&rarr; (tab)',
+    'SHOP_MODULE_sOxProbsSeparator_pipe'          => '|&nbsp;&nbsp; (pipe)',
+    'SHOP_MODULE_sOxProbsSeparator_tilde'         => '&sim;&nbsp; (tilde)',
+    'SHOP_MODULE_bOxProbsQuote'                   => 'Encapsulate columns by quotes',
     
     'charset'                    => 'ISO-8859-15',
 );
