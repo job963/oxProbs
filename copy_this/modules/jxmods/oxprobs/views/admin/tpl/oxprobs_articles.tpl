@@ -1,4 +1,5 @@
 [{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
+<link href="[{$oViewConf->getModuleUrl('oxprobs','out/admin/src/oxprobs.css')}]" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
   if(top)
@@ -72,6 +73,7 @@ function change_all( name, elem )
         color: #0000ff;
     }
 </style>
+[{assign var="oConfig" value=$oViewConf->getConfig()}]
 
 <div class="center">
     <h1>[{ oxmultilang ident="oxprobs_displayarticles" }]</h1>
@@ -349,7 +351,16 @@ function change_all( name, elem )
                 [{assign var="txtColor" value="#000000" }]
             [{/if}]
             <tr>
-                <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxartnum}]</a></td>
+                <td class="[{ $listclass }]">
+                    [{if $oConfig->getConfigParam("bOxProbsProductPreview") }]
+                         <a class="thumbnail" href="#thumb">
+                            [{*<img src="[{$Article.picname}]" style="max-height:28px;width:auto;"/>*}]
+                            [{$Article.oxartnum}]<span><img src="[{$Article.picname}]" /></span>
+                        </a>
+                    [{else}]
+                        <a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxartnum}]</a>
+                    [{/if}]
+                </td>
                 <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxtitle}]</a></td>
                 [{if $ReportType == "noshortdesc"}]
                     <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxshortdesc}]</a></td>

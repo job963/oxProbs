@@ -1,6 +1,6 @@
 
-
 [{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
+<link href="[{$oViewConf->getModuleUrl('oxprobs','out/admin/src/oxprobs.css')}]" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
   if(parent.parent)
@@ -71,42 +71,7 @@ function change_all( name, elem )
 
 </script>
 
-<style type="text/css">
-    .thumbnail {
-        position: relative;
-        z-index: 0;
-    }
 
-    .thumbnail:hover {
-        background-color: transparent;
-        z-index: 50;
-    }
-
-    .thumbnail span { /*CSS for enlarged image*/
-        position: absolute;
-        background-color: #ffffff;
-        padding: 2px;
-        left: -1000px;
-        border: 1px solid lightgray;
-        box-shadow: 3px 3px 3px #ccc;
-        visibility: hidden;
-        color: black;
-        text-decoration: none;
-    }
-
-    .thumbnail span img { /*CSS for enlarged image*/
-        border-width: 0;
-        padding: 2px;
-        max-height: 280px;
-        width: auto;
-    }
-
-    .thumbnail:hover span { /*CSS for enlarged image on hover*/
-        visibility: visible;
-        top: 0;
-        left: 60px; /*position where enlarged image should offset horizontally */
-    }
-</style>
 
 <div class="center">
     <h1>[{ oxmultilang ident="oxprobs_pictures" }]</h1>

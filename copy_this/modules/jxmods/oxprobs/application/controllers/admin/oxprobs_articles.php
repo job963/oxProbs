@@ -187,6 +187,19 @@ class oxprobs_articles extends oxAdminView
         if (empty($cReportType))
             $cReportType = "nostock";
         
+        $sPictureUrl = $myConfig->getPictureUrl(FALSE) . 'master/product';
+        $sIconCol1 = "IF(a.oxicon!='',"
+                        . "CONCAT('{$sPictureUrl}/icon/',a.oxicon),"
+                        . "IF(a.oxpic1!='',CONCAT('{$sPictureUrl}/1/',a.oxpic1),'')) "
+                        . "AS picname";
+        $sIconCol2 = "(SELECT "
+                        . "IF(b.oxicon!='',"
+                            . "CONCAT('{$sPictureUrl}/icon/',b.oxicon),"
+                            . "IF(b.oxpic1!='',CONCAT('{$sPictureUrl}/1/',b.oxpic1),'')) "
+                        . "FROM oxarticles b "
+                        . "WHERE a.oxparentid = b.oxid) "
+                        . "AS picname ";
+
         switch ($cReportType) {
             case 'nostock':
             case 'stockalert':
@@ -200,7 +213,7 @@ class oxprobs_articles extends oxAdminView
                 }
                 
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, $sStock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, $sStock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE $sStockCond "
@@ -222,7 +235,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, $sStock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, $sStock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE $sStockCond "
                             . "AND a.oxactive = 1 "
@@ -233,7 +246,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'noreminder':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.oxremindactive = 0 "
@@ -246,7 +259,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'noremindvalue':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.oxremindactive = 1 AND a.oxremindamount = 0 "
@@ -266,7 +279,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE a.oxremindactive = 1 AND a.oxremindamount = 0 "
                             . "AND a.oxactive = 1 "
@@ -276,7 +289,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'noartnum':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.oxartnum = '' "
@@ -298,7 +311,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE a.oxartnum = '' "
                             . "AND a.oxactive = 1 "
@@ -310,7 +323,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'noshortdesc':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, CONCAT('<span class=\"emphasize\">',a.oxshortdesc,'<span>') AS oxshortdesc, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE CHAR_LENGTH(a.oxshortdesc) < $this->minDescLen "
@@ -332,7 +345,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE "
                             . "(CHAR_LENGTH(a.oxshortdesc) < $this->minDescLen "
@@ -346,7 +359,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'nopic':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.oxshortdesc AS oxshortdesc, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE (a.oxpic1 = '' OR a.oxpic1 = 'nopic.jpg') "
@@ -368,7 +381,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE "
                             . "(a.oxpic1 = '' OR a.oxpic1 = 'nopic.jpg') "
@@ -384,7 +397,7 @@ class oxprobs_articles extends oxAdminView
                 // find duplicate oxartnum
                 $sSql1 = "SELECT a.oxid, CONCAT('<span class=\"emphasize\">',COUNT(*), ' x </span>',a.oxartnum) AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, "
                             . "IF(a.oxparentid='',a.oxtitle,(SELECT a1.oxtitle FROM oxarticles a1 WHERE a1.oxid=a.oxparentid)) AS oxtitle, "
-                            . "a.oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                            . "a.oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m "
                             . "ON a.oxmanufacturerid = m.oxid "
@@ -395,7 +408,7 @@ class oxprobs_articles extends oxAdminView
                 // find duplicate oxean
                 $sSql2 = "SELECT a.oxid, a.oxartnum, CONCAT('<span class=\"emphasize\">',COUNT(*), ' x </span>',a.$this->ean) AS oxean, a.oxmpn AS oxmpn, "
                             . "IF(a.oxparentid='',a.oxtitle,(SELECT a1.oxtitle FROM oxarticles a1 WHERE a1.oxid=a.oxparentid)) AS oxtitle, "
-                            . "a.oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                            . "a.oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m "
                             . "ON a.oxmanufacturerid = m.oxid "
@@ -407,7 +420,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'dblactive':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.oxactive = 1 "
@@ -429,7 +442,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE a.oxactive = 1 "
                             . "AND (a.oxactivefrom != '0000-00-00 00:00:00' OR a.oxactiveto != '0000-00-00 00:00:00') "
@@ -442,7 +455,7 @@ class oxprobs_articles extends oxAdminView
             case 'longperiod':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
                         . "a.oxvarselect AS oxvarselect, CONCAT('<span class=\"emphasize\">',a.oxactivefrom,'</span>') AS oxactivefrom, CONCAT('<span class=\"emphasize\">',a.oxactiveto,'</span>') AS oxactiveto, a.oxstock AS oxstock, "
-                        . "a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.oxactive = 0 "
@@ -464,7 +477,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, CONCAT('<span class=\"emphasize\">',a.oxactivefrom,'</span>') AS oxactivefrom, CONCAT('<span class=\"emphasize\">',a.oxactiveto,'</span>') AS oxactiveto, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, CONCAT('<span class=\"emphasize\">',a.oxactivefrom,'</span>') AS oxactivefrom, CONCAT('<span class=\"emphasize\">',a.oxactiveto,'</span>') AS oxactiveto, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE a.oxactive = 0 "
                             . "AND DATE(a.oxactiveto) - DATE(a.oxactivefrom) > $this->maxActionTime "
@@ -477,7 +490,7 @@ class oxprobs_articles extends oxAdminView
             case 'invperiod':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
                         . "a.oxvarselect AS oxvarselect, CONCAT('<span class=\"emphasize\">',a.oxactivefrom,'</span>') AS oxactivefrom, CONCAT('<span class=\"emphasize\">',a.oxactiveto,'</span>') AS oxactiveto, a.oxstock AS oxstock, "
-                        . "a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.oxactive = 0 "
@@ -499,7 +512,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, CONCAT('<span class=\"emphasize\">',a.oxactivefrom,'</span>') AS oxactivefrom, CONCAT('<span class=\"emphasize\">',a.oxactiveto,'</span>') AS oxactiveto, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, CONCAT('<span class=\"emphasize\">',a.oxactivefrom,'</span>') AS oxactivefrom, CONCAT('<span class=\"emphasize\">',a.oxactiveto,'</span>') AS oxactiveto, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE a.oxactive = 0 "
                             . "AND a.oxactiveto < a.oxactivefrom "
@@ -509,7 +522,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'noprice':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, CONCAT('<span class=\"emphasize\">',a.oxprice,'</span>') AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, CONCAT('<span class=\"emphasize\">',a.oxprice,'</span>') AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.oxprice < 0.01 "
@@ -529,7 +542,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, CONCAT('<span class=\"emphasize\">',a.oxprice,'</span>') AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, CONCAT('<span class=\"emphasize\">',a.oxprice,'</span>') AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE a.oxprice < 0.01 "
                             . "AND a.oxactive = 1 "
@@ -540,7 +553,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'nobuyprice':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, CONCAT('<span class=\"emphasize\">',a.oxbprice,'</span>') AS oxbprice, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, CONCAT('<span class=\"emphasize\">',a.oxbprice,'</span>') AS oxbprice, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE (a.oxbprice/a.oxprice) < $this->bpriceMin "
@@ -564,7 +577,7 @@ class oxprobs_articles extends oxAdminView
                             . ") AS oxmantitle, "
                             . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, "
                             . "CONCAT('<span class=\"emphasize\">',IF(a.oxbprice=0.0, (SELECT b.oxbprice FROM oxarticles b where b.oxid = a.oxparentid), a.oxbprice),'</span>') AS oxbprice, "
-                            . "a.oxprice AS oxprice "
+                            . "a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE (IF(a.oxbprice=0.0, (SELECT b.oxbprice FROM oxarticles b where b.oxid = a.oxparentid), a.oxbprice)/a.oxprice) < $this->bpriceMin "
                             . "AND a.oxactive = 1 "
@@ -576,7 +589,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'noean':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, CONCAT('<span class=\"emphasize\">',a.$this->ean,'</span>') AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.$this->ean = '' "
@@ -598,7 +611,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE a.$this->ean = '' "
                             . "AND a.oxactive = 1 "
@@ -610,7 +623,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'eanchk':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, CONCAT('<span class=\"emphasize\">',a.$this->ean,'</span>') AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.$this->ean != '' "
@@ -651,7 +664,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE a.$this->ean != '' "
                             . "AND ("
@@ -682,7 +695,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'nompn':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.oxmpn = '' "
@@ -704,7 +717,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                         . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE a.oxmpn = '' "
                             . "AND a.oxactive = 1 "
@@ -716,7 +729,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'nocat':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE NOT EXISTS ( "
@@ -744,7 +757,7 @@ class oxprobs_articles extends oxAdminView
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
                             . ") AS oxmantitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "WHERE a.oxactive = 1 "
                             . "AND ("
@@ -766,7 +779,7 @@ class oxprobs_articles extends oxAdminView
                             . "SELECT m.oxtitle "
                             . "FROM oxmanufacturers m "
                             . "WHERE a.oxmanufacturerid = m.oxid "
-                        . ") AS oxmantitle "
+                        . ") AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a, oxartextends e  "
                         . "WHERE a.oxid = e.oxid "
                             . "AND TRIM(e.oxlongdesc) = '' "
@@ -782,7 +795,7 @@ class oxprobs_articles extends oxAdminView
                             . "FROM oxarticles c "
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
-                        . ") AS oxmantitle "
+                        . ") AS oxmantitle, $sIconCol2 "
                         . "FROM oxarticles a, oxartextends e "
                         . "WHERE a.oxid = e.oxid "
                             . "AND TRIM(e.oxlongdesc) = '' "
@@ -795,7 +808,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'nomanu':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid  "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid, $sIconCol1  "
                         . "FROM oxarticles a "
                         . "WHERE a.oxmanufacturerid = '' "
                             . "AND oxactive = 1 "
@@ -807,7 +820,7 @@ class oxprobs_articles extends oxAdminView
 
             case 'novend':
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.oxvendorid = '' "
@@ -825,7 +838,7 @@ class oxprobs_articles extends oxAdminView
                     $iActValue = 0;
 
                 $sSql1 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
-                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid, m.oxtitle AS oxmantitle "
+                        . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE a.oxactive = $iActValue "
@@ -843,7 +856,7 @@ class oxprobs_articles extends oxAdminView
                             . "FROM oxarticles c "
                             . "LEFT JOIN oxmanufacturers m ON c.oxmanufacturerid = m.oxid "
                             . "WHERE a.oxparentid = c.oxid "
-                        . ") AS oxmantitle "
+                        . ") AS oxmantitle, $sIconCol2 "
                         . "FROM oxarticles a "
                         . "WHERE a.oxactive = $iActValue "
                         . "AND a.oxparentid != '' "

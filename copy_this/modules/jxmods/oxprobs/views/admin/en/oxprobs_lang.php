@@ -137,6 +137,7 @@ $aLang = array(
     'SHOP_MODULE_sOxProbsMinDescLen'              => 'Minimum length of product description',
     'SHOP_MODULE_sOxProbsBPriceMin'               => 'Minimum factor for buy price (eg. 0.5 = 50% of sale price)',
     'SHOP_MODULE_sOxProbsMaxActionTime'           => 'Maximum time for actions (in days)',
+    'SHOP_MODULE_bOxProbsProductPreview'          => 'Product preview on hover',
     'SHOP_MODULE_GROUP_OXPROBS_USERSETTINGS'      => 'User Analysis',
     'SHOP_MODULE_sOxProbsNameLength'              => 'Minimum length for firstname and lastname',
     'SHOP_MODULE_GROUP_OXPROBS_PICTURESETTINGS'   => 'Picture Analysis',
