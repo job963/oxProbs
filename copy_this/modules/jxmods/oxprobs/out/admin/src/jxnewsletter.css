@@ -1,0 +1,19 @@
+/* jxNewsletter */
+#liste td.unconfirmed {
+background-image: url(bg/ico_unconfirmed.png);
+min-width: 17px;
+background-position: center center;
+background-repeat: no-repeat;
+}
+#liste td.unsubscribed {
+background-image: url(bg/ico_unsubscribed.png);
+min-width: 17px;
+background-position: center center;
+background-repeat: no-repeat;
+}
+#liste td.bought {
+background-image: url(bg/ico_bought.png);
+min-width: 17px;
+background-position: center center;
+background-repeat: no-repeat;
+}

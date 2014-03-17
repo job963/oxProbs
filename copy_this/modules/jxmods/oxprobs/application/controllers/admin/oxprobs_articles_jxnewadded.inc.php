@@ -34,7 +34,8 @@ array_push( $aIncReports, array("name"  => "jxnewadded",
                                 ));
 
 if ($cReportType == "jxnewadded") {
-    $sSql1 = "SELECT a.oxid, a.oxartnum, a.$this->ean AS oxean, a.oxmpn, "
+    $sWhereActive = ""; // show all products
+    $sSql1 = "SELECT a.oxid, $sActive, a.oxartnum, a.$this->ean AS oxean, a.oxmpn, "
                 . "IF(a.oxparentid='',a.oxtitle,(SELECT a1.oxtitle FROM oxarticles a1 WHERE a1.oxid=a.oxparentid)) AS oxtitle, a.oxvarselect, "
                 . "a.oxstock, a.oxprice AS oxprice, "
                 . "IF(a.oxparentid='',"
@@ -55,6 +56,7 @@ if ($cReportType == "jxnewadded") {
             . "FROM oxarticles a "
             . "WHERE DATEDIFF(NOW(),a.oxinsert) <= 30 "
                 . "AND a.oxvarcount = 0 "
+                . $sWhereActive
                 . $sWhere;
     $sSql2 = '';
 }

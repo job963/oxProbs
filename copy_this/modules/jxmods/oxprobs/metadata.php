@@ -70,6 +70,18 @@ $aModule = array(
                                 'value' => true
                                 ),
                         array(
+                                'group' => 'OXPROBS_ARTICLESETTINGS', 
+                                'name'  => 'bOxProbsProductActiveOnly',  
+                                'type'  => 'bool', 
+                                'value' => true
+                                ),
+                        array(
+                                'group' => 'OXPROBS_ARTICLESETTINGS', 
+                                'name'  => 'bOxProbsProductTimeActive',  
+                                'type'  => 'bool', 
+                                'value' => true
+                                ),
+                        array(
                                 'group' => 'OXPROBS_PICTURESETTINGS', 
                                 'name'  => 'sOxProbsPictureDirs',  
                                 'type'  => 'select', 

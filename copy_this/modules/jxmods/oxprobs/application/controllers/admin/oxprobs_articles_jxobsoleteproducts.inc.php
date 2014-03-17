@@ -23,29 +23,28 @@
  */
 
 /*
- *    This include file supports the analysis of jxInventory module
+ *    This include file supports the analysis of obsolete products
  */
  
-array_push( $aIncReports, array("name"  => "jxinvempty", 
-                                "title" => array("de"=>"Ware nicht auf Lager",
-                                                 "en"=>"Product not in stock"), 
-                                "desc"  => array("de"=>"Nachfolgende Artikel sind nicht auf Lager.<br />(Tats&auml;chlicher Lagerbestand).",
-                                                 "en"=>"The following products are not in stock.<br />(Real inventory).") 
+array_push( $aIncReports, array("name"  => "jxobsoleteproducts", 
+                                "title" => array("de" => "Abgelaufene Artikel",
+                                                 "en" => "Obsolete products"), 
+                                "desc"  => array("de" => "Nachfolgende Artikel sind nicht auf Lager.<br />(Tats&auml;chlicher Lagerbestand).",
+                                                 "en" => "The following products are not in stock.<br />(Real inventory).") 
                                 ));
 
-if ($cReportType == "jxinvempty") {
+if ($cReportType == "jxobsoleteproducts") {
+    //$sWhereActive = "a.oxactivefrom != '0000-00-00 00:00:00' AND a.oxactivefrom < NOW() AND a.oxactiveto != '0000-00-00 00:00:00' AND a.oxactiveto < NOW() ";
+    $sWhereActive = "a.oxactivefrom < NOW() AND a.oxactiveto != '0000-00-00 00:00:00' AND a.oxactiveto < NOW() ";
     $sSql1 = "SELECT a.oxid, $sActive, a.oxartnum, a.$this->ean AS oxean, a.oxmpn, "
                 . "IF(a.oxparentid='',a.oxtitle,(SELECT a1.oxtitle FROM oxarticles a1 WHERE a1.oxid=a.oxparentid)) AS oxtitle, a.oxvarselect, "
-                . "CONCAT('<span class=\"emphasize\">',i.jxinvstock,'</span>') AS oxstock, a.oxprice AS oxprice, "
+                . "a.oxstock AS oxstock, a.oxprice AS oxprice, "
                 . "IF(a.oxparentid='',"
                     . "(SELECT m.oxtitle FROM oxmanufacturers m WHERE a.oxmanufacturerid = m.oxid),"
                     . "(SELECT m.oxtitle FROM oxarticles a1, oxmanufacturers m WHERE a.oxparentid = a1.oxid AND a1.oxmanufacturerid = m.oxid)"
                     . ") AS oxmantitle "
-            . "FROM oxarticles a, jxinvarticles i "
+            . "FROM oxarticles a "
             . "WHERE "
-                . "a.oxid = i.jxartid "
-                . "AND i.jxinvsite IS NOT NULL "
-                . "AND i.jxinvstock = 0 "
                 . $sWhereActive
                 . $sWhere;
     $sSql2 = '';

@@ -140,6 +140,8 @@ $aLang = array(
     'SHOP_MODULE_sOxProbsBPriceMin'               => 'Mindest-Faktor f&uuml;r EK-Preis (z.B. 0.5 = 50% des VK)',
     'SHOP_MODULE_sOxProbsMaxActionTime'           => 'Maximale Dauer einer Aktion (in Tagen)',
     'SHOP_MODULE_bOxProbsProductPreview'          => 'Artikel-Vorschau bei Hover',
+    'SHOP_MODULE_bOxProbsProductActiveOnly'       => 'Nur aktive Artikel anzeigen',
+    'SHOP_MODULE_bOxProbsProductTimeActive'       => 'Artikeln "Aktiv von/bis" ber&uuml;cksichtigen',
     'SHOP_MODULE_GROUP_OXPROBS_USERSETTINGS'      => 'Benutzer-Analyse',
     'SHOP_MODULE_sOxProbsNameLength'              => 'Mindest-L&auml;nge von Vor- und Nachname',
     'SHOP_MODULE_GROUP_OXPROBS_PICTURESETTINGS'   => 'Bilder Analyse',

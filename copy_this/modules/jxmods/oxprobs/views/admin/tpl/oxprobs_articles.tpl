@@ -1,5 +1,14 @@
 [{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
-<link href="[{$oViewConf->getModuleUrl('oxprobs','out/admin/src/oxprobs.css')}]" type="text/css" rel="stylesheet">
+
+[{assign var="cssFilePath" value=$oViewConf->getModulePath('oxprobs','out/admin/src/oxprobs.css') }]
+[{php}] 
+    $sCssFilePath = $this->get_template_vars('cssFilePath');;
+    $sCssTime = filemtime( $sCssFilePath );
+    $this->assign('cssTime', $sCssTime);
+[{/php}]
+[{assign var="cssFileUrl" value=$oViewConf->getModuleUrl('oxprobs','out/admin/src/oxprobs.css') }]
+[{assign var="cssFileUrl" value="$cssFileUrl?$cssTime" }]
+<link href="[{$cssFileUrl}]" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
   if(top)
@@ -68,11 +77,6 @@ function change_all( name, elem )
 
 </script>
 
-<style>
-    .emphasize {
-        color: #0000ff;
-    }
-</style>
 [{assign var="oConfig" value=$oViewConf->getConfig()}]
 
 <div class="center">
@@ -211,50 +215,73 @@ function change_all( name, elem )
         <div id="liste">
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>
-            <td class="listfilter first"><div class="r1"><div class="b1">
+            <td valign="top" class="listfilter first" align="right">
+                <div class="r1"><div class="b1">&nbsp;</div></div>
+            </td>
+            <td class="listfilter">
+                <div class="r1"><div class="b1">
                 <input class="listedit" type="text" size="15" maxlength="128" name="where[oxartnum]" value="[{ $aWhere.oxartnum }]">
-                </div></div></td>
-            <td class="listfilter"><div class="r1"><div class="b1">
+                </div></div>
+            </td>
+            <td class="listfilter">
+                <div class="r1"><div class="b1">
                 <input class="listedit" type="text" size="15" maxlength="128" name="where[oxtitle]" value="[{ $aWhere.oxtitle }]">
-                </div></div></td>
+                </div></div>
+            </td>
             [{if $ReportType == "noshortdesc"}]
-                <td class="listfilter"><div class="r1"><div class="b1">
-                <input class="listedit" type="text" size="15" maxlength="128" name="where[oxshortdesc]" value="[{ $aWhere.oxshortdesc }]">
-                </div></div></td>
+                <td class="listfilter">
+                    <div class="r1"><div class="b1">
+                    <input class="listedit" type="text" size="15" maxlength="128" name="where[oxshortdesc]" value="[{ $aWhere.oxshortdesc }]">
+                    </div></div>
+                </td>
             [{/if}]
-            <td class="listfilter"><div class="r1"><div class="b1">
+            <td class="listfilter">
+                <div class="r1"><div class="b1">
                 <input class="listedit" type="text" size="15" maxlength="128" name="where[oxvarselect]" value="[{ $aWhere.oxvarselect }]">
-                </div></div></td>
+                </div></div>
+            </td>
             [{if $ReportType != "noshortdesc" and $ReportType != "longperiod" and $ReportType != "invperiod" }]
-                <td class="listfilter"><div class="r1"><div class="b1">
-                <input class="listedit" type="text" size="15" maxlength="128" name="where[oxean]" value="[{ $aWhere.oxean }]">
-                </div></div></td>
+                <td class="listfilter">
+                    <div class="r1"><div class="b1">
+                    <input class="listedit" type="text" size="15" maxlength="128" name="where[oxean]" value="[{ $aWhere.oxean }]">
+                    </div></div>
+                </td>
             [{/if}]
-            <td class="listfilter"><div class="r1"><div class="b1">
+            <td class="listfilter">
+                <div class="r1"><div class="b1">
                 <input class="listedit" type="text" size="15" maxlength="128" name="where[oxmantitle]" value="[{ $aWhere.oxmantitle }]">
-                </div></div></td>
+                </div></div>
+            </td>
             [{if $ReportType == "longperiod" or $ReportType == "invperiod"  }]
-                <td class="listfilter"><div class="r1"><div class="b1">
-                [{* oxmultilang ident="GENERAL_ARTICLE_OXACTIVEFROM" *}]
-                </div></div></td>
-                <td class="listfilter"><div class="r1"><div class="b1">
-                [{* oxmultilang ident="GENERAL_ARTICLE_OXACTIVETO" *}]
-                </div></div></td>
+                <td class="listfilter">
+                    <div class="r1"><div class="b1">
+                    [{* oxmultilang ident="GENERAL_ARTICLE_OXACTIVEFROM" *}]
+                    </div></div>
+                </td>
+                <td class="listfilter">
+                    <div class="r1"><div class="b1">
+                    [{* oxmultilang ident="GENERAL_ARTICLE_OXACTIVETO" *}]
+                    </div></div>
+                </td>
             [{/if}]
             [{if $ReportType != "noshortdesc" and  $ReportType != "longperiod" and $ReportType != "invperiod" }]
-                <td class="listfilter"><div class="r1"><div class="b1">
-                [{* oxmultilang ident="GENERAL_VENDOR" }] [{ oxmultilang ident="ARTICLE_MAIN_ARTNUM" *}]
-                </div></div></td>
+                <td class="listfilter">
+                    <div class="r1"><div class="b1">
+                    [{* oxmultilang ident="GENERAL_VENDOR" }] [{ oxmultilang ident="ARTICLE_MAIN_ARTNUM" *}]
+                    </div></div>
+                </td>
             [{/if}]
-            <td class="listfilter"><div class="r1"><div class="b1">
+            <td class="listfilter">
+                <div class="r1"><div class="b1">
                 [{if $ReportType == "nobuyprice"}]
                     [{* oxmultilang ident="ARTICLE_EXTEND_BPRICE" *}]
                 [{else}]
                     [{* oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" *}]
                 [{/if}]
-            
-                </div></div></td>
-            <td class="listfilter"><div class="r1"><div class="b1"><div class="find">
+                </div></div>
+            </td>
+            <td class="listfilter">
+                <div class="r1"><div class="b1"><div class="find">
                 <input class="listedit" type="submit" name="submitit" value="[{ oxmultilang ident="GENERAL_SEARCH" }]">
                 </div></div></div>
             </td>
@@ -269,7 +296,12 @@ function change_all( name, elem )
             [{else}]
                 [{assign var="sorticon" value="&nbsp;&nbsp;&blacktriangledown;"}]
             [{/if}]
-            <td class="listheader first">
+            <td class="listheader first" height="15" width="30" align="center">
+                <a href="javascript:document.forms.showprobs.sortcol.value='oxactive';document.forms.showprobs.submit();" class="listheader">
+                    [{ oxmultilang ident="GENERAL_ACTIVTITLE" }]
+                </a>
+            </td>
+            <td class="listheader">
                 <a href="javascript:document.forms.showprobs.sortcol.value='oxartnum';document.forms.showprobs.submit();" class="listheader">
                     [{ oxmultilang ident="ARTICLE_MAIN_ARTNUM" }]
                 </a>
@@ -351,6 +383,11 @@ function change_all( name, elem )
                 [{assign var="txtColor" value="#000000" }]
             [{/if}]
             <tr>
+                <td class="[{ $listclass }] [{ if $Article.oxactive == 1}] active
+                        [{elseif $Article.oxactive == 2}] activetime
+                        [{/if}]">
+                        <div class="listitemfloating">&nbsp</a></div>
+                </td>
                 <td class="[{ $listclass }]">
                     [{if $oConfig->getConfigParam("bOxProbsProductPreview") }]
                          <a class="thumbnail" href="#thumb">

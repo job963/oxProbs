@@ -1,7 +1,8 @@
 /* 
-    Created on : 08.03.2014, 17:07:55
-    Author     : jbarthel
-*/
+ *    This file is part of the module oxProbs for OXID eShop Community Edition.
+ *    Created on : 08.03.2014, 17:07:55
+ *    Author     : jbarthel
+ */
 
 .thumbnail {
     position: relative;
@@ -36,4 +37,15 @@
     visibility: visible;
     top: 0;
     left: 60px; /*position where enlarged image should offset horizontally */
+}
+
+#liste td.activetime {
+    background-image: url(bg/ico_activetime.png);
+    min-width: 17px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.emphasize {
+    color: #0000ff;
 }
