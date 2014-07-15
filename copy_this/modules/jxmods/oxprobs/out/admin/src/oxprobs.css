@@ -36,7 +36,7 @@
 .thumbnail:hover span { /*CSS for enlarged image on hover*/
     visibility: visible;
     top: 0;
-    left: 60px; /*position where enlarged image should offset horizontally */
+    left: 60px;
 }
 
 #liste td.activetime {
@@ -49,3 +49,16 @@
 .emphasize {
     color: #0000ff;
 }
+
+.stockStandard {
+    color: mediumblue;
+}
+
+.stockOffline {
+    color: gray;
+}
+
+.stockNotBuyable {
+    color: chocolate;
+}
+

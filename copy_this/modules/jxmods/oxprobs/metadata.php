@@ -12,11 +12,11 @@ $aModule = array(
     'id'           => 'oxprobs',
     'title'        => 'OxProbs - Data Problem Analysis',
     'description'  => array(
-                        'de'=>'Analyse-Modul zum Auffinden problematischer Shop-Daten.',
+                        'de'=>'Analyse-Modul zum Auffinden problematischer Shop Daten.',
                         'en'=>'Analysis module for finding problematical shop data.'
                         ),
     'thumbnail'    => 'oxprobs.png',
-    'version'      => '0.7',
+    'version'      => '0.8',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/oxProbs',
     'email'        => 'jobarthel@gmail.com',
@@ -27,6 +27,7 @@ $aModule = array(
         'oxprobs_delivery' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_delivery.php',
         'oxprobs_groups'   => 'jxmods/oxprobs/application/controllers/admin/oxprobs_groups.php',
         'oxprobs_users'    => 'jxmods/oxprobs/application/controllers/admin/oxprobs_users.php',
+        'oxprobs_orders'   => 'jxmods/oxprobs/application/controllers/admin/oxprobs_orders.php',
         'oxprobs_pictures' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_pictures.php'
                         ),
     'templates'    => array(
@@ -34,6 +35,7 @@ $aModule = array(
         'oxprobs_delivery.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_delivery.tpl',
         'oxprobs_groups.tpl'   => 'jxmods/oxprobs/views/admin/tpl/oxprobs_groups.tpl',
         'oxprobs_users.tpl'    => 'jxmods/oxprobs/views/admin/tpl/oxprobs_users.tpl',
+        'oxprobs_orders.tpl'   => 'jxmods/oxprobs/views/admin/tpl/oxprobs_orders.tpl',
         'oxprobs_pictures.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_pictures.tpl'
                         ),
     'settings' => array(
@@ -82,6 +84,30 @@ $aModule = array(
                                 'value' => true
                                 ),
                         array(
+                                'group' => 'OXPROBS_ORDERSETTINGS', 
+                                'name'  => 'sOxProbsOrderPaidLater',  
+                                'type'  => 'str', 
+                                'value' => 'oxidinvoice,oxidcashondel'
+                                ),
+                        array(
+                                'group' => 'OXPROBS_ORDERSETTINGS', 
+                                'name'  => 'sOxProbsOrderPaidbyCIA',  
+                                'type'  => 'str', 
+                                'value' => 'oxidpayadvance'
+                                ),
+                        array(
+                                'group' => 'OXPROBS_ORDERSETTINGS', 
+                                'name'  => 'sOxProbsOrderPaidbyInvoice',  
+                                'type'  => 'str', 
+                                'value' => 'oxidinvoice'
+                                ),
+                        array(
+                                'group' => 'OXPROBS_ORDERSETTINGS', 
+                                'name'  => 'sOxProbsOrderIgnoredRemark',  
+                                'type'  => 'str', 
+                                'value' => 'Hier k%nnen Sie uns noch etwas mitteilen.'
+                                ),
+                        array(
                                 'group' => 'OXPROBS_PICTURESETTINGS', 
                                 'name'  => 'sOxProbsPictureDirs',  
                                 'type'  => 'select', 
@@ -110,6 +136,12 @@ $aModule = array(
                         array(
                                 'group' => 'OXPROBS_INCLUDESETTINGS', 
                                 'name'  => 'sOxProbsUsersIncludeFiles',  
+                                'type'  => 'str', 
+                                'value' => ''
+                            ),
+                        array(
+                                'group' => 'OXPROBS_INCLUDESETTINGS', 
+                                'name'  => 'sOxProbsOrdersIncludeFiles',  
                                 'type'  => 'str', 
                                 'value' => ''
                             ),

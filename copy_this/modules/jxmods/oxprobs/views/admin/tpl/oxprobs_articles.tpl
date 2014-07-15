@@ -114,6 +114,7 @@ function change_all( name, elem )
         <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';this.form.submit()">
             <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_STOCK" }]">
                 <option value="nostock" [{if $ReportType == "nostock"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSTOCK" }]&nbsp;</option>
+                <option value="nostockinfo" [{if $ReportType == "nostockinfo"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSTOCKINFO" }]&nbsp;</option>
                 <option value="stockalert" [{if $ReportType == "stockalert"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_STOCKALERT" }]&nbsp;</option>
                 <option value="noreminder" [{if $ReportType == "noreminder"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOREMINDER" }]&nbsp;</option>
                 <option value="noremindvalue" [{if $ReportType == "noremindvalue"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOREMINDVALUE" }]&nbsp;</option>
@@ -161,6 +162,8 @@ function change_all( name, elem )
         <div style="padding-bottom:5px;">
         [{if $ReportType == "nostock"}]
             [{ oxmultilang ident="OXPROBS_NOSTOCK_INFO" }]
+        [{elseif $ReportType == "nostockinfo"}]
+            [{ oxmultilang ident="OXPROBS_NOSTOCKINFO_INFO" }]
         [{elseif $ReportType == "stockalert"}]
             [{ oxmultilang ident="OXPROBS_STOCKALERT_INFO" }]
         [{elseif $ReportType == "noreminder"}]
@@ -429,6 +432,11 @@ function change_all( name, elem )
 
         </table>
         </form>
+        
+        <p>
+        &nbsp;[{$aArticles|@count}] [{ oxmultilang ident="OXPROBS_NUMOF_ENTRIES" }]
+        </p>
+        
         </div>
     </p>
 

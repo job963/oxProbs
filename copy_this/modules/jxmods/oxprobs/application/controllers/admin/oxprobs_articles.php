@@ -220,9 +220,17 @@ class oxprobs_articles extends oxAdminView
         
         switch ($cReportType) {
             case 'nostock':
+            case 'nostockinfo':
             case 'stockalert':
                 if ($cReportType == 'nostock') {
                     $sStockCond = "a.oxstock <= 0";
+                    $txtStandard = oxRegistry::getLang()->translateString( "OXPROBS_STOCK_STANDARD" );
+                    $txtOffline = oxRegistry::getLang()->translateString( "OXPROBS_STOCK_OFFLINE" );
+                    $txtNotBuyable = oxRegistry::getLang()->translateString( "OXPROBS_STOCK_NOTBUYABLE" );
+                    $sStock = "CONCAT( '<span class=\"emphasize\">', a.oxstock, ' &ndash; ', IF(a.oxstockflag=1, '<span class=\"stockStandard\">{$txtStandard}</span>', IF(a.oxstockflag=2, '<span class=\"stockOffline\">{$txtNotBuyable}</span>', IF(a.oxstockflag=3, '<span class=\"stockNotBuyable\">{$txtNotBuyable}</span>',''))), ' </span>', IF(a.oxnostocktext!='',CONCAT('<br>',a.oxnostocktext),'') )";
+                }
+                elseif ($cReportType == 'nostockinfo') {
+                    $sStockCond = "a.oxstock <= 0 AND a.oxstockflag = 1";
                     $sStock = "CONCAT( '<span class=\"emphasize\">', a.oxstock,'</span>' )";
                 }
                 else {
@@ -236,7 +244,8 @@ class oxprobs_articles extends oxAdminView
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
                         . "WHERE $sStockCond "
                             //. "AND a.oxactive = 1 "
-                            . "AND a.oxstockflag = 1 "
+                            //. "AND a.oxstockflag = 1 "
+                            . "AND a.oxstockflag IN (1,2,3) "
                             . "AND a.oxvarcount = 0 "
                             . "AND a.oxparentid = '' "
                             . $sWhereActive
@@ -258,7 +267,8 @@ class oxprobs_articles extends oxAdminView
                         . "FROM oxarticles a "
                         . "WHERE $sStockCond "
                             //. "AND a.oxactive = 1 "
-                            . "AND a.oxstockflag = 1 "
+                            //. "AND a.oxstockflag = 1 "
+                            . "AND a.oxstockflag IN (1,2,3) "
                             . "AND a.oxparentid != '' "
                             . $sWhereActive
                             . $sWhere;

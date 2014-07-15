@@ -10,6 +10,8 @@
 		</SUBMENU>
 		<SUBMENU id="oxprobs_users" cl="oxprobs_users">
 		</SUBMENU>
+		<SUBMENU id="oxprobs_displayorders" cl="oxprobs_orders">
+		</SUBMENU>
 		<SUBMENU id="oxprobs_pictures" cl="oxprobs_pictures">
 		</SUBMENU>
 	</MAINMENU>
