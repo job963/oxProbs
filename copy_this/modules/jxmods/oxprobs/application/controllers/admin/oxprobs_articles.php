@@ -227,7 +227,11 @@ class oxprobs_articles extends oxAdminView
                     $txtStandard = oxRegistry::getLang()->translateString( "OXPROBS_STOCK_STANDARD" );
                     $txtOffline = oxRegistry::getLang()->translateString( "OXPROBS_STOCK_OFFLINE" );
                     $txtNotBuyable = oxRegistry::getLang()->translateString( "OXPROBS_STOCK_NOTBUYABLE" );
-                    $sStock = "CONCAT( '<span class=\"emphasize\">', a.oxstock, ' &ndash; ', IF(a.oxstockflag=1, '<span class=\"stockStandard\">{$txtStandard}</span>', IF(a.oxstockflag=2, '<span class=\"stockOffline\">{$txtNotBuyable}</span>', IF(a.oxstockflag=3, '<span class=\"stockNotBuyable\">{$txtNotBuyable}</span>',''))), ' </span>', IF(a.oxnostocktext!='',CONCAT('<br>',a.oxnostocktext),'') )";
+                    $sStock = "CONCAT( '<span class=\"emphasize\">', a.oxstock, ' &ndash; ', "
+                            . "IF(a.oxstockflag=1, '<span class=\"stockStandard\">{$txtStandard}</span>', "
+                            . "IF(a.oxstockflag=2, '<span class=\"stockOffline\">{$txtOffline}</span>', "
+                            . "IF(a.oxstockflag=3, '<span class=\"stockNotBuyable\">{$txtNotBuyable}</span>',''))), ' </span>', "
+                            . "IF((SELECT d.oxnostocktext FROM oxarticles d WHERE  a.oxparentid = d.oxid)!='',(SELECT CONCAT('<span style=\"white-space:nowrap;\">',d.oxnostocktext,'</span>') AS oxnostocktext FROM oxarticles d WHERE  a.oxparentid = d.oxid),'') ) ";
                 }
                 elseif ($cReportType == 'nostockinfo') {
                     $sStockCond = "a.oxstock <= 0 AND a.oxstockflag = 1";
