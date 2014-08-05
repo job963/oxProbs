@@ -35,7 +35,7 @@ array_push( $aIncReports, array("name"  => "jxpaymillcc",
 
 if ($cReportType == "jxpaymillcc") {
     $txtIgnoreRemark = $myConfig->getConfigParam("sOxProbsOrderIgnoredRemark");
-    $payTypeList = "paymill_cc"; 
+    $payTypeList = "'paymill_cc'"; // PLEASE ENTER HERE THE INTERNAL PAYMENT NAME //
                             
     $sSql1 = "SELECT o.oxid AS oxid, o.oxordernr AS orderno, o.oxtotalordersum AS ordersum, o.oxbillsal AS salutation, "
              . "CONCAT('<nobr>', o.oxbillcompany, '</nobr>') AS company, "
@@ -57,15 +57,11 @@ if ($cReportType == "jxpaymillcc") {
          . "FROM oxorder o, oxpayments p, oxorderarticles a "
          . "WHERE o.oxpaymenttype = p.oxid "
              . "AND o.oxid = a.oxorderid  "
-             . "AND ((o.oxpaid != '0000-00-00 00:00:00') OR (o.oxpaymenttype IN ({$payTypeList}))) "
-             . "AND o.oxsenddate = '0000-00-00 00:00:00' "
-             /*. "AND DATE(o.oxorderdate) >= '{$dateStart}' "
-             . "AND DATE(o.oxorderdate)  <= '{$dateEnd}' "*/
+             . "AND ((o.oxpaid != '0000-00-00 00:00:00') AND (o.oxpaymenttype IN ({$payTypeList}))) "
              . "AND o.oxstorno = 0 "
              . "AND o.oxshopid = '{$sShopId}' "
-            . $sWhere
          . "GROUP BY o.oxordernr "
-         . "ORDER BY days ASC "; 
+         . "ORDER BY o.oxordernr DESC "; 
                             
     $sSql2 = '';
 }

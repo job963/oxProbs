@@ -120,11 +120,20 @@ class oxprobs_orders extends oxAdminView
                 $txtIgnoreRemark = $myConfig->getConfigParam("sOxProbsOrderIgnoredRemark");                                               //"Hier k%nnen Sie uns noch etwas mitteilen.";
                 if ($cReportType == 'readyorders') {
                     $payTypeList = "'" . implode("','", explode(',', $myConfig->getConfigParam("sOxProbsOrderPaidLater"))) . "'";         //"oxidinvoice,oxidcashondel";
-                } elseif ($cReportType == 'opencia') {
+                    $whereCondition = "AND ((o.oxpaid != '0000-00-00 00:00:00') OR (o.oxpaymenttype IN ({$payTypeList}))) "
+                                    . "AND o.oxsenddate = '0000-00-00 00:00:00' ";
+                }
+                elseif ($cReportType == 'opencia') {
                     $payTypeList = "'" . implode("','", explode(',', $myConfig->getConfigParam("sOxProbsOrderPaidbyCIA"))) . "'";         //"oxidpayadvance";
-                } elseif ($cReportType == 'openinv') {
+                    $whereCondition = "AND ((o.oxpaid != '0000-00-00 00:00:00') AND (o.oxpaymenttype IN ({$payTypeList}))) "
+                                    . "AND o.oxsenddate = '0000-00-00 00:00:00' ";
+                } 
+                elseif ($cReportType == 'openinv') {
                     $payTypeList = "'" . implode("','", explode(',', $myConfig->getConfigParam("sOxProbsOrderPaidbyInvoice"))) . "'";     //"oxidinvoice";
-                } else {
+                    $whereCondition = "AND ((o.oxpaid != '0000-00-00 00:00:00') AND (o.oxpaymenttype IN ({$payTypeList}))) "
+                                    . "AND o.oxsenddate != '0000-00-00 00:00:00' ";
+                } 
+                else {
                     // nothing to do
                 }
                 
@@ -148,14 +157,11 @@ class oxprobs_orders extends oxAdminView
                      . "FROM oxorder o, oxpayments p, oxorderarticles a "
                      . "WHERE o.oxpaymenttype = p.oxid "
                          . "AND o.oxid = a.oxorderid  "
-                         . "AND ((o.oxpaid != '0000-00-00 00:00:00') OR (o.oxpaymenttype IN ({$payTypeList}))) "
-                         . "AND o.oxsenddate = '0000-00-00 00:00:00' "
-                         /*. "AND DATE(o.oxorderdate) >= '{$dateStart}' "
-                         . "AND DATE(o.oxorderdate)  <= '{$dateEnd}' "*/
+                         . $whereCondition
                          . "AND o.oxstorno = 0 "
                          . "AND o.oxshopid = '{$sShopId}' "
                      . "GROUP BY o.oxordernr "
-                     . "ORDER BY days ASC "; 
+                     . "ORDER BY o.oxordernr DESC "; 
 
                 
                 $cClass = 'actions';
@@ -166,8 +172,8 @@ class oxprobs_orders extends oxAdminView
                 $sSql2 = '';
                 $aIncFiles = array();
                 $aIncReports = array();
-                if (trim($myConfig->getConfigParam("sOxProbsOrderIncludeFiles")) != '') {
-                    $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsOrderIncludeFiles") );
+                if (trim($myConfig->getConfigParam("sOxProbsOrdersIncludeFiles")) != '') {
+                    $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsOrdersIncludeFiles") );
                     $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
                     foreach ($aIncFiles as $sIncFile) { 
                         $sIncFile = $sIncPath . 'oxprobs_orders_' . $sIncFile . '.inc.php';
@@ -181,7 +187,7 @@ class oxprobs_orders extends oxAdminView
 
         $aOrders = array();
 
-        //echo "<hr><pre>$sSql1</pre>";
+        // echo "<hr><pre>$sSql1</pre>";
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql1);

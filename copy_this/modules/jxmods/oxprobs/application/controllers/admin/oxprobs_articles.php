@@ -220,7 +220,7 @@ class oxprobs_articles extends oxAdminView
         
         switch ($cReportType) {
             case 'nostock':
-            case 'nostockinfo':
+            case 'missstockinfo':
             case 'stockalert':
                 if ($cReportType == 'nostock') {
                     $sStockCond = "a.oxstock <= 0";
@@ -231,10 +231,11 @@ class oxprobs_articles extends oxAdminView
                             . "IF(a.oxstockflag=1, '<span class=\"stockStandard\">{$txtStandard}</span>', "
                             . "IF(a.oxstockflag=2, '<span class=\"stockOffline\">{$txtOffline}</span>', "
                             . "IF(a.oxstockflag=3, '<span class=\"stockNotBuyable\">{$txtNotBuyable}</span>',''))), ' </span>', "
-                            . "IF((SELECT d.oxnostocktext FROM oxarticles d WHERE  a.oxparentid = d.oxid)!='',(SELECT CONCAT('<span style=\"white-space:nowrap;\">',d.oxnostocktext,'</span>') AS oxnostocktext FROM oxarticles d WHERE  a.oxparentid = d.oxid),'') ) ";
+                            . "IF(a.oxparentid!='' AND a.oxnostocktext='',(SELECT CONCAT('<span style=\"white-space:nowrap;\">',d.oxnostocktext,'</span>') AS oxnostocktext FROM oxarticles d WHERE  a.oxparentid = d.oxid), a.oxnostocktext) ) ";
+                            //. "IF(a.oxparentid!='' AND (SELECT d.oxnostocktext FROM oxarticles d WHERE  a.oxparentid = d.oxid)!='',(SELECT CONCAT('<span style=\"white-space:nowrap;\">',d.oxnostocktext,'</span>') AS oxnostocktext FROM oxarticles d WHERE  a.oxparentid = d.oxid), a.oxnostocktext) ) ";
                 }
-                elseif ($cReportType == 'nostockinfo') {
-                    $sStockCond = "a.oxstock <= 0 AND a.oxstockflag = 1";
+                elseif ($cReportType == 'missstockinfo') {
+                    $sStockCond = "a.oxstock <= 0 AND a.oxstockflag = 1 AND IF(a.oxparentid!='' AND a.oxnostocktext='', (SELECT d.oxnostocktext FROM oxarticles d WHERE a.oxparentid = d.oxid), a.oxnostocktext) = ''";
                     $sStock = "CONCAT( '<span class=\"emphasize\">', a.oxstock,'</span>' )";
                 }
                 else {
@@ -946,45 +947,55 @@ class oxprobs_articles extends oxAdminView
                     $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
                     foreach ($aIncFiles as $sIncFile) { 
                         $sIncFile = $sIncPath . 'oxprobs_articles_' . $sIncFile . '.inc.php';
-                        require $sIncFile;
+                        try {
+                            require $sIncFile;
+                        }
+                        catch (Exception $e) {
+                            echo $e->getMessage();
+                            die();
+                        }
                     } 
                 }
                 
                 break;
         }
 
-        //$i = 0;
         $aArticles = array();
 
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-            $rs = $oDb->Execute($sSql1);
-            //echo "<hr>SQL1: <pre>$sSql1</pre>";
-            if (oxDb::getDb(true)->errorNo() != 0) {
-                $oSmarty->assign ( "sqlErrNo", oxDb::getDb(true)->errorNo() );
-                $oSmarty->assign ( "sqlErrMsg",  oxDb::getDb(true)->errorMsg().' in $sSql1' ) ;
+            //echo "<hr>SQL1: <pre>$sSql1</pre><hr>";
+            try {
+                $rs = $oDb->Execute($sSql1);
             }
-            else {
-                while (!$rs->EOF) {
-                    array_push($aArticles, $rs->fields);
-                    $rs->MoveNext();
-                }
+            catch (Exception $e) {
+                echo '<div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:14px;">';
+                echo '<b>SQL-Error '.$e->getCode().' in SQL1</b><br />'.$e->getMessage().'';
+                echo '</div>';
+                die();
+            }
+
+            while (!$rs->EOF) {
+                array_push($aArticles, $rs->fields);
+                $rs->MoveNext();
             }
         }
         
         if (!empty($sSql2)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-            $rs = $oDb->Execute($sSql2);
             //echo "<hr>SQL2: <pre>$sSql2</pre><hr>";
-            if (oxDb::getDb(true)->errorNo() != 0) {
-                $oSmarty->assign ( "sqlErrNo", oxDb::getDb(true)->errorNo() );
-                $oSmarty->assign ( "sqlErrMsg",  oxDb::getDb(true)->errorMsg().' in $sSql2' ) ;
+            try {
+                $rs = $oDb->Execute($sSql2);
             }
-            else {
-                while (!$rs->EOF) {
-                    array_push($aArticles, $rs->fields);
-                    $rs->MoveNext();
-                }
+            catch (Exception $e) {
+                echo '<div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:14px;">';
+                echo '<b>SQL-Error '.$e->getCode().' in SQL2</b><br />'.$e->getMessage().'';
+                echo '</div>';
+                die();
+            }
+            while (!$rs->EOF) {
+                array_push($aArticles, $rs->fields);
+                $rs->MoveNext();
             }
         }
 

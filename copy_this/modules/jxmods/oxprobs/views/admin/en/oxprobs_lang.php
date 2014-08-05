@@ -21,7 +21,7 @@ $aLang = array(
     'OXPROBS_GROUP_PAYMENT'        => 'Payment',
     'OXPROBS_DOWNLOAD'             => 'Download',
     'OXPROBS_NOSTOCK'              => 'No stock',
-    'OXPROBS_NOSTOCKINFO'          => 'No Stock and no Delivery Info',
+    'OXPROBS_MISSSTOCKINFO'        => 'No Stock and no Delivery Info',
     'OXPROBS_STOCKALERT'           => 'Low stock',
     'OXPROBS_NOREMINDER'           => 'No stock alert',
     'OXPROBS_NOREMINDVALUE'        => 'No min value for stock',
@@ -45,7 +45,7 @@ $aLang = array(
     'OXPROBS_INACTIVE'               => 'Status inactive',
     'OXPROBS_NOSTOCK_INFO'         => 'The following articles and variants are having no or a negative stock. <br />'
                                     . '(only articles with status = standard, offline and not buyable will be listed)',
-    'OXPROBS_NOSTOCKINFO_INFO'     => 'The following articles and variants are having no or a negative stock and no info about the delivery date. <br />'
+    'OXPROBS_MISSSTOCKINFO_INFO'   => 'The following articles and variants are having no or a negative stock and no info about the delivery date. <br />'
                                     . '(only articles with status = standard will be listed)',
     'OXPROBS_STOCKALERT_INFO'      => 'Nachfolgende Artikel und Varianten haben den kritischen Lagerbestand erreicht. <br />'
                                     . '(Lagerbestand unterhalb des eingestellten Warn-Wertes. Es werden nur Artikel mit Lieferstatus = Standard ber&uuml;cksichtigt)',
@@ -64,7 +64,7 @@ $aLang = array(
     'OXPROBS_NOMPN_INFO'           => 'The following articles and variants are having no manufacturer article number.',
     'OXPROBS_NOCAT_INFO'           => 'The following articles and variants are not assigned to a category. <br />'
                                     . '(these articles might be exported to price search engines, but they aren\'t visible in the shop)',
-    'OXPROBS_ORPHAN_INFO'          => 'The following variants are active, but their parent articles are deactivated. <br />'
+    'OXPROBS_ORPHAN_INFO'          => 'The following variants are active, but their parent articles are deactivated.<br />'
                                     . '(these articles might be exported to price search engines, but they aren\'t visible in the shop)',
     'OXPROBS_NODESC_INFO'          => 'The following articles and variants are without a description.',
     'OXPROBS_NOMANU_INFO'          => 'The following articles are without a manufacturer.',

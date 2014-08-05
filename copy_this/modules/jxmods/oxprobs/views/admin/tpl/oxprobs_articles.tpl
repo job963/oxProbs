@@ -82,12 +82,6 @@ function change_all( name, elem )
 <div class="center">
     <h1>[{ oxmultilang ident="oxprobs_displayarticles" }]</h1>
 	
-    [{ if $sqlErrNo != 0 }]
-        <div style="border:2px solid #dd0000;padding:3px;background-color:#ffdddd;">
-            SQL-Error [{$sqlErrNo}]: [{$sqlErrMsg}]
-        </div>
-    [{/if}]
-	
     <p>
         <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
             [{ $shop->hiddensid }]
@@ -114,7 +108,7 @@ function change_all( name, elem )
         <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';this.form.submit()">
             <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_STOCK" }]">
                 <option value="nostock" [{if $ReportType == "nostock"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSTOCK" }]&nbsp;</option>
-                <option value="nostockinfo" [{if $ReportType == "nostockinfo"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOSTOCKINFO" }]&nbsp;</option>
+                <option value="missstockinfo" [{if $ReportType == "missstockinfo"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MISSSTOCKINFO" }]&nbsp;</option>
                 <option value="stockalert" [{if $ReportType == "stockalert"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_STOCKALERT" }]&nbsp;</option>
                 <option value="noreminder" [{if $ReportType == "noreminder"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOREMINDER" }]&nbsp;</option>
                 <option value="noremindvalue" [{if $ReportType == "noremindvalue"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_NOREMINDVALUE" }]&nbsp;</option>
@@ -160,10 +154,11 @@ function change_all( name, elem )
     </p>
     <p style="background-color:#f0f0f0;">
         <div style="padding-bottom:5px;">
+        [{assign var="CustomReport" value="False"}]
         [{if $ReportType == "nostock"}]
             [{ oxmultilang ident="OXPROBS_NOSTOCK_INFO" }]
-        [{elseif $ReportType == "nostockinfo"}]
-            [{ oxmultilang ident="OXPROBS_NOSTOCKINFO_INFO" }]
+        [{elseif $ReportType == "missstockinfo"}]
+            [{ oxmultilang ident="OXPROBS_MISSSTOCKINFO_INFO" }]
         [{elseif $ReportType == "stockalert"}]
             [{ oxmultilang ident="OXPROBS_STOCKALERT_INFO" }]
         [{elseif $ReportType == "noreminder"}]
@@ -212,6 +207,7 @@ function change_all( name, elem )
             [{foreach name=ReportTypes item=Report from=$aIncReports}]
                 [{if $ReportType == $Report.name}][{ $Report.desc[$IsoLang] }][{/if}]
             [{/foreach}]
+            [{assign var="CustomReport" value="True"}]
         [{/if}]
         </div>
         
@@ -274,15 +270,17 @@ function change_all( name, elem )
                     </div></div>
                 </td>
             [{/if}]
-            <td class="listfilter">
-                <div class="r1"><div class="b1">
-                [{if $ReportType == "nobuyprice"}]
-                    [{* oxmultilang ident="ARTICLE_EXTEND_BPRICE" *}]
-                [{else}]
-                    [{* oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" *}]
-                [{/if}]
-                </div></div>
-            </td>
+            [{if $CustomReport != True }]
+                <td class="listfilter">
+                    <div class="r1"><div class="b1">
+                    [{if $ReportType == "nobuyprice"}]
+                        [{* oxmultilang ident="ARTICLE_EXTEND_BPRICE" *}]
+                    [{else}]
+                        [{* oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" *}]
+                    [{/if}]
+                    </div></div>
+                </td>
+            [{/if}]
             <td class="listfilter">
                 <div class="r1"><div class="b1"><div class="find">
                 <input class="listedit" type="submit" name="submitit" value="[{ oxmultilang ident="GENERAL_SEARCH" }]">
@@ -352,19 +350,25 @@ function change_all( name, elem )
                 [{ oxmultilang ident="GENERAL_ARTICLE_OXACTIVETO" }]
                 </td>
             [{/if}]
-            [{if $ReportType != "noshortdesc" and  $ReportType != "longperiod" and $ReportType != "invperiod" }]
+            [{if $ReportType != "noshortdesc" and  $ReportType != "longperiod" and $ReportType != "invperiod" and $CustomReport == False }]
                 <td class="listheader">
                 [{ oxmultilang ident="GENERAL_MANUFACTURER" }] [{ oxmultilang ident="ARTICLE_MAIN_ARTNUM" }]
                 </td>
             [{/if}]
-            <td class="listheader">
-                [{if $ReportType == "nobuyprice"}]
-                    [{ oxmultilang ident="ARTICLE_EXTEND_BPRICE" }]
-                [{else}]
-                    [{ oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" }]
-                [{/if}]
-            
-            </td>
+            [{if $CustomReport }]
+                <td class="listheader">
+                [{ oxmultilang ident="GENERAL_EXTRAINFO" }]
+                </td>
+            [{/if}]
+            [{if $CustomReport != True }]
+                <td class="listheader">
+                    [{if $ReportType == "nobuyprice"}]
+                        [{ oxmultilang ident="ARTICLE_EXTEND_BPRICE" }]
+                    [{else}]
+                        [{ oxmultilang ident="GENERAL_ARTICLE_OXSTOCK" }]
+                    [{/if}]
+                </td>
+            [{/if}]
             <td class="listheader">
                 [{ oxmultilang ident="GENERAL_ARTICLE_OXPRICE" }]
             </td>
@@ -414,17 +418,22 @@ function change_all( name, elem )
                     <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxactivefrom}]</a></td>
                     <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxactiveto}]</a></td>
                 [{/if}]
-                [{if $ReportType != "noshortdesc" and $ReportType != "longperiod" and $ReportType != "invperiod" }]
+                [{if $ReportType != "noshortdesc" and $ReportType != "longperiod" and $ReportType != "invperiod" and  $CustomReport != True }]
                     <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxmpn}]</a></td>
                 [{/if}]
-                <td class="[{ $listclass }]">
-                    <a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">
-                    [{if $ReportType == "nobuyprice"}]
-                        [{$Article.oxbprice|string_format:"%.2f"}]
-                    [{else}]
-                        [{$Article.oxstock}]
-                    [{/if}]</a>
-                </td>
+                [{if $CustomReport }]
+                    <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.infotext}]</a></td>
+                [{/if}]
+                [{if $CustomReport != True }]
+                    <td class="[{ $listclass }]">
+                        <a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">
+                        [{if $ReportType == "nobuyprice"}]
+                            [{$Article.oxbprice|string_format:"%.2f"}]
+                        [{else}]
+                            [{$Article.oxstock}]
+                        [{/if}]</a>
+                    </td>
+                [{/if}]
                 <td class="[{ $listclass }]" align="right"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxprice|string_format:"%.2f"}]</a></td>
                 <td class="[{$listclass}]" align="center"><input type="checkbox" name="oxprobs_oxid[]" value="[{$Article.oxid}]"></td>
             </tr>
