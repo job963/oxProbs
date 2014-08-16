@@ -34,7 +34,7 @@ array_push( $aIncReports, array("name"  => "jxgtaxoinfo",
                                 ));
 
 if ($cReportType == "jxgtaxoinfo") {
-    $sSql1 = "SELECT a.oxid, $sActive, a.oxartnum, a.$this->ean AS oxean, a.oxmpn, "
+    /*$sSql1 = "SELECT a.oxid, $sActive, a.oxartnum, a.$this->ean AS oxean, a.oxmpn, "
                 . "a.oxtitle, a.oxvarselect, "
                 . "a.oxstock, a.oxprice AS oxprice, "
                 . "CONCAT (c.oxtitle , ' = ', c.jxgoogletaxonomy) AS infotext, "
@@ -49,7 +49,7 @@ if ($cReportType == "jxgtaxoinfo") {
                 . "AND o2a.oxobjectid = a.oxid "
                 . "AND o2a.oxcatnid = c.oxid "
                 . $sWhereActive
-                . $sWhere;
+                . $sWhere;*/
     $sSql1 = "SELECT a.oxid, $sActive, a.oxartnum, a.$this->ean AS oxean, a.oxmpn, "
                 . "a.oxtitle, a.oxvarselect, "
                 . "a.oxstock, a.oxprice AS oxprice, "
