@@ -96,6 +96,7 @@ function change_all( name, elem )
                 onClick="document.forms['oxprobs_groups'].elements['fnc'].value = 'downloadResult';" 
                 value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
     </p>
+        
     <p style="background-color:#f0f0f0;">
         [{if $ReportType == "delsetcost"}]
             [{ oxmultilang ident="OXPROBS_DELSETCOST_INFO" }]
@@ -103,6 +104,7 @@ function change_all( name, elem )
             [{ oxmultilang ident="OXPROBS_DELSETPAY_INFO" }]
         [{/if}]
     </p>
+    
     <p><div id="liste">
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>

@@ -1,4 +1,6 @@
+
 [{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
+<link href="[{$oViewConf->getModuleUrl('oxprobs','out/admin/src/oxprobs.css')}]" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
   if(parent.parent)
@@ -69,42 +71,7 @@ function change_all( name, elem )
 
 </script>
 
-<style type="text/css">
-    .thumbnail {
-        position: relative;
-        z-index: 0;
-    }
 
-    .thumbnail:hover {
-        background-color: transparent;
-        z-index: 50;
-    }
-
-    .thumbnail span { /*CSS for enlarged image*/
-        position: absolute;
-        background-color: #ffffff;
-        padding: 2px;
-        left: -1000px;
-        border: 1px solid lightgray;
-        box-shadow: 3px 3px 3px #ccc;
-        visibility: hidden;
-        color: black;
-        text-decoration: none;
-    }
-
-    .thumbnail span img { /*CSS for enlarged image*/
-        border-width: 0;
-        padding: 2px;
-        max-height: 280px;
-        width: auto;
-    }
-
-    .thumbnail:hover span { /*CSS for enlarged image on hover*/
-        visibility: visible;
-        top: 0;
-        left: 60px; /*position where enlarged image should offset horizontally */
-    }
-</style>
 
 <div class="center">
     <h1>[{ oxmultilang ident="oxprobs_pictures" }]</h1>
@@ -126,14 +93,23 @@ function change_all( name, elem )
         <input type="hidden" name="editlanguage" value="[{ $actlang }]">
         
         <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';document.showprobs.submit();">
-            <option value="manumisspics" [{if $ReportType == "manumisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MANU_MISSPICS" }]&nbsp;</option>
-            <option value="manuorphpics" [{if $ReportType == "manuorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MANU_ORPHPICS" }]&nbsp;</option>
-            <option value="vendmisspics" [{if $ReportType == "vendmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_VEND_MISSPICS" }]&nbsp;</option>
-            <option value="vendorphpics" [{if $ReportType == "vendorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_VEND_ORPHPICS" }]&nbsp;</option>
-            <option value="catmisspics" [{if $ReportType == "catmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_CAT_MISSPICS" }]&nbsp;</option>
-            <option value="catorphpics" [{if $ReportType == "catorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_CAT_ORPHPICS" }]&nbsp;</option>
-            <option value="artmisspics" [{if $ReportType == "artmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ART_MISSPICS" }]&nbsp;</option>
-            <option value="artorphpics" [{if $ReportType == "artorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ART_ORPHPICS" }]&nbsp;</option>
+            <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_MISSED" }]">
+                <option value="manumisspics" [{if $ReportType == "manumisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MANU_MISSPICS" }]&nbsp;</option>
+                <option value="vendmisspics" [{if $ReportType == "vendmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_VEND_MISSPICS" }]&nbsp;</option>
+                <option value="catmisspics" [{if $ReportType == "catmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_CAT_MISSPICS" }]&nbsp;</option>
+                <option value="artmisspics" [{if $ReportType == "artmisspics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ART_MISSPICS" }]&nbsp;</option>
+            </optgroup>
+            <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_ORPHANED" }]">
+                <option value="manuorphpics" [{if $ReportType == "manuorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_MANU_ORPHPICS" }]&nbsp;</option>
+                <option value="vendorphpics" [{if $ReportType == "vendorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_VEND_ORPHPICS" }]&nbsp;</option>
+                <option value="catorphpics" [{if $ReportType == "catorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_CAT_ORPHPICS" }]&nbsp;</option>
+                <option value="artorphpics" [{if $ReportType == "artorphpics"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_ART_ORPHPICS" }]&nbsp;</option>
+            </optgroup>
+            <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_CUSTOM" }]">
+                [{foreach name=ReportList item=Report from=$aIncReports}]
+                    <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$sIsoLang] }]&nbsp;</option>
+                [{/foreach}]
+            </optgroup>
         </select>
         <input type="submit" 
                onClick="document.forms['showprobs'].elements['fnc'].value = '';" 
@@ -143,6 +119,7 @@ function change_all( name, elem )
                 onClick="document.forms['showprobs'].elements['fnc'].value = 'downloadResult';" 
                 value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
     </p>
+        
     <p style="background-color:#f0f0f0;">
         <div style="padding-bottom:5px;">
         [{if $ReportType == "manumisspics"}]
