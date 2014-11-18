@@ -29,27 +29,11 @@
 array_push( $aIncReports, array("name"  => "jxgtaxoinfo", 
                                 "title" => array("de"=>"Artikel ohne Google Taxonomie",
                                                  "en"=>"Product without Google Taxonomy"), 
-                                "desc"  => array("de"=>"Die folgenden aktiven Eltern-Artikel sind ohne Google Toxonomie Zuordnung.",
+                                "desc"  => array("de"=>"Die folgenden aktiven Eltern-Artikel sind ohne Google Taxonomie Zuordnung.",
                                                  "en"=>"The following active parent product are without a Google taxonomy assignment.") 
                                 ));
 
 if ($cReportType == "jxgtaxoinfo") {
-    /*$sSql1 = "SELECT a.oxid, $sActive, a.oxartnum, a.$this->ean AS oxean, a.oxmpn, "
-                . "a.oxtitle, a.oxvarselect, "
-                . "a.oxstock, a.oxprice AS oxprice, "
-                . "CONCAT (c.oxtitle , ' = ', c.jxgoogletaxonomy) AS infotext, "
-                . "(SELECT m.oxtitle FROM oxmanufacturers m WHERE a.oxmanufacturerid = m.oxid) AS oxmantitle, "
-                . "IF(a.oxicon!='',"
-                    . "CONCAT('{$sPictureUrl}/icon/',a.oxicon),"
-                    . "IF(a.oxpic1!='',CONCAT('{$sPictureUrl}/1/',a.oxpic1),'') ) "
-                . "AS picname "
-            . "FROM oxarticles a, oxcategories c, oxobject2category o2a  "
-            . "WHERE a.oxparentid = '' "
-                . "AND a.oxactive = 1 "
-                . "AND o2a.oxobjectid = a.oxid "
-                . "AND o2a.oxcatnid = c.oxid "
-                . $sWhereActive
-                . $sWhere;*/
     $sSql1 = "SELECT a.oxid, $sActive, a.oxartnum, a.$this->ean AS oxean, a.oxmpn, "
                 . "a.oxtitle, a.oxvarselect, "
                 . "a.oxstock, a.oxprice AS oxprice, "

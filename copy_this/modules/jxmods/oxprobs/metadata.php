@@ -31,12 +31,12 @@ $aModule = array(
         'oxprobs_pictures' => 'jxmods/oxprobs/application/controllers/admin/oxprobs_pictures.php'
                         ),
     'templates'    => array(
-        'oxprobs_articles.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_articles.tpl',
-        'oxprobs_delivery.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_delivery.tpl',
-        'oxprobs_groups.tpl'   => 'jxmods/oxprobs/views/admin/tpl/oxprobs_groups.tpl',
-        'oxprobs_users.tpl'    => 'jxmods/oxprobs/views/admin/tpl/oxprobs_users.tpl',
-        'oxprobs_orders.tpl'   => 'jxmods/oxprobs/views/admin/tpl/oxprobs_orders.tpl',
-        'oxprobs_pictures.tpl' => 'jxmods/oxprobs/views/admin/tpl/oxprobs_pictures.tpl'
+        'oxprobs_articles.tpl' => 'jxmods/oxprobs/application/views/admin/tpl/oxprobs_articles.tpl',
+        'oxprobs_delivery.tpl' => 'jxmods/oxprobs/application/views/admin/tpl/oxprobs_delivery.tpl',
+        'oxprobs_groups.tpl'   => 'jxmods/oxprobs/application/views/admin/tpl/oxprobs_groups.tpl',
+        'oxprobs_users.tpl'    => 'jxmods/oxprobs/application/views/admin/tpl/oxprobs_users.tpl',
+        'oxprobs_orders.tpl'   => 'jxmods/oxprobs/application/views/admin/tpl/oxprobs_orders.tpl',
+        'oxprobs_pictures.tpl' => 'jxmods/oxprobs/application/views/admin/tpl/oxprobs_pictures.tpl'
                         ),
     'settings' => array(
                         array(
@@ -117,39 +117,45 @@ $aModule = array(
                                 ),
                         array(
                                 'group' => 'OXPROBS_INCLUDESETTINGS', 
-                                'name'  => 'sOxProbsArticleIncludeFiles',  
-                                'type'  => 'str', 
-                                'value' => ''
+                                'name'  => 'aOxProbsArticleIncludeFiles', 
+                                'type'  => 'arr', 
+                                'value' => array(), 
+                                'position' => 1
                                 ),
                         array(
                                 'group' => 'OXPROBS_INCLUDESETTINGS', 
-                                'name'  => 'sOxProbsGroupIncludeFiles',  
-                                'type'  => 'str', 
-                                'value' => ''
+                                'name'  => 'aOxProbsGroupIncludeFiles', 
+                                'type'  => 'arr', 
+                                'value' => array(), 
+                                'position' => 1
                                 ),
                         array(
                                 'group' => 'OXPROBS_INCLUDESETTINGS', 
-                                'name'  => 'sOxProbsDeliveryIncludeFiles',  
-                                'type'  => 'str', 
-                                'value' => ''
+                                'name'  => 'aOxProbsDeliveryIncludeFiles', 
+                                'type'  => 'arr', 
+                                'value' => array(), 
+                                'position' => 1
                                 ),
                         array(
                                 'group' => 'OXPROBS_INCLUDESETTINGS', 
-                                'name'  => 'sOxProbsUsersIncludeFiles',  
-                                'type'  => 'str', 
-                                'value' => ''
-                            ),
+                                'name'  => 'aOxProbsUsersIncludeFiles', 
+                                'type'  => 'arr', 
+                                'value' => array(), 
+                                'position' => 1
+                                ),
                         array(
                                 'group' => 'OXPROBS_INCLUDESETTINGS', 
-                                'name'  => 'sOxProbsOrdersIncludeFiles',  
-                                'type'  => 'str', 
-                                'value' => ''
-                            ),
+                                'name'  => 'aOxProbsOrdersIncludeFiles', 
+                                'type'  => 'arr', 
+                                'value' => array(), 
+                                'position' => 1
+                                ),
                         array(
                                 'group' => 'OXPROBS_INCLUDESETTINGS', 
-                                'name'  => 'sOxProbsPicturesIncludeFiles',  
-                                'type'  => 'str', 
-                                'value' => ''
+                                'name'  => 'aOxProbsPicturesIncludeFiles', 
+                                'type'  => 'arr', 
+                                'value' => array(), 
+                                'position' => 1
                                 ),
                         array(
                                 'group' => 'OXPROBS_DOWNLOAD', 

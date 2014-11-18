@@ -33,28 +33,24 @@ class oxprobs_pictures extends oxAdminView
         ini_set('display_errors', true);
 
         parent::render();
-        $oSmarty = oxUtilsView::getInstance()->getSmarty();
-        $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);
         $myConfig = oxRegistry::get("oxConfig");
         
         $aIncFiles = array();
         $aIncReports = array();
-        if (trim($myConfig->getConfigParam("sOxProbsPicturesIncludeFiles")) != '') {
-            $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsPicturesIncludeFiles") );
-            $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+        $aIncFiles = $myConfig->getConfigParam( 'aOxProbsPicturesIncludeFiles' );
+        $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+        if (count($aIncFiles) > 0) {
             foreach ($aIncFiles as $sIncFile) { 
                 $sIncFile = $sIncPath . 'oxprobs_pictures_' . $sIncFile . '.inc.php';
                 require $sIncFile;
-            } 
+            }
         }
 
-        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
+        $cReportType = $this->getConfig()->getRequestParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "manumisspics";
-        $oSmarty->assign( "ReportType", $cReportType );
+        $this->_aViewData["ReportType"] = $cReportType;
         
-        $myConfig = oxRegistry::get("oxConfig");
         $this->picDirs = $myConfig->getConfigParam("sOxProbsPictureDirs");
         switch ($cReportType) {
             case 'manumisspics':
@@ -148,11 +144,13 @@ class oxprobs_pictures extends oxAdminView
         $aItems = array();
         $aItems = $this->_retrieveData();
         
-        $oSmarty->assign("editClassName", $cClass);
-        $oSmarty->assign("pictureDir", $sPictureDir);
-        $oSmarty->assign("pictureUrl", $sPictureUrl);
-        $oSmarty->assign("aItems", $aItems);
-        $oSmarty->assign("aIncReports",$aIncReports);
+        $this->_aViewData["sIsoLang"] = oxRegistry::getLang()->getLanguageAbbr($iLang);
+
+        $this->_aViewData["editClassName"] = $cClass;
+        $this->_aViewData["pictureDir"] = $sPictureDir;
+        $this->_aViewData["pictureUrl"] = $sPictureUrl;
+        $this->_aViewData["aItems"] = $aItems;
+        $this->_aViewData["aIncReports"] = $aIncReports;
 
          return $this->_sThisTemplate;
     }
@@ -163,7 +161,7 @@ class oxprobs_pictures extends oxAdminView
         $aItems = array();
         $aItems = $this->_retrieveData();
 
-        $aSelOxid = oxConfig::getParameter( "oxprobs_oxid" ); 
+        $aSelOxid = $this->getConfig()->getRequestParameter( "oxprobs_oxid" ); 
         
         $sContent = '';
         foreach ($aItems as $aItem) {
@@ -186,7 +184,7 @@ class oxprobs_pictures extends oxAdminView
     private function _retrieveData()
     {
         
-        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
+        $cReportType = $this->getConfig()->getRequestParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "manumisspics";
 
@@ -573,6 +571,23 @@ class oxprobs_pictures extends oxAdminView
         }
         
         return $aItems;
+    }
+
+    
+    public function jxGetModulePath()
+    {
+        $sModuleId = $this->getEditObjectId();
+
+        $this->_aViewData['oxid'] = $sModuleId;
+
+        $oModule = oxNew('oxModule');
+        $oModule->load($sModuleId);
+        $sModuleId = $oModule->getId();
+        
+        $myConfig = oxRegistry::get("oxConfig");
+        $sModulePath = $myConfig->getConfigParam("sShopDir") . 'modules/' . $oModule->getModulePath("oxprobs");
+        
+        return $sModulePath;
     }
     
 }

@@ -31,33 +31,32 @@ class oxprobs_orders extends oxAdminView
     public function render()
     {
         parent::render();
-        $oSmarty = oxUtilsView::getInstance()->getSmarty();
-        $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);
         $myConfig = oxRegistry::get("oxConfig");
         
         $aIncFiles = array();
         $aIncReports = array();
-        if (trim($myConfig->getConfigParam("sOxProbsOrdersIncludeFiles")) != '') {
-            $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsOrdersIncludeFiles") );
-            $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+        $aIncFiles = $myConfig->getConfigParam( 'aOxProbsOrdersIncludeFiles' );
+        $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+        if (count($aIncFiles) > 0) {
             foreach ($aIncFiles as $sIncFile) { 
                 $sIncFile = $sIncPath . 'oxprobs_orders_' . $sIncFile . '.inc.php';
                 require $sIncFile;
-            } 
+            }
         }
 
-        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
+        $cReportType = $this->getConfig()->getRequestParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "readyorders";
-        $oSmarty->assign( "ReportType", $cReportType );
+        $this->_aViewData["ReportType"] = $cReportType;
         
         $aOrders = array();
         $aOrders = $this->_retrieveData();
         
-        $oSmarty->assign("editClassName", $cClass);
-        $oSmarty->assign("aOrders", $aOrders);
-        $oSmarty->assign("aIncReports",$aIncReports);
+        $this->_aViewData["sIsoLang"] = oxRegistry::getLang()->getLanguageAbbr($iLang);
+
+        $this->_aViewData["editClassName"] = $cClass;
+        $this->_aViewData["aOrders"] = $aOrders;
+        $this->_aViewData["aIncReports"] = $aIncReports;
 
          return $this->_sThisTemplate;
     }
@@ -68,7 +67,7 @@ class oxprobs_orders extends oxAdminView
         $aOrders = array();
         $aOrders = $this->_retrieveData();
 
-        $aSelOxid = oxConfig::getParameter( "oxprobs_oxid" ); 
+        $aSelOxid = $this->getConfig()->getRequestParameter( "oxprobs_oxid" ); 
         
         $sContent = '';
         foreach ($aOrders as $aOrder) {
@@ -91,7 +90,7 @@ class oxprobs_orders extends oxAdminView
     private function _retrieveData()
     {
         
-        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
+        $cReportType = $this->getConfig()->getRequestParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "readyorders";
 
@@ -195,9 +194,6 @@ class oxprobs_orders extends oxAdminView
                 array_push($aOrders, $rs->fields);
                 $rs->MoveNext();
             }
-            /*echo '<pre>';
-            print_r($aOrders);
-            echo '</pre>';*/
         }
         
         return $aOrders;

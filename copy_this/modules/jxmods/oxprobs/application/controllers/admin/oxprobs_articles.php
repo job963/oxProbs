@@ -25,38 +25,47 @@
 class oxprobs_articles extends oxAdminView
 {
     protected $_sThisTemplate = "oxprobs_articles.tpl";
+    
     public function render()
     {
         parent::render();
-        $oSmarty = oxUtilsView::getInstance()->getSmarty();
-        $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);
         $myConfig = oxRegistry::get("oxConfig");
         
         $aIncFiles = array();
         $aIncReports = array();
-        if (trim($myConfig->getConfigParam("sOxProbsArticleIncludeFiles")) != '') {
-            $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsArticleIncludeFiles") );
-            $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+        $aIncFiles = $myConfig->getConfigParam( 'aOxProbsArticleIncludeFiles' );
+        $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+        if (count($aIncFiles) > 0) {
             foreach ($aIncFiles as $sIncFile) { 
                 $sIncFile = $sIncPath . 'oxprobs_articles_' . $sIncFile . '.inc.php';
                 require $sIncFile;
-            } 
+            }
         }
         
-        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
+        $cReportType = $this->getConfig()->getRequestParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "nostock";
-        $oSmarty->assign( "ReportType", $cReportType );
+        $this->_aViewData["ReportType"] = $cReportType;
+        $bCustomColumn = FALSE;
+        foreach ($aIncReports as $aIncReport) {
+            if ( in_array($cReportType,$aIncReport) ) {
+                $bCustomColumn = TRUE;
+                $aColumnTitles = $aIncReport['extcol'];
+            }
+        }
 
         $aArticles = array();
         $aArticles = $this->_retrieveData();
+        
+        $this->_aViewData["sIsoLang"] = oxRegistry::getLang()->getLanguageAbbr($iLang);
 
-        $oSmarty->assign("aArticles",$aArticles);
-        $oSmarty->assign("aIncReports",$aIncReports);
-        $oSmarty->assign("aWhere", $aWhere);
-        $oSmarty->assign("sortcol", $sortCol);
-        $oSmarty->assign("sortopt", $sortOpt);
+        $this->_aViewData["aArticles"] = $aArticles;
+        $this->_aViewData["aIncReports"] = $aIncReports;
+        $this->_aViewData["bCustomColumn"] = $bCustomColumn;
+        $this->_aViewData["aColumnTitles"] = $aColumnTitles;
+        $this->_aViewData["aWhere"] = $aWhere;
+        $this->_aViewData["sortcol"] = $sortCol;
+        $this->_aViewData["sortopt"] = $sortOpt;
 
         return $this->_sThisTemplate;
    }
@@ -65,7 +74,7 @@ class oxprobs_articles extends oxAdminView
     public function downloadResult()
     {
         $myConfig = oxRegistry::get("oxConfig");
-        switch ( $myConfig->getConfigParam("sOxProbsSeparator") ) {
+        switch ( $myConfig->getConfigParam( 'sOxProbsSeparator' ) ) {
             case 'comma':
                 $sSep = ',';
                 break;
@@ -85,7 +94,7 @@ class oxprobs_articles extends oxAdminView
                 $sSep = ',';
                 break;
         }
-        if ( $myConfig->getConfigParam("bOxProbsQuote") ) {
+        if ( $myConfig->getConfigParam( 'bOxProbsQuote' ) ) {
             $sBegin = '"';
             $sSep   = '"' . $sSep . '"';
             $sEnd   = '"';
@@ -94,7 +103,7 @@ class oxprobs_articles extends oxAdminView
         $aArticles = array();
         $aArticles = $this->_retrieveData();
 
-        $aSelOxid = oxConfig::getParameter( "oxprobs_oxid" ); 
+        $aSelOxid = $this->getConfig()->getRequestParameter( 'oxprobs_oxid' ); 
         
         $sContent = '';
         if ( $myConfig->getConfigParam("bOxProbsHeader") ) {
@@ -129,7 +138,7 @@ class oxprobs_articles extends oxAdminView
 
         $sWhere = "";
         
-        if ( is_array( $aWhere = oxConfig::getParameter( 'where' ) ) ) {
+        if ( is_array( $aWhere = $this->getConfig()->getRequestParameter( 'where' ) ) ) {
 
             $aKeys = array_keys($aWhere);
 
@@ -170,12 +179,12 @@ class oxprobs_articles extends oxAdminView
             $sWhereActive = "";
         }
         
-        $sortCol = oxConfig::getParameter( 'sortcol' );
+        $sortCol = $this->getConfig()->getRequestParameter( 'sortcol' );
         if (empty($sortCol))
             $sortCol = 'oxartnum';
 
-        $lastSortCol = oxConfig::getParameter( 'lastsortcol' );
-        $lastSortOpt = oxConfig::getParameter( 'lastsortopt' );
+        $lastSortCol = $this->getConfig()->getRequestParameter( 'lastsortcol' );
+        $lastSortOpt = $this->getConfig()->getRequestParameter( 'lastsortopt' );
         if ($sortCol == $lastSortCol)
             $sortOpt = ($lastSortOpt == 'ASC') ? 'DESC' : 'ASC';
         else 
@@ -194,7 +203,7 @@ class oxprobs_articles extends oxAdminView
         if ($sortCol == 'oxmantitle')
             $sSort = "oxmantitle $sortOpt";
 
-        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
+        $cReportType = $this->getConfig()->getRequestParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "nostock";
         
@@ -963,6 +972,7 @@ class oxprobs_articles extends oxAdminView
         $aArticles = array();
 
         if (!empty($sSql1)) {
+            //echo '<pre>'.$sSql1.'</pre>';
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             //echo "<hr>SQL1: <pre>$sSql1</pre><hr>";
             try {

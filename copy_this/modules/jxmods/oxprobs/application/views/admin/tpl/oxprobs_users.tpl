@@ -94,7 +94,7 @@ function change_all( name, elem )
             </optgroup>
             <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_CUSTOM" }]">
                 [{foreach name=ReportList item=Report from=$aIncReports}]
-                    <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$IsoLang] }]&nbsp;</option>
+                    <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$sIsoLang] }]&nbsp;</option>
                 [{/foreach}]
             </optgroup>
         </select>
@@ -106,6 +106,7 @@ function change_all( name, elem )
                 onClick="document.forms['showprobs'].elements['fnc'].value = 'downloadResult';" 
                 value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
     </p>
+        
     <p style="background-color:#f0f0f0;">
         <div style="padding-bottom:5px;">
         [{if $ReportType == "dblname"}]

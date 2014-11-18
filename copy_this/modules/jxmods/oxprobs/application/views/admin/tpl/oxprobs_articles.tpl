@@ -99,11 +99,6 @@ function change_all( name, elem )
         <input type="hidden" name="editlanguage" value="[{ $actlang }]">
         <input type="hidden" name="lastsortcol" value="[{ $sortcol }]">
         <input type="hidden" name="lastsortopt" value="[{ $sortopt }]">
-        
-        [{php}] 
-            $sIsoLang = oxLang::getInstance()->getLanguageAbbr(); 
-            $this->assign('IsoLang', $sIsoLang);
-        [{/php}]
 
         <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';this.form.submit()">
             <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_STOCK" }]">
@@ -140,7 +135,7 @@ function change_all( name, elem )
             </optgroup>
             <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_CUSTOM" }]">
                 [{foreach name=ReportList item=Report from=$aIncReports}]
-                    <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$IsoLang] }]&nbsp;</option>
+                    <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$sIsoLang] }]&nbsp;</option>
                 [{/foreach}]
             </optgroup>
         </select>
@@ -152,6 +147,7 @@ function change_all( name, elem )
                 onClick="document.forms['showprobs'].elements['fnc'].value = 'downloadResult';" 
                 value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
     </p>
+        
     <p style="background-color:#f0f0f0;">
         <div style="padding-bottom:5px;">
         [{assign var="CustomReport" value="False"}]
@@ -205,7 +201,7 @@ function change_all( name, elem )
             [{ oxmultilang ident="OXPROBS_INACTIVE_INFO" }]
         [{else}]
             [{foreach name=ReportTypes item=Report from=$aIncReports}]
-                [{if $ReportType == $Report.name}][{ $Report.desc[$IsoLang] }][{/if}]
+                [{if $ReportType == $Report.name}][{ $Report.desc[$sIsoLang] }][{/if}]
             [{/foreach}]
             [{assign var="CustomReport" value="True"}]
         [{/if}]
@@ -355,12 +351,15 @@ function change_all( name, elem )
                 [{ oxmultilang ident="GENERAL_MANUFACTURER" }] [{ oxmultilang ident="ARTICLE_MAIN_ARTNUM" }]
                 </td>
             [{/if}]
-            [{if $CustomReport }]
+            [{if $bCustomColumn }]
                 <td class="listheader">
-                [{ oxmultilang ident="GENERAL_EXTRAINFO" }]
+                [{if $aColumnTitles[$sIsoLang] }]
+                    [{ $aColumnTitles[$sIsoLang] }]
+                [{else}]
+                    [{ oxmultilang ident="GENERAL_EXTRAINFO" }]
+                [{/if}]
                 </td>
-            [{/if}]
-            [{if $CustomReport != True }]
+            [{else}]
                 <td class="listheader">
                     [{if $ReportType == "nobuyprice"}]
                         [{ oxmultilang ident="ARTICLE_EXTEND_BPRICE" }]
@@ -421,10 +420,9 @@ function change_all( name, elem )
                 [{if $ReportType != "noshortdesc" and $ReportType != "longperiod" and $ReportType != "invperiod" and  $CustomReport != True }]
                     <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.oxmpn}]</a></td>
                 [{/if}]
-                [{if $CustomReport }]
+                [{if $bCustomColumn }]
                     <td class="[{ $listclass }]"><a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">[{$Article.infotext}]</a></td>
-                [{/if}]
-                [{if $CustomReport != True }]
+                [{else}]
                     <td class="[{ $listclass }]">
                         <a href="Javascript:editThis('[{$Article.oxid}]');" style="color:[{$txtColor}];">
                         [{if $ReportType == "nobuyprice"}]

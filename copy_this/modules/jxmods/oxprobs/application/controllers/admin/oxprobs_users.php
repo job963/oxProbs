@@ -33,33 +33,32 @@ class oxprobs_users extends oxAdminView
         ini_set('display_errors', true);
 
         parent::render();
-        $oSmarty = oxUtilsView::getInstance()->getSmarty();
-        $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);
         $myConfig = oxRegistry::get("oxConfig");
         
         $aIncFiles = array();
         $aIncReports = array();
-        if (trim($myConfig->getConfigParam("sOxProbsUsersIncludeFiles")) != '') {
-            $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsUsersIncludeFiles") );
-            $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+        $aIncFiles = $myConfig->getConfigParam( 'aOxProbsUsersIncludeFiles' );
+        $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+        if (count($aIncFiles) > 0) {
             foreach ($aIncFiles as $sIncFile) { 
                 $sIncFile = $sIncPath . 'oxprobs_users_' . $sIncFile . '.inc.php';
                 require $sIncFile;
-            } 
+            }
         }
 
-        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
+        $cReportType = $this->getConfig()->getRequestParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "dblname";
-        $oSmarty->assign( "ReportType", $cReportType );
+        $this->_aViewData["ReportType"] = $cReportType;
 
         $aUsers = array();
         $aUsers = $this->_retrieveData();
         
-        $oSmarty->assign("editClassName", $cClass);
-        $oSmarty->assign("aUsers", $aUsers);
-        $oSmarty->assign("aIncReports",$aIncReports);
+        $this->_aViewData["sIsoLang"] = oxRegistry::getLang()->getLanguageAbbr($iLang);
+
+        $this->_aViewData["editClassName"] = $cClass;
+        $this->_aViewData["aUsers"] = $aUsers;
+        $this->_aViewData["aIncReports"] = $aIncReports;
 
          return $this->_sThisTemplate;
     }
@@ -70,7 +69,7 @@ class oxprobs_users extends oxAdminView
         $aUsers = array();
         $aUsers = $this->_retrieveData();
 
-        $aSelOxid = oxConfig::getParameter( "oxprobs_oxid" ); 
+        $aSelOxid = $this->getConfig()->getRequestParameter( "oxprobs_oxid" ); 
         
         $sContent = '';
         foreach ($aUsers as $aUser) {
@@ -98,7 +97,7 @@ class oxprobs_users extends oxAdminView
     private function _retrieveData()
     {
         
-        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
+        $cReportType = $this->getConfig()->getRequestParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "dblname";
 
@@ -215,6 +214,23 @@ class oxprobs_users extends oxAdminView
         
         
         return $aUsers;
+    }
+
+    
+    public function jxGetModulePath()
+    {
+        $sModuleId = $this->getEditObjectId();
+
+        $this->_aViewData['oxid'] = $sModuleId;
+
+        $oModule = oxNew('oxModule');
+        $oModule->load($sModuleId);
+        $sModuleId = $oModule->getId();
+        
+        $myConfig = oxRegistry::get("oxConfig");
+        $sModulePath = $myConfig->getConfigParam("sShopDir") . 'modules/' . $oModule->getModulePath("oxprobs");
+        
+        return $sModulePath;
     }
     
 }

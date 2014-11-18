@@ -87,10 +87,10 @@ function change_all( name, elem )
         <input type="hidden" name="language" value="[{ $actlang }]">
         <input type="hidden" name="editlanguage" value="[{ $actlang }]">
         
-        [{php}] 
+        [{*php}] 
             $sIsoLang = oxLang::getInstance()->getLanguageAbbr(); 
             $this->assign('IsoLang', $sIsoLang);
-        [{/php}]
+        [{/php*}]
         
         <select name="oxprobs_reporttype" onchange="document.forms['showprobs'].elements['fnc'].value='';document.showprobs.submit();">
             <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_ORDERS" }]">
@@ -105,7 +105,7 @@ function change_all( name, elem )
             </optgroup>
             <optgroup label="[{ oxmultilang ident="OXPROBS_GROUP_CUSTOM" }]">
                 [{foreach name=ReportList item=Report from=$aIncReports}]
-                    <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$IsoLang] }]&nbsp;</option>
+                    <option value="[{$Report.name}]" [{if $ReportType == $Report.name}]selected[{/if}]>[{ $Report.title[$sIsoLang] }]&nbsp;</option>
                 [{/foreach}]
             </optgroup>
         </select>
@@ -117,6 +117,7 @@ function change_all( name, elem )
                 onClick="document.forms['showprobs'].elements['fnc'].value = 'downloadResult';" 
                 value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
     </p>
+        
     <p style="background-color:#f0f0f0;">
         <div style="padding-bottom:5px;">
         [{if $ReportType == "readyorders"}]
@@ -127,7 +128,7 @@ function change_all( name, elem )
             [{ oxmultilang ident="OXPROBS_PAY_OPENINVOICES_INFO" }]
         [{else}]
             [{foreach name=ReportTypes item=Report from=$aIncReports}]
-                [{if $ReportType == $Report.name}][{ $Report.desc[$IsoLang] }][{/if}]
+                [{if $ReportType == $Report.name}][{ $Report.desc[$sIsoLang] }][{/if}]
             [{/foreach}]
         [{/if}]
         </div>

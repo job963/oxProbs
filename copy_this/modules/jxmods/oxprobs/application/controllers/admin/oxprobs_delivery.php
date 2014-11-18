@@ -31,33 +31,32 @@ class oxprobs_delivery extends oxAdminView
     public function render()
     {
         parent::render();
-        $oSmarty = oxUtilsView::getInstance()->getSmarty();
-        $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);
         $myConfig = oxRegistry::get("oxConfig");
         
         $aIncFiles = array();
         $aIncReports = array();
-        if (trim($myConfig->getConfigParam("sOxProbsDeliveryIncludeFiles")) != '') {
-            $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsDeliveryIncludeFiles") );
-            $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+        $aIncFiles = $myConfig->getConfigParam( 'aOxProbsDeliveryIncludeFiles' );
+        $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
+        if (count($aIncFiles) > 0) {
             foreach ($aIncFiles as $sIncFile) { 
                 $sIncFile = $sIncPath . 'oxprobs_delivery_' . $sIncFile . '.inc.php';
                 require $sIncFile;
-            } 
+            }
         }
         
-        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
+        $cReportType = $this->getConfig()->getRequestParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "delsetcost";
-        $oSmarty->assign( "ReportType", $cReportType );
+        $this->_aViewData["ReportType"] = $cReportType;
 
         $aList = array();
         $aList = $this->_retrieveData();
 
-        $oSmarty->assign("editClassName", $cClass);
-        $oSmarty->assign("aList", $aList);
-        $oSmarty->assign("aIncReports",$aIncReports);
+        $this->_aViewData["sIsoLang"] = oxRegistry::getLang()->getLanguageAbbr($iLang);
+
+        $this->_aViewData["editClassName"] = $cClass;
+        $this->_aViewData["aList"] = $aList;
+        $this->_aViewData["aIncReports"] = $aIncReports;
 
          return $this->_sThisTemplate;
     }
@@ -68,7 +67,7 @@ class oxprobs_delivery extends oxAdminView
         $aItems = array();
         $aItems = $this->_retrieveData();
 
-        $aSelOxid = oxConfig::getParameter( "oxprobs_oxid" ); 
+        $aSelOxid = $this->getConfig()->getRequestParameter( "oxprobs_oxid" ); 
         
         $sContent = '';
         foreach ($aItems as $aItem) {
@@ -91,7 +90,7 @@ class oxprobs_delivery extends oxAdminView
     private function _retrieveData()
     {
         
-        $cReportType = oxConfig::getParameter( 'oxprobs_reporttype' );
+        $cReportType = $this->getConfig()->getRequestParameter( 'oxprobs_reporttype' );
         if (empty($cReportType))
             $cReportType = "delsetcost";
         
@@ -171,6 +170,7 @@ class oxprobs_delivery extends oxAdminView
         $aDelCosts = array();
 
         if (!empty($sSql1)) {
+            //echo "<hr><pre>$sSql1</pre>";
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             $rs = $oDb->Execute($sSql1);
             while (!$rs->EOF) {
@@ -198,6 +198,23 @@ class oxprobs_delivery extends oxAdminView
         }
         
         return $aList;
+    }
+
+    
+    public function jxGetModulePath()
+    {
+        $sModuleId = $this->getEditObjectId();
+
+        $this->_aViewData['oxid'] = $sModuleId;
+
+        $oModule = oxNew('oxModule');
+        $oModule->load($sModuleId);
+        $sModuleId = $oModule->getId();
+        
+        $myConfig = oxRegistry::get("oxConfig");
+        $sModulePath = $myConfig->getConfigParam("sShopDir") . 'modules/' . $oModule->getModulePath("oxprobs");
+        
+        return $sModulePath;
     }
     
 }
