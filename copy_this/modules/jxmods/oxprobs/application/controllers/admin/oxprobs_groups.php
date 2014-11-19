@@ -19,8 +19,6 @@
  * @link    https://github.com/job963/oxProbs
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @copyright (C) Joachim Barthel 2012-2014
- * 
- * $Id: oxprobs_groups.php jobarthel@gmail.com $
  *
  */
  
@@ -52,6 +50,10 @@ class oxprobs_groups extends oxAdminView
         $aGroups = array();
         $aGroups = $this->_retrieveData();
         
+        $oModule = oxNew('oxModule');
+        $oModule->load('oxprobs');
+        $this->_aViewData["sModuleId"] = $oModule->getId();
+        $this->_aViewData["sModuleVersion"] = $oModule->getInfo('version');
         $this->_aViewData["sIsoLang"] = oxRegistry::getLang()->getLanguageAbbr($iLang);
 
         $this->_aViewData["editClassName"] = $cClass;

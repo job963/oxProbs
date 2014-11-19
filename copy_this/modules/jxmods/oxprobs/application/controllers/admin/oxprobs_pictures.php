@@ -144,6 +144,10 @@ class oxprobs_pictures extends oxAdminView
         $aItems = array();
         $aItems = $this->_retrieveData();
         
+        $oModule = oxNew('oxModule');
+        $oModule->load('oxprobs');
+        $this->_aViewData["sModuleId"] = $oModule->getId();
+        $this->_aViewData["sModuleVersion"] = $oModule->getInfo('version');
         $this->_aViewData["sIsoLang"] = oxRegistry::getLang()->getLanguageAbbr($iLang);
 
         $this->_aViewData["editClassName"] = $cClass;
