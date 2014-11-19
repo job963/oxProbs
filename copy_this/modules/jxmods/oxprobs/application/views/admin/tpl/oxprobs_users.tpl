@@ -70,6 +70,8 @@ function change_all( name, elem )
 
 <div class="center">
     <h1>[{ oxmultilang ident="oxprobs_users" }]</h1>
+    <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">&nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;</div>
+
     <p>
         <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
             [{ $shop->hiddensid }]
