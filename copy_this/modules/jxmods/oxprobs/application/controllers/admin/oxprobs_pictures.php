@@ -514,12 +514,18 @@ class oxprobs_pictures extends oxAdminView
                 $sSql1 = "";
                 $aIncFiles = array();
                 $aIncReports = array();
-                if (trim($myConfig->getConfigParam("sOxProbsPicturesIncludeFiles")) != '') {
-                    $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsPicturesIncludeFiles") );
+                if (count($myConfig->getConfigParam("aOxProbsPicturesIncludeFiles")) != 0) {
+                    $aIncFiles = $myConfig->getConfigParam("sOxProbsPicturesIncludeFiles");
                     $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
                     foreach ($aIncFiles as $sIncFile) { 
                         $sIncFile = $sIncPath . 'oxprobs_pictures_' . $sIncFile . '.inc.php';
-                        require $sIncFile;
+                        try {
+                            require $sIncFile;
+                        }
+                        catch (Exception $e) {
+                            echo $e->getMessage();
+                            die();
+                        }
                     } 
                 }
                 break;

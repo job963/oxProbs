@@ -195,12 +195,18 @@ class oxprobs_groups extends oxAdminView
                 $sSql2 = '';
                 $aIncFiles = array();
                 $aIncReports = array();
-                if (trim($myConfig->getConfigParam("sOxProbsGroupIncludeFiles")) != '') {
-                    $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsGroupIncludeFiles") );
+                if (count($myConfig->getConfigParam("aOxProbsGroupIncludeFiles")) != 0) {
+                    $aIncFiles = $myConfig->getConfigParam("aOxProbsGroupIncludeFiles");
                     $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
                     foreach ($aIncFiles as $sIncFile) { 
                         $sIncFile = $sIncPath . 'oxprobs_groups_' . $sIncFile . '.inc.php';
-                        require $sIncFile;
+                        try {
+                            require $sIncFile;
+                        }
+                        catch (Exception $e) {
+                            echo $e->getMessage();
+                            die();
+                        }
                     } 
                 }
                 

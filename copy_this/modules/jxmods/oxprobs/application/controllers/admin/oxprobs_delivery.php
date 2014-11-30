@@ -156,12 +156,18 @@ class oxprobs_delivery extends oxAdminView
                 $sSql = '';
                 $aIncFiles = array();
                 $aIncReports = array();
-                if (trim($myConfig->getConfigParam("sOxProbsDeliveryIncludeFiles")) != '') {
-                    $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsDeliveryIncludeFiles") );
+                if (count($myConfig->getConfigParam("aOxProbsDeliveryIncludeFiles")) != 0) {
+                    $aIncFiles = $myConfig->getConfigParam("sOxProbsDeliveryIncludeFiles");
                     $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
                     foreach ($aIncFiles as $sIncFile) { 
                         $sIncFile = $sIncPath . 'oxprobs_delivery_' . $sIncFile . '.inc.php';
-                        require $sIncFile;
+                        try {
+                            require $sIncFile;
+                        }
+                        catch (Exception $e) {
+                            echo $e->getMessage();
+                            die();
+                        }
                     } 
                 }
                 break;
