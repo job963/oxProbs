@@ -955,8 +955,8 @@ class oxprobs_articles extends oxAdminView
                 $sSql2 = '';
                 $aIncFiles = array();
                 $aIncReports = array();
-                if (trim($myConfig->getConfigParam("sOxProbsArticleIncludeFiles")) != '') {
-                    $aIncFiles = explode( ',', $myConfig->getConfigParam("sOxProbsArticleIncludeFiles") );
+                if (count($myConfig->getConfigParam("aOxProbsArticleIncludeFiles")) != 0) {
+                    $aIncFiles = $myConfig->getConfigParam("aOxProbsArticleIncludeFiles");
                     $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
                     foreach ($aIncFiles as $sIncFile) { 
                         $sIncFile = $sIncPath . 'oxprobs_articles_' . $sIncFile . '.inc.php';

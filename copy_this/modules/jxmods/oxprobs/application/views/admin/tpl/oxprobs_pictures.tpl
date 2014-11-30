@@ -208,6 +208,11 @@ function change_all( name, elem )
         [{/foreach}]
 
         </table>
+        
+        <p>
+        &nbsp;[{$aItems|@count}] [{ oxmultilang ident="OXPROBS_NUMOF_ENTRIES" }]
+        </p>
+        
         </form>
         </div>
         <div style="height:50px;">

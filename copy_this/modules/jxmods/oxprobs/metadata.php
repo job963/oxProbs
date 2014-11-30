@@ -16,7 +16,7 @@ $aModule = array(
                         'en'=>'Analysis module for finding problematical shop data.'
                         ),
     'thumbnail'    => 'oxprobs.png',
-    'version'      => '0.8.1',
+    'version'      => '0.8.2',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/oxProbs',
     'email'        => 'jobarthel@gmail.com',

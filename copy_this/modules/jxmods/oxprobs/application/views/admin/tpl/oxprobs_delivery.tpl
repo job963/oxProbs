@@ -157,11 +157,16 @@ function change_all( name, elem )
                 [{if $ReportType == "delsetcost"}]
                     <td class="[{ $listclass }]">[{$Line.startval|string_format:"%.2f"}] - [{$Line.endval|string_format:"%.2f"}]</td>
                 [{/if}]
-                <td class="[{$listclass}]" align="center"><input type="checkbox" name="oxprobs_oxid[]" value="[{$Article.oxid}]"></td>
+                <td class="[{$listclass}]" align="center"><input type="checkbox" name="oxprobs_oxid[]" value="[{$Line.oxid}]"></td>
             </tr>
         [{/foreach}]
 
         </table>
+        
+        <p>
+        &nbsp;[{$aList|@count}] [{ oxmultilang ident="OXPROBS_NUMOF_ENTRIES" }]
+        </p>
+        
         </div>
         </form>
     </p>
