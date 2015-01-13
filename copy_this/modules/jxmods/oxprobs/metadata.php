@@ -7,7 +7,12 @@ $sMetadataVersion = '1.1';
  
 /**
  * Module information
- */
+ * 
+ * @link      https://github.com/job963/oxProbs
+ * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @copyright (C) Joachim Barthel 2012-2015
+ * 
+*/
 $aModule = array(
     'id'           => 'oxprobs',
     'title'        => 'OxProbs - Data Problem Analysis',
@@ -16,7 +21,7 @@ $aModule = array(
                         'en'=>'Analysis module for finding problematical shop data.'
                         ),
     'thumbnail'    => 'oxprobs.png',
-    'version'      => '0.8.2',
+    'version'      => '0.8.3',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/oxProbs',
     'email'        => 'jobarthel@gmail.com',
