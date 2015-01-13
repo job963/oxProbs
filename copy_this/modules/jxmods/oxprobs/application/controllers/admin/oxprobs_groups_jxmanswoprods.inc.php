@@ -35,7 +35,7 @@ array_push( $aIncReports, array("name"   => "jxmanswoprods",
 
 if ($cReportType == "jxmanswoprods") {
     $sWhereActive = " ";
-    $sSql1 = "SELECT m.oxtitle, COUNT(a.oxid) AS count "
+    $sSql1 = "SELECT m.oxid, m.oxtitle, IFNULL(SUM(a.oxactive),0) AS count "
              . "FROM oxmanufacturers m "
              . "LEFT JOIN oxarticles a "
                 . "ON m.oxid = a.oxmanufacturerid "

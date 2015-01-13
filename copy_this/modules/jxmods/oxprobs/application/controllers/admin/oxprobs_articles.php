@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/oxProbs
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2014
+ * @copyright (C) Joachim Barthel 2012-2015
  *
  */
  
@@ -917,21 +917,20 @@ class oxprobs_articles extends oxAdminView
             case 'active':
             case 'inactive':
                 if ($cReportType == 'active') {
-                    $sWhereActive = "a.oxactive = 1 ";
+                    $sWhereActive = "AND a.oxactive = 1 ";
                 }
                 else {
-                    $sWhereActive = "a.oxactive = 0 ";
+                    $sWhereActive = "AND a.oxactive = 0 ";
                 }
 
                 $sSql1 = "SELECT a.oxid AS oxid, $sActive, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
                         . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid, m.oxtitle AS oxmantitle, $sIconCol1 "
                         . "FROM oxarticles a "
                         . "LEFT JOIN oxmanufacturers m ON a.oxmanufacturerid = m.oxid "
-                        . "WHERE a.oxactive = $iActValue "
-                            . "AND a.oxparentid = '' "
+                        . "WHERE a.oxparentid = '' "
                             . $sWhereActive
                             . $sWhere;
-                $sSql2 = "SELECT a.oxid AS oxid, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
+                $sSql2 = "SELECT a.oxid AS oxid, $sActive, a.oxparentid AS oxparentid, a.oxartnum AS oxartnum, a.$this->ean AS oxean, a.oxmpn AS oxmpn, a.oxtitle AS oxtitle, "
                         . "a.oxvarselect AS oxvarselect, a.oxstock AS oxstock, a.oxprice AS oxprice, a.oxmanufacturerid, "
                         . "( "
                             . "SELECT b.oxtitle "
@@ -985,6 +984,7 @@ class oxprobs_articles extends oxAdminView
             catch (Exception $e) {
                 echo '<div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:14px;">';
                 echo '<b>SQL-Error '.$e->getCode().' in SQL1</b><br />'.$e->getMessage().'';
+                echo '<hr><pre style="white-space:pre-wrap;word-wrap:break-word;">'.$sSql1.'</pre>';
                 echo '</div>';
                 die();
             }
