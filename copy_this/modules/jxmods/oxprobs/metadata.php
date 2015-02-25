@@ -13,6 +13,7 @@ $sMetadataVersion = '1.1';
  * @copyright (C) Joachim Barthel 2012-2015
  * 
 */
+
 $aModule = array(
     'id'           => 'oxprobs',
     'title'        => 'OxProbs - Data Problem Analysis',
@@ -21,7 +22,7 @@ $aModule = array(
                         'en'=>'Analysis module for finding problematical shop data.'
                         ),
     'thumbnail'    => 'oxprobs.png',
-    'version'      => '0.8.3',
+    'version'      => '0.8.4',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/oxProbs',
     'email'        => 'jobarthel@gmail.com',

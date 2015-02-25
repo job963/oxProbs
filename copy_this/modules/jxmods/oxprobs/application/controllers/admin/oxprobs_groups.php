@@ -8,7 +8,7 @@
  *    the Free Software Foundation, either version 3 of the License, or
  *    (at your option) any later version.
  *
- *    The module OxProbs for OXID eShop Community Edition is distributed in the hope that it will be useful,
+ *    The module oxProbs for OXID eShop Community Edition is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *    GNU General Public License for more details.
@@ -18,7 +18,7 @@
  *
  * @link    https://github.com/job963/oxProbs
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2014
+ * @copyright (C) Joachim Barthel 2012-2015
  *
  */
  
@@ -218,8 +218,17 @@ class oxprobs_groups extends oxAdminView
 
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-            $rs = $oDb->Execute($sSql1);
-            //echo "<hr><pre>$sSql1</pre>";
+            
+            try {
+                $rs = $oDb->Execute($sSql1);
+            }
+            catch (Exception $e) {
+                echo '<div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:14px;">';
+                echo '<b>SQL-Error '.$e->getCode().' in SQL statement</b><br />'.$e->getMessage().'';
+                echo '</div>';
+                return;
+            }
+            
             while (!$rs->EOF) {
                 array_push($aGroups, $rs->fields);
                 $rs->MoveNext();
