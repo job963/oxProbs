@@ -23,7 +23,7 @@
  */
 
 /*
- *    This include file supports ...
+ *    This include file supports display of admin users
  */
  
 array_push( $aIncReports, array("name"  => "jxshowadmins", 
@@ -34,11 +34,15 @@ array_push( $aIncReports, array("name"  => "jxshowadmins",
                                 ));
 
 if ($cReportType == "jxshowadmins") {
-    $sName = "CONCAT(TRIM(u.oxfname), ' ', TRIM(u.oxlname), ', ', TRIM(u.oxcompany))";
-    $sSql1 = "SELECT u.oxactive AS oxactive, $sName AS name, u.oxrights AS amount "
+    $sName = "CONCAT(TRIM(u.oxfname), ' ', TRIM(u.oxlname), ', ', TRIM(u.oxcompany), ' (', u.oxusername, ')' )";
+    $sMatch = "u.oxid";
+    $sSql1 = "SELECT u.oxid AS oxid, u.oxactive AS oxactive, $sName AS name, u.oxrights AS amount, $sMatch AS matchstring "
            . "FROM oxuser u "
            . "WHERE u.oxrights != 'user' ";
-    $sSql2 = "";
+    $sSql2 = "SELECT  u.oxid, u.oxactive, g.oxtitle AS oxusername, 0 AS oxdboptin "
+                       . "FROM oxuser u, oxgroups g, oxobject2group o2g "
+                       . "WHERE $sMatch = '@MATCH@' "
+                            . "AND u.oxid = o2g.oxobjectid AND o2g.oxgroupsid = g.oxid ";
     $cClass = 'admin_user';
 }
 

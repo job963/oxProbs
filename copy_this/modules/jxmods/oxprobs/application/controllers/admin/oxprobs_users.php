@@ -126,14 +126,15 @@ class oxprobs_users extends oxAdminView
         switch ($cReportType) {
             case 'dblname':
                 $sName = "CONCAT(TRIM(u.oxfname), ' ', TRIM(u.oxlname), ', ', TRIM(u.oxcity))";
-                $sSql1 = "SELECT u.oxactive AS oxactive, $sName AS name, COUNT(*) AS amount "
+                $sMatch = "CONCAT(TRIM(u.oxfname), ' ', TRIM(u.oxlname), ', ', TRIM(u.oxcity))";
+                $sSql1 = "SELECT u.oxactive AS oxactive, $sName AS name, COUNT(*) AS amount, $sMatch AS matchstring "
                        . "FROM oxuser u "
                        . "WHERE $sWhere "
                        . "GROUP BY name "
                        . "HAVING COUNT(*) > 1 ";
                 $sSql2 = "SELECT u.oxid, u.oxactive, u.oxusername, n.oxdboptin "
                        . "FROM oxuser u, oxnewssubscribed n "
-                       . "WHERE $sName = '@NAME@' "
+                       . "WHERE $sMatch = '@MATCH@' "
                             . "AND u.oxid = n.oxuserid "
                             . "AND $sWhere ";
                 $cClass = 'admin_user';
@@ -141,14 +142,15 @@ class oxprobs_users extends oxAdminView
 
             case 'dbladdr':
                 $sName = "CONCAT( REPLACE(REPLACE(REPLACE(u.oxstreet,'.',''),' ',''),'-','') , ', ', TRIM(u.oxcity))";
-                $sSql1 = "SELECT u.oxactive AS oxactive, $sName AS name, COUNT(*) AS amount "
+                $sMatch = "CONCAT( REPLACE(REPLACE(REPLACE(u.oxstreet,'.',''),' ',''),'-','') , ', ', TRIM(u.oxcity))";
+                $sSql1 = "SELECT u.oxactive AS oxactive, $sName AS name, COUNT(*) AS amount, $sMatch AS matchstring "
                        . "FROM oxuser u "
                        . "WHERE $sWhere "
                        . "GROUP BY name "
                        . "HAVING COUNT(*) >  1";
                 $sSql2 = "SELECT u.oxid, u.oxactive, u.oxusername, n.oxdboptin "
                        . "FROM oxuser u, oxnewssubscribed n "
-                       . "WHERE $sName = '@NAME@' "
+                       . "WHERE $sMatch = '@MATCH@' "
                             . "AND u.oxid = n.oxuserid "
                             . "AND $sWhere ";
                 $cClass = 'admin_user';
@@ -223,11 +225,14 @@ class oxprobs_users extends oxAdminView
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             foreach ($aUsers as $key => $row) {
                 $aLogins = array();
-                $sSql = str_replace('@NAME@', $row['name'], $sSql2);
+                //$sSql = str_replace('@NAME@', $row['name'], $sSql2);
+                $sSql = str_replace('@MATCH@', $row['matchstring'], $sSql2);
                 $rs = $oDb->Execute($sSql);
-                while (!$rs->EOF) {
-                    array_push($aLogins, $rs->fields);
-                    $rs->MoveNext();
+                if ($rs) {
+                    while (!$rs->EOF) {
+                        array_push($aLogins, $rs->fields);
+                        $rs->MoveNext();
+                    }
                 }
                 $aUsers[$key]['logins'] = $aLogins;
             }
@@ -256,4 +261,3 @@ class oxprobs_users extends oxAdminView
     
 }
 
-?>
