@@ -11,13 +11,13 @@
 <link href="[{$cssFileUrl}]" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
-  if(top)
-  {
+if(top)
+{
     top.sMenuItem    = "[{ oxmultilang ident="oxprobs_module" }]";
     top.sMenuSubItem = "[{ oxmultilang ident="oxprobs_displayarticles" }]";
     top.sWorkArea    = "[{$_act}]";
     top.setTitle();
-  }
+}
 
 function editThis( sID )
 {
