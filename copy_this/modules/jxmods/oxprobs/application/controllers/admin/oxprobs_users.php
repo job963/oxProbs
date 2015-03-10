@@ -225,7 +225,6 @@ class oxprobs_users extends oxAdminView
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             foreach ($aUsers as $key => $row) {
                 $aLogins = array();
-                //$sSql = str_replace('@NAME@', $row['name'], $sSql2);
                 $sSql = str_replace('@MATCH@', $row['matchstring'], $sSql2);
                 $rs = $oDb->Execute($sSql);
                 if ($rs) {
