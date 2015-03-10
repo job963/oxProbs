@@ -11,14 +11,14 @@
 <link href="[{$cssFileUrl}]" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
-  if(parent.parent)
-  {
+if (parent.parent) 
+{
     top.sShopTitle   = "[{$actshopobj->oxshops__oxname->getRawValue()|oxaddslashes}]";
     top.sMenuItem    = "[{ oxmultilang ident="oxprobs_module" }]";
     top.sMenuSubItem = "[{ oxmultilang ident="oxprobs_displaygroups" }]";
     top.sWorkArea    = "[{$_act}]";
     top.setTitle();
-  }
+}
 
 function editThis( sID )
 {
@@ -32,7 +32,7 @@ function editThis( sID )
 
         [{foreach from=$menuholder->childNodes item=menuitem }]
           [{if $menuitem->nodeType == XML_ELEMENT_NODE && $menuitem->childNodes->length }]
-            [{ if $menuitem->getAttribute('id') == 'mxorders' }]
+            [{ if $menuitem->getAttribute('id') == 'mxuadmin' }]
 
               [{foreach from=$menuitem->childNodes item=submenuitem }]
                 [{if $submenuitem->nodeType == XML_ELEMENT_NODE && $submenuitem->getAttribute('cl') == 'admin_order' }]

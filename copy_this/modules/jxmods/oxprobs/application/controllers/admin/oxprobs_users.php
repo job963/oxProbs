@@ -35,6 +35,7 @@ class oxprobs_users extends oxAdminView
         parent::render();
         $myConfig = oxRegistry::get("oxConfig");
         
+        $cClass = 'admin_user';
         $aIncFiles = array();
         $aIncReports = array();
         $aIncFiles = $myConfig->getConfigParam( 'aOxProbsUsersIncludeFiles' );
@@ -137,7 +138,6 @@ class oxprobs_users extends oxAdminView
                        . "WHERE $sMatch = '@MATCH@' "
                             . "AND u.oxid = n.oxuserid "
                             . "AND $sWhere ";
-                $cClass = 'admin_user';
                 break;
 
             case 'dbladdr':
@@ -153,7 +153,6 @@ class oxprobs_users extends oxAdminView
                        . "WHERE $sMatch = '@MATCH@' "
                             . "AND u.oxid = n.oxuserid "
                             . "AND $sWhere ";
-                $cClass = 'admin_user';
                 break;
 
             case 'invcats':
