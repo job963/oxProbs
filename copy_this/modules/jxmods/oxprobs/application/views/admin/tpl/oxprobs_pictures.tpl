@@ -1,5 +1,14 @@
 [{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
-<link href="[{$oViewConf->getModuleUrl('oxprobs','out/admin/src/oxprobs.css')}]" type="text/css" rel="stylesheet">
+
+[{assign var="cssFilePath" value=$oViewConf->getModulePath('oxprobs','out/admin/src/oxprobs.css') }]
+[{php}] 
+    $sCssFilePath = $this->get_template_vars('cssFilePath');;
+    $sCssTime = filemtime( $sCssFilePath );
+    $this->assign('cssTime', $sCssTime);
+[{/php}]
+[{assign var="cssFileUrl" value=$oViewConf->getModuleUrl('oxprobs','out/admin/src/oxprobs.css') }]
+[{assign var="cssFileUrl" value="$cssFileUrl?$cssTime" }]
+<link href="[{$cssFileUrl}]" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
   if(parent.parent)
@@ -74,7 +83,9 @@ function change_all( name, elem )
 
 <div class="center">
     <h1>[{ oxmultilang ident="oxprobs_pictures" }]</h1>
-    <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">&nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;</div>
+    <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">
+        &nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;
+    </div>
 
     <p>
         <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">

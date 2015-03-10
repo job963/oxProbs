@@ -8,7 +8,7 @@
  *    the Free Software Foundation, either version 3 of the License, or
  *    (at your option) any later version.
  *
- *    The module OxProbs for OXID eShop Community Edition is distributed in the hope that it will be useful,
+ *    The module oxProbs for OXID eShop Community Edition is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *    GNU General Public License for more details.
@@ -975,9 +975,8 @@ class oxprobs_articles extends oxAdminView
         $aArticles = array();
 
         if (!empty($sSql1)) {
-            //echo '<pre>'.$sSql1.'</pre>';
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-            //echo "<hr>SQL1: <pre>$sSql1</pre><hr>";
+
             try {
                 $rs = $oDb->Execute($sSql1);
             }
@@ -986,7 +985,7 @@ class oxprobs_articles extends oxAdminView
                 echo '<b>SQL-Error '.$e->getCode().' in SQL1</b><br />'.$e->getMessage().'';
                 echo '<hr><pre style="white-space:pre-wrap;word-wrap:break-word;">'.$sSql1.'</pre>';
                 echo '</div>';
-                die();
+                return;
             }
 
             while (!$rs->EOF) {
@@ -997,7 +996,7 @@ class oxprobs_articles extends oxAdminView
         
         if (!empty($sSql2)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
-            //echo "<hr>SQL2: <pre>$sSql2</pre><hr>";
+
             try {
                 $rs = $oDb->Execute($sSql2);
             }
@@ -1005,8 +1004,9 @@ class oxprobs_articles extends oxAdminView
                 echo '<div style="border:2px solid #dd0000;margin:10px;padding:5px;background-color:#ffdddd;font-family:sans-serif;font-size:14px;">';
                 echo '<b>SQL-Error '.$e->getCode().' in SQL2</b><br />'.$e->getMessage().'';
                 echo '</div>';
-                die();
+                return;
             }
+            
             while (!$rs->EOF) {
                 array_push($aArticles, $rs->fields);
                 $rs->MoveNext();
