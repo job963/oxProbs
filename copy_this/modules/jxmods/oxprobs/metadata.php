@@ -18,11 +18,11 @@ $aModule = array(
     'id'           => 'oxprobs',
     'title'        => 'OxProbs - Data Problem Analysis',
     'description'  => array(
-                        'de'=>'Analyse-Modul zum Auffinden problematischer Shop Daten.',
-                        'en'=>'Analysis module for finding problematical shop data.'
+                        'de' => 'Analyse-Modul zum Auffinden problematischer Shop Daten.',
+                        'en' => 'Analysis module for finding problematical shop data.'
                         ),
     'thumbnail'    => 'oxprobs.png',
-    'version'      => '0.8.5',
+    'version'      => '0.8.6',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/oxProbs',
     'email'        => 'jobarthel@gmail.com',
