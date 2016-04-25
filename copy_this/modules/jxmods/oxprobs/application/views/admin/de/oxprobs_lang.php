@@ -190,6 +190,7 @@ $aLang = array(
     'SHOP_MODULE_sOxProbsSeparator_pipe'          => '|&nbsp;&nbsp; (Senkrechter Strich)',
     'SHOP_MODULE_sOxProbsSeparator_tilde'         => '&sim;&nbsp; (Tilde)',
     'SHOP_MODULE_bOxProbsQuote'                   => 'Spalten mit Anf&uuml;hrungszeichen begrenzen',
+    'SHOP_MODULE_bOxProbsStripTags'               => 'HTML Tags entfernen',
     
     'charset'                    => 'ISO-8859-15',
 );
