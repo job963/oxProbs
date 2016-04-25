@@ -10,7 +10,7 @@ $sMetadataVersion = '1.1';
  * 
  * @link      https://github.com/job963/oxProbs
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2015
+ * @copyright (C) Joachim Barthel 2012-2016
  * 
 */
 
@@ -22,7 +22,7 @@ $aModule = array(
                         'en' => 'Analysis module for finding problematical shop data.'
                         ),
     'thumbnail'    => 'oxprobs.png',
-    'version'      => '0.8.6',
+    'version'      => '0.8.7',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/oxProbs',
     'email'        => 'jobarthel@gmail.com',
@@ -183,6 +183,12 @@ $aModule = array(
                                 'type'  => 'bool', 
                                 'value' => 'true'
                                 ),
+                        array(
+                                'group' => 'OXPROBS_DOWNLOAD', 
+                                'name'  => 'bOxProbsStripTags', 
+                                'type'  => 'bool', 
+                                'value' => 'true'
+                                )
                         )
     );
 
