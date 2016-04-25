@@ -190,6 +190,7 @@ $aLang = array(
     'SHOP_MODULE_sOxProbsSeparator_pipe'          => '|&nbsp;&nbsp; (pipe)',
     'SHOP_MODULE_sOxProbsSeparator_tilde'         => '&sim;&nbsp; (tilde)',
     'SHOP_MODULE_bOxProbsQuote'                   => 'Encapsulate columns by quotes',
+    'SHOP_MODULE_bOxProbsStripTags'               => 'Remove HTML Tags',
     
     'charset'                    => 'ISO-8859-15',
 );
