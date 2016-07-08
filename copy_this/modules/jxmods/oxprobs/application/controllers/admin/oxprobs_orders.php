@@ -18,7 +18,7 @@
  *
  * @link    https://github.com/job963/oxProbs
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2015
+ * @copyright (C) Joachim Barthel 2012-2016
  * 
  * $Id: oxprobs_orders.php jobarthel@gmail.com $
  *
@@ -103,16 +103,16 @@ class oxprobs_orders extends oxAdminView
         $this->minDescLen = (int) $myConfig->getConfigParam("sOxProbsMinDescLen");
         $this->bpriceMin = (float) $myConfig->getConfigParam("sOxProbsBPriceMin");
 
-        $sWhere = "";
+        $whereShopId = "";
         if ( is_string($this->_aViewData["oViewConf"]->getActiveShopId()) ) { 
             // This is a CE or PE Shop
             $sShopId = $this->_aViewData["oViewConf"]->getActiveShopId();
-            $sWhere = $sWhere . " AND a.oxshopid = '$sShopId' ";
+            $whereShopId = " AND a.oxshopid = '$sShopId' ";
         }
         else {
             // This is a EE Shop
             $iShopId = $this->_aViewData["oViewConf"]->getActiveShopId();
-            $sWhere = $sWhere . " AND a.oxshopid = $iShopId ";
+            $whereShopId = " AND a.oxshopid = $iShopId ";
             
         }
         
@@ -162,7 +162,7 @@ class oxprobs_orders extends oxAdminView
                          . "AND o.oxid = a.oxorderid  "
                          . $whereCondition
                          . "AND o.oxstorno = 0 "
-                         . "AND o.oxshopid = '{$sShopId}' "
+                         . $whereShopId
                      . "GROUP BY o.oxordernr "
                      . "ORDER BY o.oxordernr DESC "; 
 
@@ -196,7 +196,6 @@ class oxprobs_orders extends oxAdminView
 
         $aOrders = array();
 
-        // echo "<hr><pre>$sSql1</pre>";
         if (!empty($sSql1)) {
             $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
             

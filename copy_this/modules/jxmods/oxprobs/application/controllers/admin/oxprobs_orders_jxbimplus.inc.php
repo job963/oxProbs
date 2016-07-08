@@ -23,20 +23,20 @@
  */
 
 /*
- *    This include file supports the analysis of payments
+ *    This include file supports the analysis of jxInventory module
  */
  
-array_push( $aIncReports, array("name"  => "jxpaymillcc", 
-                                "title" => array("de"=>"Bezahlt mit Kreditkarte",
-                                                 "en"=>"New Products"), 
-                                "desc"  => array("de"=>"Nachfolgende Artikel sind neu im Sortiment.",
-                                                 "en"=>"The following products are new in the product range.") 
+array_push( $aIncReports, array("name"  => "jxbimplus", 
+                                "title" => array("de"=>"Neueste bim+ Abonnements",
+                                                 "en"=>"Newest bim+ Subscriptions"), 
+                                "desc"  => array("de"=>"Neueste Bestellungen",
+                                                 "en"=>"Newest orders") 
                                 ));
 
-if ($cReportType == "jxpaymillcc") {
+if ($cReportType == "jxbimplus") {
     $txtIgnoreRemark = $myConfig->getConfigParam("sOxProbsOrderIgnoredRemark");
-    $payTypeList = "'paymill_cc'"; // PLEASE ENTER HERE THE INTERNAL PAYMENT NAME //
                             
+             
     $sSql1 = "SELECT o.oxid AS oxid, o.oxordernr AS orderno, o.oxtotalordersum AS ordersum, o.oxbillsal AS salutation, "
              . "CONCAT('<nobr>', o.oxbillcompany, '</nobr>') AS company, "
              . "CONCAT('<a href=\"mailto:', o.oxbillemail, '\" style=\"text-decoration:underline;\"><nobr>', o.oxbillfname, '&nbsp;', o.oxbilllname, '</nobr></a>') AS name, "
@@ -44,7 +44,7 @@ if ($cReportType == "jxpaymillcc") {
                 . "CONCAT('<a href=\"http://maps.google.com/maps?f=q&hl=de&geocode=&q=', o.oxbillstreet,'+',o.oxbillstreetnr,',+',o.oxbillzip,'+',o.oxbillcity,'&z=10\" style=\"text-decoration:underline;\" target=\"_blank\">', o.oxbillzip, '&nbsp;', o.oxbillcity, '</a>'), "
                 . "CONCAT('<a href=\"http://maps.google.com/maps?f=q&hl=de&geocode=&q=', o.oxdelstreet,'+',o.oxdelstreetnr,',+',o.oxdelzip,'+',o.oxdelcity,'&z=10\" style=\"text-decoration:underline;\" target=\"_blank\">', o.oxdelzip, '&nbsp;', o.oxdelcity, '</a>') "
                 . ") AS  custdeladdr, "
-             . "p.oxdesc AS paytype, "
+             . "u.smx_slug AS paytype, "
              . "GROUP_CONCAT(CONCAT('<nobr>', a.oxamount, ' x ', a.oxtitle, IF (a.oxselvariant != '', CONCAT(' &ndash; ', a.oxselvariant), ''), '</nobr>') SEPARATOR '<br>') AS orderlist, "
              . "(TO_DAYS(NOW())-TO_DAYS(o.oxorderdate)) AS days, DATE(o.oxorderdate) AS orderdate , "
              . "IF(o.oxremark!='', "
@@ -54,16 +54,16 @@ if ($cReportType == "jxpaymillcc") {
                 . "), "
                 . "''"
              . ") AS remark "
-         . "FROM oxorder o, oxpayments p, oxorderarticles a "
-         . "WHERE o.oxpaymenttype = p.oxid "
+         . "FROM oxorder o, oxorderarticles a, oxuser u "
+         . "WHERE u.oxid = o.oxuserid "
              . "AND o.oxid = a.oxorderid  "
-             . "AND ((o.oxpaid != '0000-00-00 00:00:00') AND (o.oxpaymenttype IN ({$payTypeList}))) "
+             . "AND u.smx_slug != '' "
              . "AND o.oxstorno = 0 "
-             //. "AND o.oxshopid = '{$sShopId}' "
              . $whereShopId
          . "GROUP BY o.oxordernr "
-         . "ORDER BY o.oxordernr DESC "; 
-                            
+         . "ORDER BY o.oxordernr DESC "
+         . "LIMIT 0,100"; 
+ 
     $sSql2 = '';
 }
 
