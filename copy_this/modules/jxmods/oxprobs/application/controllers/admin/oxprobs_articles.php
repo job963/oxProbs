@@ -117,6 +117,9 @@ echo '</pre>';/**/
         $aArticles = $this->_decodeHtmlSpecialChars($aArticles);
 
         $aSelOxid = $this->getConfig()->getRequestParameter( 'oxprobs_oxid' ); 
+        if(!$aSelOxid){
+            return;
+        }
         
         $sContent = '';
         if ( $myConfig->getConfigParam("bOxProbsHeader") ) {
