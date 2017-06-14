@@ -18,7 +18,7 @@
  *
  * @link    https://github.com/job963/oxProbs
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2015
+ * @copyright (C) Joachim Barthel 2012-2017
  *
  */
  
@@ -26,6 +26,10 @@ class oxprobs_groups extends oxAdminView
 {
     protected $_sThisTemplate = "oxprobs_groups.tpl";
     
+    /**
+     * 
+     * @return type
+     */
     public function render()
     {
         parent::render();
@@ -64,6 +68,10 @@ class oxprobs_groups extends oxAdminView
     }
      
     
+    /**
+     * 
+     * @return type
+     */
     public function downloadResult()
     {
         $aGroups = array();
@@ -89,6 +97,10 @@ class oxprobs_groups extends oxAdminView
     }
 
     
+    /**
+     * 
+     * @return array
+     */
     private function _retrieveData()
     {
         
@@ -239,6 +251,10 @@ class oxprobs_groups extends oxAdminView
     }
 
     
+    /**
+     * 
+     * @return string
+     */
     public function jxGetModulePath()
     {
         $sModuleId = $this->getEditObjectId();

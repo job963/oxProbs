@@ -1,7 +1,7 @@
 <?php
 
 /*
- *    This file is part of the module xProbs for OXID eShop Community Edition.
+ *    This file is part of the module oxProbs for OXID eShop Community Edition.
  *
  *    The module oxProbs for OXID eShop Community Edition is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  *
  * @link    https://github.com/job963/oxProbs
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2015
+ * @copyright (C) Joachim Barthel 2012-2017
  * 
  * $Id: oxprobs_delivery.php jobarthel@gmail.com $
  *
@@ -28,6 +28,10 @@ class oxprobs_delivery extends oxAdminView
 {
     protected $_sThisTemplate = "oxprobs_delivery.tpl";
     
+    /**
+     * 
+     * @return type
+     */
     public function render()
     {
         parent::render();
@@ -66,6 +70,11 @@ class oxprobs_delivery extends oxAdminView
     }
      
     
+    /**
+     * Downloads the selected data as CSV file
+     * 
+     * @return null
+     */
     public function downloadResult()
     {
         $aItems = array();
@@ -91,6 +100,11 @@ class oxprobs_delivery extends oxAdminView
     }
 
     
+    /**
+     * Retrieves and analyzes shipping data 
+     * 
+     * @return array $aList     Shipping analysis data
+     */
     private function _retrieveData()
     {
         
@@ -122,12 +136,12 @@ class oxprobs_delivery extends oxAdminView
                             . 'd.oxtitle AS deliveryrule, d.oxaddsum AS addsum, d.oxaddsumtype AS addtype, d.oxparam As startval, d.oxparamend AS endval '
                         . 'FROM oxcountry c, oxobject2delivery o2d, oxdeliveryset ds, oxdel2delset d2d, oxdelivery d '
                         . 'WHERE o2d.oxtype=\'oxdelset\' '
-                        . 'AND c.oxid=o2d.oxobjectid '
-                        . 'AND o2d.oxdeliveryid=ds.oxid '
-                        . 'AND d2d.OXDELID=d.oxid '
-                        . 'AND d2d.OXDELSETID=ds.OXID '
-                        . 'AND c.oxactive=1 AND d.oxactive=1 AND ds.oxactive=1 '
-                        . $sWhere
+                            . 'AND c.oxid=o2d.oxobjectid '
+                            . 'AND o2d.oxdeliveryid=ds.oxid '
+                            . 'AND d2d.OXDELID=d.oxid '
+                            . 'AND d2d.OXDELSETID=ds.OXID '
+                            . 'AND c.oxactive=1 AND d.oxactive=1 AND ds.oxactive=1 '
+                            . $sWhere
                         . 'ORDER BY c.oxtitle, ds.oxtitle, d.oxtitle ';
                 $sSql2 = '';
                 $sSql3 = '';
@@ -137,16 +151,34 @@ class oxprobs_delivery extends oxAdminView
             case 'delsetpay':
                 $sSql1 = 'SELECT c.oxid AS countryid, c.oxtitle AS country, o2d.oxdeliveryid, o2d.oxobjectid, ds.oxid AS delsetid, '
                             . 'ds.oxtitle AS deliveryset, ds.oxpos, p.oxid AS paymentid, p.oxdesc AS payment, p.oxaddsum AS addsum, '
-                            . 'p.oxaddsumtype AS addtype '
+                            . 'p.oxfromamount AS startval, p.oxtoamount AS endval, p.oxaddsumtype AS addtype '
                         . 'FROM oxcountry c, oxobject2delivery o2d, oxdeliveryset ds, oxobject2payment o2p, oxpayments p '
                         . 'WHERE o2d.oxtype=\'oxdelset\' '
-                        . 'AND c.oxid=o2d.oxobjectid '
-                        . 'AND o2d.oxdeliveryid=ds.oxid '
-                        . 'AND o2p.oxobjectid=ds.oxid '
-                        . 'AND o2p.oxpaymentid=p.oxid '
-                        . 'AND c.oxactive=1 AND ds.oxactive=1 AND p.oxactive=1 '
-                        . $sWhere
+                            . 'AND c.oxid=o2d.oxobjectid '
+                            . 'AND o2d.oxdeliveryid=ds.oxid '
+                            . 'AND o2p.oxobjectid=ds.oxid '
+                            . 'AND o2p.oxpaymentid=p.oxid '
+                            . 'AND c.oxactive=1 AND ds.oxactive=1 AND p.oxactive=1 '
+                            . $sWhere
                         . 'ORDER BY c.oxtitle, ds.oxtitle, p.oxdesc ';
+                $sSql2 = '';
+                $sSql3 = '';
+                $cClass = '---';
+                break;
+
+            case 'custpay':
+                $sSql1 = "SELECT c.oxtitle AS country, g.oxtitle AS deliveryset /*usergroup*/, p.oxdesc AS payment, "
+                            . "p.oxaddsum AS addsum, p.oxaddsumtype AS addtype, p.oxfromamount AS startval, p.oxtoamount AS endval "
+                        . "FROM oxcountry c, oxobject2group o2g, oxgroups g, oxpayments p, oxobject2payment o2p "
+                        . "WHERE c.oxid = o2p.oxobjectid "
+                            . "AND g.oxid = o2g.oxgroupsid "
+                            . "AND p.oxid = o2g.oxobjectid "
+                            . "AND p.oxid = o2p.oxpaymentid "
+                            . "AND c.oxactive = 1 "
+                            . "AND g.oxactive = 1 "
+                            . "AND p.oxactive = 1 "
+                            . "AND o2g.oxshopid = '" . $this->_aViewData["oViewConf"]->getActiveShopId() . "' "
+                        . "ORDER BY c.oxtitle, g.oxtitle, p.oxdesc ";
                 $sSql2 = '';
                 $sSql3 = '';
                 $cClass = '---';
@@ -240,6 +272,11 @@ class oxprobs_delivery extends oxAdminView
     }
 
     
+    /**
+     * Return the path of this module
+     * 
+     * @return string $sModulePath
+     */
     public function jxGetModulePath()
     {
         $sModuleId = $this->getEditObjectId();

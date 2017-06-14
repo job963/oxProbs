@@ -123,13 +123,22 @@ function change_all( name, elem )
                 [{/foreach}]
             </optgroup>
         </select>
+            
         <input type="submit" 
                onClick="document.forms['showprobs'].elements['fnc'].value = '';" 
                value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input class="edittext" type="submit" 
+
+        <span style="margin-left:24px;">
+            <input class="edittext" type="submit" 
                 onClick="document.forms['showprobs'].elements['fnc'].value = 'downloadResult';" 
                 value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
+        </span>
+               
+        <span style="margin-left:24px;">
+            <input class="edittext" type="submit" 
+                onClick="Javascript:window.print();return true;" 
+                value=" [{ oxmultilang ident="OXPROBS_PRINT" }] " [{ $readonly }]>
+        </span>
     </p>
         
     <p style="background-color:#f0f0f0;">

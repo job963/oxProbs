@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/oxProbs
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2014
+ * @copyright (C) Joachim Barthel 2012-2017
  *
  */
 
