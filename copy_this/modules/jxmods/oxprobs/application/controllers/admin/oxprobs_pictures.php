@@ -18,7 +18,7 @@
  *
  * @link    https://github.com/job963/oxProbs
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2014
+ * @copyright (C) Joachim Barthel 2012-2017
  * 
  * $Id: oxprobs_pictures.php jobarthel@gmail.com $
  *
@@ -28,6 +28,10 @@ class oxprobs_pictures extends oxAdminView
 {
     protected $_sThisTemplate = "oxprobs_pictures.tpl";
     
+    /**
+     * 
+     * @return type
+     */
     public function render()
     {
         ini_set('display_errors', true);
@@ -160,6 +164,10 @@ class oxprobs_pictures extends oxAdminView
     }
      
     
+    /**
+     * 
+     * @return type
+     */
     public function downloadResult()
     {
         $aItems = array();
@@ -185,6 +193,9 @@ class oxprobs_pictures extends oxAdminView
     }
 
     
+    /**
+     * 
+     */
     private function _retrieveData()
     {
         
@@ -584,6 +595,10 @@ class oxprobs_pictures extends oxAdminView
     }
 
     
+    /**
+     * 
+     * @return string
+     */
     public function jxGetModulePath()
     {
         $sModuleId = $this->getEditObjectId();

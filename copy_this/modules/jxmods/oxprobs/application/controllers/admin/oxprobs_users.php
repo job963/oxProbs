@@ -18,7 +18,7 @@
  *
  * @link    https://github.com/job963/oxProbs
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2015
+ * @copyright (C) Joachim Barthel 2012-2017
  * 
  * $Id: oxprobs_users.php jobarthel@gmail.com $
  *
@@ -28,6 +28,10 @@ class oxprobs_users extends oxAdminView
 {
     protected $_sThisTemplate = "oxprobs_users.tpl";
     
+    /**
+     * 
+     * @return type
+     */
     public function render()
     {
         ini_set('display_errors', true);
@@ -69,6 +73,10 @@ class oxprobs_users extends oxAdminView
     }
      
     
+    /**
+     * 
+     * @return type
+     */
     public function downloadResult()
     {
         $aUsers = array();
@@ -99,6 +107,10 @@ class oxprobs_users extends oxAdminView
     }
 
     
+    /**
+     * 
+     * @return array
+     */
     private function _retrieveData()
     {
         
@@ -241,6 +253,10 @@ class oxprobs_users extends oxAdminView
     }
 
     
+    /**
+     * 
+     * @return string
+     */
     public function jxGetModulePath()
     {
         $sModuleId = $this->getEditObjectId();

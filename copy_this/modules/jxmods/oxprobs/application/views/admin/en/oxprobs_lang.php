@@ -2,6 +2,8 @@
 $sLangName  = "English";
 $iLangNr    = 1;
 $aLang = array(
+    'charset'                       => 'UTF-8',
+
     'oxprobs_module'               => 'Problematic Data',
     'oxprobs_displayarticles'      => 'Products',
     'oxprobs_displaygroups'        => 'Arrangements',
@@ -21,6 +23,7 @@ $aLang = array(
     'OXPROBS_GROUP_ORDERS'         => 'Orders',
     'OXPROBS_GROUP_PAYMENT'        => 'Payment',
     'OXPROBS_DOWNLOAD'             => 'Download',
+    'OXPROBS_PRINT'                => 'Print',
     'OXPROBS_NOSTOCK'              => 'No stock',
     'OXPROBS_MISSSTOCKINFO'        => 'No Stock and no Delivery Info',
     'OXPROBS_STOCKALERT'           => 'Low stock',
@@ -191,8 +194,6 @@ $aLang = array(
     'SHOP_MODULE_sOxProbsSeparator_tilde'         => '&sim;&nbsp; (tilde)',
     'SHOP_MODULE_bOxProbsQuote'                   => 'Encapsulate columns by quotes',
     'SHOP_MODULE_bOxProbsStripTags'               => 'Remove HTML Tags',
-    
-    'charset'                    => 'ISO-8859-15',
 );
 
 ?>

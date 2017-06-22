@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/oxProbs
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2016
+ * @copyright (C) Joachim Barthel 2012-2017
  *
  */
  
@@ -26,6 +26,10 @@ class oxprobs_articles extends oxAdminView
 {
     protected $_sThisTemplate = "oxprobs_articles.tpl";
     
+    /**
+     * 
+     * @return type
+     */
     public function render()
     {
         parent::render();
@@ -72,9 +76,14 @@ class oxprobs_articles extends oxAdminView
         $this->_aViewData["sortopt"] = $sortOpt;
 
         return $this->_sThisTemplate;
-   }
+    }
      
     
+    /**
+    
+  
+     * @return \type  * @return type * 
+     */
     public function downloadResult()
     {
         $myConfig = oxRegistry::get("oxConfig");
@@ -106,9 +115,6 @@ class oxprobs_articles extends oxAdminView
 
         $aArticles = array();
         $aArticles = $this->_retrieveData();
-/*echo '<pre>';
-print_r($aArticles);
-echo '</pre>';/**/
         
         if ( $myConfig->getConfigParam( 'bOxProbsStripTags' ) ) {
             $aArticles = $this->_stripTagsFromData($aArticles);
@@ -140,6 +146,9 @@ echo '</pre>';/**/
     }
 
     
+    /**
+     * 
+     */
     private function _retrieveData()
     {
         
@@ -1043,6 +1052,11 @@ echo '</pre>';/**/
     }
     
     
+    /**
+     * 
+     * @param array $aArticles
+     * @return array
+     */
     private function _decodeHtmlSpecialChars( $aArticles )
     {
         foreach ($aArticles as $index => $aArticle) {
@@ -1056,6 +1070,11 @@ echo '</pre>';/**/
     }
     
     
+    /**
+     * 
+     * @param array $aArticles
+     * @return array
+     */
     private function _stripTagsFromData( $aArticles )
     {
         foreach ($aArticles as $index => $aArticle) {
@@ -1068,6 +1087,10 @@ echo '</pre>';/**/
     }
 
     
+    /**
+     * 
+     * @return string
+     */
     public function jxGetModulePath()
     {
         $sModuleId = $this->getEditObjectId();

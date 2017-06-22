@@ -101,14 +101,24 @@ function change_all( name, elem )
         <select name="oxprobs_reporttype" onchange="document.forms['oxprobs_groups'].elements['fnc'].value='';document.oxprobs_groups.submit();">
             <option value="delsetcost" [{if $ReportType == "delsectcost"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DELSETCOST" }]&nbsp;</option>
             <option value="delsetpay" [{if $ReportType == "delsetpay"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_DELSETPAY" }]&nbsp;</option>
+            <option value="custpay" [{if $ReportType == "custpay"}]selected[{/if}]>[{ oxmultilang ident="OXPROBS_CUSTPAY" }]&nbsp;</option>
         </select>
+        
         <input type="submit" 
                onClick="document.forms['oxprobs_groups'].elements['fnc'].value = '';" 
                value=" [{ oxmultilang ident="ORDER_MAIN_UPDATE_DELPAY" }] " />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input class="edittext" type="submit" 
+               
+        <span style="margin-left:24px;">
+            <input class="edittext" type="submit" 
                 onClick="document.forms['oxprobs_groups'].elements['fnc'].value = 'downloadResult';" 
                 value=" [{ oxmultilang ident="OXPROBS_DOWNLOAD" }] " [{ $readonly }]>
+        </span>
+               
+        <span style="margin-left:24px;">
+            <input class="edittext" type="submit" 
+                onClick="Javascript:window.print();return true;" 
+                value=" [{ oxmultilang ident="OXPROBS_PRINT" }] " [{ $readonly }]>
+        </span>
     </p>
         
     <p style="background-color:#f0f0f0;">
@@ -122,9 +132,15 @@ function change_all( name, elem )
     <p><div id="liste">
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>
-            [{ assign var="headStyle" value="border-bottom:1px solid #C8C8C8; font-weight:bold;" }]
+            [{assign var="headStyle" value="border-bottom:1px solid #C8C8C8; font-weight:bold;" }]
             <td class="listfilter first" style="[{ $headStyle }]"><div class="r1"><div class="b1">[{ oxmultilang ident="GENERAL_COUNTRY" }]</div></div></td>
-            <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">[{ oxmultilang ident="ORDER_MAIN_DELTYPE" }]</div></div></td>
+            <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
+                [{if $ReportType == "custpay"}]
+                    [{ oxmultilang ident="USER_OVERVIEW_GROUPS" }]
+                [{else}]
+                    [{ oxmultilang ident="ORDER_MAIN_DELTYPE" }]
+                [{/if}]
+            </div></div></td>
             <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">
                 [{if $ReportType == "delsetcost"}]
                     [{ oxmultilang ident="DELIVERY_LIST_MENUSUBITEM" }]
@@ -133,9 +149,7 @@ function change_all( name, elem )
                 [{/if}]
             </div></div></td>
             <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">[{ oxmultilang ident="SELECTLIST_MAIN_ADDFIELD_PREIS" }]</div></div></td>
-            [{if $ReportType == "delsetcost"}]
-                <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">[{ oxmultilang ident="PAYMENT_MAIN_FROM" }] - [{ oxmultilang ident="PAYMENT_MAIN_TILL" }]</div></div></td>
-            [{/if}]
+            <td class="listfilter" style="[{ $headStyle }]"><div class="r1"><div class="b1">[{ oxmultilang ident="PAYMENT_MAIN_FROM" }] - [{ oxmultilang ident="PAYMENT_MAIN_TILL" }]</div></div></td>
             <td class="listfilter" style="[{$headStyle}]" align="center"><div class="r1"><div class="b1">
                 <input type="checkbox" onclick="change_all('oxprobs_oxid[]', this)">
                 </div></div>
@@ -166,9 +180,7 @@ function change_all( name, elem )
                     <td class="[{ $listclass }]">[{$Line.payment}]</td>
                 [{/if}]
                 <td class="[{ $listclass }]">[{$Line.addsum|string_format:"%.2f"}] [{$Line.addtype}]</td>
-                [{if $ReportType == "delsetcost"}]
-                    <td class="[{ $listclass }]">[{$Line.startval|string_format:"%.2f"}] - [{$Line.endval|string_format:"%.2f"}]</td>
-                [{/if}]
+                <td class="[{ $listclass }]">[{$Line.startval|string_format:"%.2f"}] - [{$Line.endval|string_format:"%.2f"}]</td>
                 <td class="[{$listclass}]" align="center"><input type="checkbox" name="oxprobs_oxid[]" value="[{$Line.oxid}]"></td>
             </tr>
         [{/foreach}]
@@ -176,7 +188,7 @@ function change_all( name, elem )
         </table>
         
         <p>
-        &nbsp;[{$aList|@count}] [{ oxmultilang ident="OXPROBS_NUMOF_ENTRIES" }]
+            &nbsp;[{$aList|@count}] [{ oxmultilang ident="OXPROBS_NUMOF_ENTRIES" }]
         </p>
         
         </div>
